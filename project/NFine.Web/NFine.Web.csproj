@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -120,9 +121,16 @@
     <Compile Include="Areas\ExampleManage\Controllers\SendMessagesController.cs" />
     <Compile Include="Areas\ExampleManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\ExampleManage\ExampleManageAreaRegistration.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\DiamondVoteController.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\OrderListController.cs" />
+    <Compile Include="Areas\MicroEvent\MicroEventAreaRegistration.cs" />
     <Compile Include="Areas\ReportManage\Controllers\EchartsController.cs" />
     <Compile Include="Areas\ReportManage\Controllers\HighchartsController.cs" />
     <Compile Include="Areas\ReportManage\ReportManageAreaRegistration.cs" />
+    <Compile Include="Areas\StatisticalInfo\Controllers\MonthStatisticController.cs" />
+    <Compile Include="Areas\StatisticalInfo\Controllers\TodayStatisticController.cs" />
+    <Compile Include="Areas\StatisticalInfo\Controllers\WeekStatisticController.cs" />
+    <Compile Include="Areas\StatisticalInfo\StatisticalInfoAreaRegistration.cs" />
     <Compile Include="Areas\SystemManage\Controllers\AreaController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DutyController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\ItemsDataController.cs" />
@@ -304,6 +312,8 @@
     <Content Include="Content\js\simditor\js\simditor.min.js" />
     <Content Include="Content\js\simditor\js\uploader.js" />
     <Content Include="Content\js\simditor\js\uploader.min.js" />
+    <Content Include="Content\js\SmallPop\spop.css" />
+    <Content Include="Content\js\SmallPop\spop.js" />
     <Content Include="Content\js\validate\jquery.validate.min.js" />
     <Content Include="Content\js\wdtree\images\icons\add.png" />
     <Content Include="Content\js\wdtree\images\icons\addStep.gif" />
@@ -559,7 +569,9 @@
     <Content Include="Areas\ReportManage\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\MicroEvent\Models\" />
     <Folder Include="Areas\ReportManage\Views\Echarts\" />
+    <Folder Include="Areas\StatisticalInfo\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\ReportManage\Views\Highcharts\Sample1.cshtml" />
@@ -613,6 +625,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\SystemManage\Views\User\Info.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Web.config" />
+    <Content Include="Areas\MicroEvent\Views\DiamondVote\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\OrderList\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\DiamondVote\EventList.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\OrderList\OrderList.cshtml" />
+    <Content Include="Areas\StatisticalInfo\Views\Web.config" />
+    <Content Include="Areas\StatisticalInfo\Views\MonthStatistic\Index.cshtml" />
+    <Content Include="Areas\StatisticalInfo\Views\TodayStatistic\Index.cshtml" />
+    <Content Include="Areas\StatisticalInfo\Views\WeekStatistic\Index.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>
