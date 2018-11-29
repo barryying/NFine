@@ -31,24 +31,24 @@
                     <div class="nav-no-collapse pull-right" id="header-nav">
                         <ul class="nav navbar-nav pull-right">
                             @*<li class="mobile-search">
-                                <a class="btn">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                                <div class="drowdown-search">
-                                    <form role="search">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                            <i class="fa fa-search nav-search-icon"></i>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>*@
+                                    <a class="btn">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                    <div class="drowdown-search">
+                                        <form role="search">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Search...">
+                                                <i class="fa fa-search nav-search-icon"></i>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>*@
                             @*<li class="dropdown hidden-xs">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-tasks"></i>
-                                    <span class="count">5</span>
-                                </a>
-                            </li>*@
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-tasks"></i>
+                                        <span class="count">5</span>
+                                    </a>
+                                </li>*@
                             <li class="dropdown hidden-xs">
                                 <a class="btn dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-bell"></i>
@@ -57,11 +57,11 @@
                             </li>
 
                             @*<li class="dropdown hidden-xs">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="count">16</span>
-                                </a>
-                            </li>*@
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-envelope-o"></i>
+                                        <span class="count">16</span>
+                                    </a>
+                                </li>*@
                             <li class="dropdown profile-dropdown">
                                 <a href="#" class="dropdown" data-toggle="dropdown">
                                     <img src="~/Content/img/samples/scarlet-159.png" alt="" />
@@ -100,32 +100,32 @@
                             <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
                                 <ul class="nav nav-pills nav-stacked">
                                     @*<li class="nav-header hidden-sm hidden-xs">常用菜单
-                                        <i class="fa fa-gear" style="color: #868b98; font-size: 12px; margin-top: -6px; position: absolute; right: 23px; top: 50%; cursor: pointer;"></i>
-                                    </li>
-                                    <li class="common">
-                                        <a href="#">
-                                            <i class="fa fa-star-o"></i>
-                                            <span>联系人</span>
-                                        </a>
-                                    </li>
-                                    <li class="common">
-                                        <a href="#">
-                                            <i class="fa fa-star-o"></i>
-                                            <span>合同</span>
-                                        </a>
-                                    </li>
-                                    <li class="common">
-                                        <a href="maps.html">
-                                            <i class="fa fa-star-o"></i>
-                                            <span>产品</span>
-                                        </a>
-                                    </li>
-                                    <li class="common">
-                                        <a href="#">
-                                            <i class="fa fa-star-o"></i>
-                                            <span>客户</span>
-                                        </a>
-                                    </li>*@
+                                            <i class="fa fa-gear" style="color: #868b98; font-size: 12px; margin-top: -6px; position: absolute; right: 23px; top: 50%; cursor: pointer;"></i>
+                                        </li>
+                                        <li class="common">
+                                            <a href="#">
+                                                <i class="fa fa-star-o"></i>
+                                                <span>联系人</span>
+                                            </a>
+                                        </li>
+                                        <li class="common">
+                                            <a href="#">
+                                                <i class="fa fa-star-o"></i>
+                                                <span>合同</span>
+                                            </a>
+                                        </li>
+                                        <li class="common">
+                                            <a href="maps.html">
+                                                <i class="fa fa-star-o"></i>
+                                                <span>产品</span>
+                                            </a>
+                                        </li>
+                                        <li class="common">
+                                            <a href="#">
+                                                <i class="fa fa-star-o"></i>
+                                                <span>客户</span>
+                                            </a>
+                                        </li>*@
                                 </ul>
                             </div>
                         </div>
@@ -156,7 +156,16 @@
                                 <li><a class="tabCloseOther" href="javascript:void();">除此之外全部关闭</a></li>
                             </ul>
                         </div>
-                        <button class="roll-nav roll-right fullscreen"><i class="fa fa-arrows-alt"></i></button>
+                        <div class="autofresh roll-nav roll-right">
+                            <div class="switch btn_fath clearfix off" onclick="toogle(this)">
+                                <div class="move" data-state="off"></div>
+                                <div class="btnSwitch btn1">ON</div>
+                                <div class="btnSwitch btn2 ">OFF</div>
+                            </div>
+                        </div>
+                        <div class="autofreshtext roll-nav">
+                            <font id="refresh" style="float:right;color:blue">已关闭自动刷新</font><br />
+                        </div>
                     </div>
                     <div class="content-iframe" style="background-color: #f9f9f9; overflow: hidden;">
                         <div class="mainContent" id="content-main" style="margin: 10px; margin-bottom: 0px; padding: 0;">
@@ -175,5 +184,92 @@
     <script src="~/Content/js/index.js"></script>
     <script src="~/Content/js/indextab.js"></script>
     <script src="~/Content/js/loading/pace.min.js"></script>
+
+    <script type="text/javascript">
+        var t = 5;
+        function refresh()
+        {
+            t = t - 1;
+            if (t == 0) {
+                $('.tabReload').click();
+		        t = 6;
+            }
+            else
+                document.getElementById("refresh").innerHTML = "离下次刷新时间还有 " + t + " 秒";
+        }
+        var timer;
+        function toogle(th) {
+            var ele = $(th).children(".move");
+            if (ele.attr("data-state") == "on") {
+                ele.animate({ left: "0" }, 300, function () {
+                    ele.attr("data-state", "off");
+                    //alert("关！");
+                });
+                clearInterval(timer);
+                document.getElementById("refresh").innerHTML = "已关闭自动刷新";
+                $(th).removeClass("on").addClass("off");
+            } else if (ele.attr("data-state") == "off") {
+                ele.animate({ left: '30px' }, 300, function () {
+                    $(this).attr("data-state", "on");
+                    timer = window.setInterval(refresh, 1000);
+                    t = 5;
+                    //alert("开！");
+                });
+                $(th).removeClass("off").addClass("on");
+            }
+        }
+    </script>
+
+    <style>
+        .switch{
+            width: 50px;
+            margin: 2px 0px 0 2px;
+        }
+        .btn_fath{
+            margin: 10px 10px 10px 10px;
+            position: relative;
+            border-radius: 10px;
+        }
+ 
+        .btn1{
+            float: left;
+        }
+ 
+        .btn2{
+            float: right;
+        }
+        .btnSwitch{
+            height: 20px;
+            width: 20px;
+            border:none;
+            color: #fff;
+            line-height: 20px;
+            font-size: 8px;
+            text-align: center;
+            z-index: 1;
+        }
+ 
+        .move{
+            z-index: 100;
+            width: 20px;
+            border-radius: 10px;
+            height: 20px;
+            position: absolute;
+            cursor: pointer;
+            border: 1px solid #828282;
+            background-color: #f1eff0;
+            box-shadow: 1px 2px 2px 1px #fff inset,0 0 5px 1px #999;
+        }
+        .on .move{
+            left: 30px;
+        }
+        .on.btn_fath{
+            background-color: #5281cd;
+        }
+        .off.btn_fath {
+            background-color: #828282;
+        }
+    </style>
+
 </body>
 </html>

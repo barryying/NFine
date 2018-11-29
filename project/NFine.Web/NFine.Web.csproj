@@ -121,6 +121,8 @@
     <Compile Include="Areas\ExampleManage\Controllers\SendMessagesController.cs" />
     <Compile Include="Areas\ExampleManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\ExampleManage\ExampleManageAreaRegistration.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\AddEventController.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\DatastatisticController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\DiamondVoteController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\OrderListController.cs" />
     <Compile Include="Areas\MicroEvent\MicroEventAreaRegistration.cs" />
@@ -634,6 +636,8 @@
     <Content Include="Areas\StatisticalInfo\Views\MonthStatistic\Index.cshtml" />
     <Content Include="Areas\StatisticalInfo\Views\TodayStatistic\Index.cshtml" />
     <Content Include="Areas\StatisticalInfo\Views\WeekStatistic\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\AddEvent\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Datastatistic\Index.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>
