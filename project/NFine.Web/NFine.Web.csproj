@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -638,6 +639,8 @@
     <Content Include="Areas\StatisticalInfo\Views\WeekStatistic\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Datastatistic\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Datastatistic\Datastatistic.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\AddEvent\AddEvent.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

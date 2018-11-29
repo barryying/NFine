@@ -10,9 +10,8 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
     {
         //
         // GET: /MicroEvent/Datastatistic/
-
-        override
-        public ActionResult Index()
+        
+        public ActionResult Datastatistic()
         {
             return View();
         }

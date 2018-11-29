@@ -10,9 +10,8 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
     {
         //
         // GET: /MicroEvent/AddEvent/
-
-        override
-        public ActionResult Index()
+        
+        public ActionResult AddEvent()
         {
             return View();
         }
