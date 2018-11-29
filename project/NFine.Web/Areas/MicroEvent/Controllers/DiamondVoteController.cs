@@ -19,6 +19,5 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         {
             return View();
         }
-
     }
 }
