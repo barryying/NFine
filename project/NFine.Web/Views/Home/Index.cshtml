@@ -11,6 +11,9 @@
     <link href="~/Content/css/framework-theme.css" rel="stylesheet" />
     <script src="~/Content/js/framework-ui.js"></script>
     <script src="~/Content/js/framework-clientdata.js"></script>
+    <script src="~/Content/js/indextab.js"></script>
+    <script src="~/Content/js/SmallPop/spop.js"></script>
+    <link href="~/Content/js/SmallPop/spop.css" rel="stylesheet" />
 </head>
 <body style="overflow: hidden;">
     <div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
@@ -49,12 +52,18 @@
                                         <span class="count">5</span>
                                     </a>
                                 </li>*@
-                            <li class="dropdown hidden-xs">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                            <li>
+                                <a class="menuItem" href="/MicroEvent/OrderList/Index">订单列表
                                     <i class="fa fa-bell"></i>
                                     <span class="count">8</span>
                                 </a>
                             </li>
+                            @*<li class="dropdown hidden-xs">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="$.nfinetab.addTab">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="count">8</span>
+                                </a>
+                            </li>*@
 
                             @*<li class="dropdown hidden-xs">
                                     <a class="btn dropdown-toggle" data-toggle="dropdown">
@@ -186,6 +195,12 @@
     <script src="~/Content/js/loading/pace.min.js"></script>
 
     <script type="text/javascript">
+        spop({
+	        template: '寻找2018年度新疆葡萄种植基地A赛区网络评选大赛吐鲁番市火心葡萄种植基地￥5.00（支付中）',
+	        group: 'submit-satus',
+	        style: 'success',
+	        autoclose: 2000
+        });
         var t = 5;
         function refresh()
         {
