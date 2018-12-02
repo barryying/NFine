@@ -8,3 +8,16 @@
 /obj
 /.vs
 *.dtbcache
+/project/NFine.Code/bin/Release
+/project/NFine.Code/obj/Release
+/project/NFine.Data/bin/Release
+/project/NFine.Data/obj/Release
+/project/NFine.Domain/bin/Release
+/project/NFine.Domain/obj/Release
+/project/NFine.Mapping/bin/Release
+/project/NFine.Mapping/obj/Release
+/project/NFine.Repository/bin/Release
+/project/NFine.Repository/obj/Release
+/project/NFine.Application/obj/Release
+/project/NFine.Application/bin/Release
+/project/NFine.Web/obj/Release
