@@ -6,17 +6,79 @@
     $(function () {
         $('.wrapper').height($(window).height() - 11);
     })
+    
+    function btn_revisepassword() {
+        debugger;
+        var keyValue = $("#keyValue").val();
+        var userPassword = $("#userPassword").val();
+        var userPasswordConfirm = $("#userPasswordConfirm").val();
+        if (userPassword == "" || userPasswordConfirm == "") {
+            $.modalMsg("请保证密码不为空！");
+            return;
+        }
+        if (userPassword != userPasswordConfirm) {
+            $.modalMsg("请保证两次密码输入一致！");
+            return;
+        }
+        var postData = $("#form1").formSerialize();
+        postData["userPassword"] = userPassword;
+        postData["keyValue"] = keyValue;
+        $.submitForm({
+            url: "/SystemManage/User/SubmitRevisePassword",
+            param: postData,
+            success: function () {
+                $.loading(true);
+                $.modalMsg("密码更改成功！");
+                $.reload();
+            },
+            error: function () {
+                $.loading(false);
+                $.modalMsg(errorThrown, "error");
+            }
+        })
+    }
 </script>
 <div class="wrapper">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#a" data-toggle="tab">基本信息</a></li>
-        <li><a href="#b" data-toggle="tab">注册信息</a></li>
-        <li><a href="#c" data-toggle="tab">安全验证</a></li>
+        @*<li class="active"><a href="#a" data-toggle="tab">基本信息</a></li>*@
+        <li><a href="#b" data-toggle="tab">基本信息</a></li>
+        @*<li><a href="#c" data-toggle="tab">安全验证</a></li>
         <li><a href="#c" data-toggle="tab">系统日志</a></li>
-        <li><a href="#c" data-toggle="tab">个性化设置</a></li>
+        <li><a href="#c" data-toggle="tab">个性化设置</a></li>*@
     </ul>
     <div class="tab-content" style="padding-top: 5px;">
-        <div id="a" class="tab-pane active" style="padding: 15px;">
+        <form id="form1">
+            <div id="b" class="tab-pane active" style="padding: 15px;">
+                <ul class="pop-list">
+                    <li style="display:none;">
+                        <label>ID</label>
+                        <input id="keyValue" name="keyValue" readonly type="text" class="form-control" value="@NFine.Code.OperatorProvider.Provider.GetCurrent().UserId" />
+                    </li>
+                    <li>
+                        <label>账户</label>
+                        <input id="UserCode" name="UserCode" readonly type="text" class="form-control" value="@NFine.Code.OperatorProvider.Provider.GetCurrent().UserCode" />
+                    </li>
+                    <li class="line">
+                        <h5><span>修改密码</span></h5>
+                    </li>
+                    <li>
+                        <label>新密码</label>
+                        <input id="userPassword" name="userPassword" type="password" class="form-control" />
+                    </li>
+                    <li>
+                        <label>确认新密码</label>
+                        <input id="userPasswordConfirm" name="userPasswordConfirm" type="password" class="form-control" />
+                    </li>
+                    <li>
+                        <div style="padding-left: 115px;">
+                            <a class="btn btn-primary" onclick="btn_revisepassword()"><i class="fa fa-save" style="margin-right:5px;"></i>确认修改</a>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </form>
+        <div id="a" class="tab-pane" style="padding: 15px;">
             <ul class="pop-list">
                 <li>
                     <label>账户</label>
@@ -71,11 +133,11 @@
                 </li>
             </ul>
         </div>
-        <div id="b" class="tab-pane" style="padding: 15px;">
+        @*<div id="b" class="tab-pane active" style="padding: 15px;">
             <ul class="pop-list">
                 <li>
                     <label>账户</label>
-                    <input type="text" class="form-control" />
+                    <input id="UserCode" readonly type="text" class="form-control" value="@NFine.Code.OperatorProvider.Provider.GetCurrent().UserCode" />
                 </li>
                 <li>
                     <label>密码</label>
@@ -114,20 +176,20 @@
                 </li>
                 <li>
                     <label>新密码</label>
-                    <input type="text" class="form-control" />
+                    <input id="UserPwd" type="password" class="form-control" />
                 </li>
                 <li>
                     <label>确认新密码</label>
-                    <input type="text" class="form-control" />
+                    <input id="UserPwdConfirm" type="password" class="form-control" />
                 </li>
                 <li>
                     <div style="padding-left: 115px;">
-                        <a class="btn btn-primary" onclick="btn_add()"><i class="fa fa-save" style="margin-right:5px;"></i>确认修改</a>
+                        <a class="btn btn-primary" onclick="btn_revisepassword()"><i class="fa fa-save" style="margin-right:5px;"></i>确认修改</a>
                     </div>
 
                 </li>
             </ul>
-        </div>
+        </div>*@
         <div id="c" class="tab-pane" style="padding-right: 15px;">
             3
         </div>
