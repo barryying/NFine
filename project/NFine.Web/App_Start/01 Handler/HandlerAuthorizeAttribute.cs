@@ -26,7 +26,8 @@ namespace NFine.Web
             if (!this.ActionAuthorize(filterContext))
             {
                 StringBuilder sbScript = new StringBuilder();
-                sbScript.Append("<script type='text/javascript'>alert('很抱歉！您的权限不足，访问被拒绝！');</script>");
+                sbScript.Append("<script type='text/javascript'>$.modalMsg('很抱歉！您的权限不足，访问被拒绝！');</script>");
+                //sbScript.Append("<script type='text/javascript'>alert('很抱歉！您的权限不足，访问被拒绝！');</script>");
                 filterContext.Result = new ContentResult() { Content = sbScript.ToString() };
                 return;
             }

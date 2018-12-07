@@ -203,6 +203,7 @@
     <Content Include="Content\img\weixin_nfine.png" />
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\js\bootstrap\bootstrap.min.js" />
     <Content Include="Content\js\charts\Chart.js" />
     <Content Include="Content\js\charts\Chart.min.js" />
     <Content Include="Content\js\cookie\jquery.cookie.js" />
@@ -246,6 +247,8 @@
     <Content Include="Content\js\echarts\echarts.js" />
     <Content Include="Content\js\echarts\echarts.min.js" />
     <Content Include="Content\js\echarts\infographic.js" />
+    <Content Include="Content\js\fileinput\css\fileinput.css" />
+    <Content Include="Content\js\fileinput\js\fileinput.js" />
     <Content Include="Content\js\highcharts\adapters\mootools-adapter.js" />
     <Content Include="Content\js\highcharts\adapters\mootools-adapter.src.js" />
     <Content Include="Content\js\highcharts\adapters\prototype-adapter.js" />
@@ -317,6 +320,8 @@
     <Content Include="Content\js\simditor\js\uploader.min.js" />
     <Content Include="Content\js\SmallPop\spop.css" />
     <Content Include="Content\js\SmallPop\spop.js" />
+    <Content Include="Content\js\steps\steps.css" />
+    <Content Include="Content\js\steps\steps.js" />
     <Content Include="Content\js\validate\jquery.validate.min.js" />
     <Content Include="Content\js\wdtree\images\icons\add.png" />
     <Content Include="Content\js\wdtree\images\icons\addStep.gif" />
@@ -641,6 +646,8 @@
     <Content Include="Areas\MicroEvent\Views\Datastatistic\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Datastatistic\Datastatistic.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\AddEvent.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\AddEvent\Form.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\AddEvent\Details.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

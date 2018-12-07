@@ -39,6 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessManage\AutoTaskRepository.cs" />
+    <Compile Include="BusinessManage\CandidateRepository.cs" />
+    <Compile Include="BusinessManage\GiftListRepository.cs" />
+    <Compile Include="BusinessManage\GiftRepository.cs" />
+    <Compile Include="BusinessManage\PictureRepository.cs" />
+    <Compile Include="BusinessManage\VoteRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessManage\EventRepository.cs" />
     <Compile Include="SystemManage\ItemsDetailRepository.cs" />

@@ -4542,9 +4542,9 @@ ImageButton = (function(superClass) {
         width = img.width;
         height = img.height;
         $img.attr({
-          src: src,
-          width: width,
-          height: height,
+            src: src,
+            width: 800,//width,
+            height: height * 800 / width,
           'data-image-size': width + ',' + height
         }).removeClass('loading');
         if ($img.hasClass('uploading')) {

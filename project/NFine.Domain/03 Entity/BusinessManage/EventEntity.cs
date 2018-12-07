@@ -47,10 +47,13 @@ namespace NFine.Domain.Entity.BusinessManage
         public int? F_PageRankingListMaxnumber { get; set; }
         public bool? F_PageIsShowGiftDetail { get; set; }
         public string F_PageNerverFollowNotice { get; set; }
+        public string F_PageRollNotice { get; set; }
         public string F_PageBackgroundSong { get; set; }
         public string F_PageColorCustom { get; set; }
         public string F_PageColorTheme { get; set; }
-        public string F_PageBorderEffects { get; set; }
+        public int? F_PageBorderEffectsNum { get; set; }
+        public int? F_PageBorderEffectsDuration { get; set; }
+        public string F_PageBorderEffectsPictureID { get; set; }
         public string F_PageFloatingEffects { get; set; }
         public int? F_ApplyPictureMinNum { get; set; }
         public int? F_ApplyPicturemaxNum { get; set; }
@@ -61,6 +64,7 @@ namespace NFine.Domain.Entity.BusinessManage
         public string F_ApplyNotice { get; set; }
         public bool? F_GiftIsShowList { get; set; }
         public string F_GiftPerOne { get; set; }
+        public string F_GiftUnit { get; set; }
         public string F_GiftID { get; set; }
         public bool? F_Status { get; set; }
         public int? F_ViewNumber { get; set; }

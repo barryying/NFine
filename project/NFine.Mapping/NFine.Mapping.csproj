@@ -48,8 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessManage\AutoTaskMap.cs" />
+    <Compile Include="BusinessManage\CandidateMap.cs" />
+    <Compile Include="BusinessManage\GiftListMap.cs" />
+    <Compile Include="BusinessManage\GiftMap.cs" />
+    <Compile Include="BusinessManage\PictureMap.cs" />
+    <Compile Include="BusinessManage\VoteMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemManage\AreaMap.cs" />
+    <Compile Include="BusinessManage\EventMap.cs" />
     <Compile Include="SystemManage\ItemsDetailMap.cs" />
     <Compile Include="SystemManage\ItemsMap.cs" />
     <Compile Include="SystemManage\ModuleButtonMap.cs" />
