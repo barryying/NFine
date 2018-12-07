@@ -203,7 +203,6 @@
     <Content Include="Content\img\weixin_nfine.png" />
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\js\bootstrap\bootstrap.min.js" />
     <Content Include="Content\js\charts\Chart.js" />
     <Content Include="Content\js\charts\Chart.min.js" />
     <Content Include="Content\js\cookie\jquery.cookie.js" />
@@ -249,6 +248,7 @@
     <Content Include="Content\js\echarts\infographic.js" />
     <Content Include="Content\js\fileinput\css\fileinput.css" />
     <Content Include="Content\js\fileinput\js\fileinput.js" />
+    <Content Include="Content\js\fileinput\js\fileinput_locale_zh.js" />
     <Content Include="Content\js\highcharts\adapters\mootools-adapter.js" />
     <Content Include="Content\js\highcharts\adapters\mootools-adapter.src.js" />
     <Content Include="Content\js\highcharts\adapters\prototype-adapter.js" />
