@@ -10,14 +10,19 @@ namespace NFine.Domain.Entity
     {
         public string F_Id { get; set; }
         public string F_ParentId { get; set; }
+        public string F_EventID { get; set; }        
         public string F_EnCode { get; set; }
         public string F_Name { get; set; }
         public string F_SimpleSpelling { get; set; }
         public string F_PictureIDs { get; set; }
+        public string F_Phone { get; set; }        
         public int? F_VoteNumber { get; set; }
         public int? F_GiftNumber { get; set; }
+        public int? F_ViewNumber { get; set; }
         public int? F_VirtualHeat { get; set; }
         public string F_Introduction { get; set; }
+        public bool? IsTodayStar { get; set; }
+        public string F_Remark { get; set; }
         public bool? F_AuditIsOK { get; set; }
         public string F_SortCode { get; set; }
         public bool? F_DeleteMark { get; set; }

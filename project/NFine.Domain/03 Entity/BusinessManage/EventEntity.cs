@@ -71,7 +71,6 @@ namespace NFine.Domain.Entity.BusinessManage
         public string F_SortCode { get; set; }
         public bool? F_DeleteMark { get; set; }
         public bool? F_EnabledMark { get; set; }
-        public string F_Description { get; set; }
         public DateTime? F_CreatorTime { get; set; }
         public string F_CreatorUserId { get; set; }
         public DateTime? F_LastModifyTime { get; set; }

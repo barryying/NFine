@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 
-@*<h2>/MicroEvent/AddEvent/Index</h2>*@
 <script>
     $(function () {
         gridList();
@@ -14,36 +13,77 @@
             treeGrid: true,
             treeGridModel: "adjacency",
             ExpandColumn: "F_EnCode",
-            url: "/MicroEvent/AddEvent/GetTreeGridJson",
-            height: $(window).height() - 96,
+            url: "/MicroEvent/AddEvent/GetGridJson",
+            height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },
-                { label: '名称', name: 'F_Name', width: 200, align: 'left' },
-                { label: '编号', name: 'F_EnCode', width: 150, align: 'left' },
                 {
-                    label: '报名开始时间', name: 'F_ApplyStartTime', width: 80, align: 'left',
-                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                    label: "图片", name: "F_VoteCarouselIDs", width: 100, align: "center",
+                    formatter: function (cellvalue) {
+                        return "<img src='../../Content/img/samples/scarlet-159.png' width='100' height='75' />";
+                    }
+                },
+                { label: '名称', name: 'F_Name', width: 200, align: 'left' },
+                //{ label: '编号', name: 'F_EnCode', width: 150, align: 'left' },
+                {
+                    label: '报名开始时间', name: 'F_ApplyStartTime', width: 120, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
                 },
                 {
-                    label: "有效", name: "F_EnabledMark", width: 60, align: "center",
+                    label: '报名结束时间', name: 'F_ApplyEndTime', width: 120, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
+                },
+                { label: '选手数量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                { label: '投票量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                { label: '礼物', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                { label: '浏览量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                { label: '分享量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                //{ label: '链接', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                {
+                    label: "链接", name: "F_Status", width: 100, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<a herf='#' style='color: #1ABC9C;cursor: pointer;'>查看链接</a>" : "请先启用该活动";
+                    }
+                },
+                {
+                    label: "状态", name: "F_Status", width: 60, align: "center",
                     formatter: function (cellvalue) {
                         return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
                     }
                 },
                 { label: '备注', name: 'F_Remark', width: 300, align: 'left' }
-            ]
+            ],
+            pager: "#gridPager",
+            sortname: 'F_CreatorTime desc',
+            viewrecords: true
+        });
+        function buildImg(value, row, index) {
+            return "<img src='" + rootPath + "/qcp/AuditingImg/showImg.action?filePath=" + value + "'  width='20' height='20'/>";
+        }
+        $("#time_horizon a.btn-default").click(function () {
+            $("#time_horizon a.btn-default").removeClass("active");
+            $(this).addClass("active");
+            $('#btn_search').trigger("click");
         });
         $("#btn_search").click(function () {
+            var timeType = $("#time_horizon a.active").attr('data-value');
+            var queryJson = {
+                keyword: $("#txt_keyword").val(),
+                timeType: $("#time_horizon a.active").attr('data-value'),
+            }
             $gridList.jqGrid('setGridParam', {
-                postData: { keyword: $("#txt_keyword").val() },
+                postData: { queryJson: JSON.stringify(queryJson) },
             }).trigger('reloadGrid');
+            //$gridList.jqGrid('setGridParam', {
+            //    postData: { keyword: $("#txt_keyword").val() },
+            //}).trigger('reloadGrid');
         });
     }
     function btn_add() {
         $.modalOpen({
             id: "Form",
             title: "新增活动",
-            url: "/MicroEvent/AddEvent/Form",
+            url: "/MicroEvent/AddEvent/Form?isClone=0",
             width: "1100px",
             height: "920px",
             btn: null,
@@ -57,9 +97,9 @@
         $.modalOpen({
             id: "Form",
             title: "修改活动",
-            url: "/MicroEvent/AddEvent/Form?keyValue=" + keyValue,
-            width: "700px",
-            height: "520px",
+            url: "/MicroEvent/AddEvent/Form?keyValue=" + keyValue + "&isClone=0",
+            width: "1100px",
+            height: "920px",
             btn: null,
             callBack: function (iframeId) {
                 top.frames[iframeId].submitForm();
@@ -82,13 +122,67 @@
             id: "Details",
             title: "查看活动",
             url: "/MicroEvent/AddEvent/Details?keyValue=" + keyValue,
-            width: "700px",
-            height: "560px",
+            width: "1100px",
+            height: "920px",
+            btn: null,
+        });
+    }
+    function btn_disabled() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalConfirm("注：您确定要【禁用】该活动吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/AddEvent/Disabled",
+                    param: { keyValue: keyValue },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
+    function btn_enabled() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalConfirm("注：您确定要【启用】该活动吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/AddEvent/Enabled",
+                    param: { keyValue: keyValue },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
+    function btn_clonebutton() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalOpen({
+            id: "Form",
+            title: "复制添加",
+            url: "/MicroEvent/AddEvent/Form?keyValue=" + keyValue + "&isClone=1",
+            width: "1100px",
+            height: "920px",
+            btn: null,
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_candidatemanage() {
+        var eventID = $("#gridList").jqGridRowValue().F_Id;
+        $.modalOpen({
+            id: "candidateManage",
+            title: "选手管理",
+            url: "/MicroEvent/Candidate/Index?eventID=" + eventID,
+            width: "1100px",
+            height: "920px",
             btn: null,
         });
     }
 </script>
 
+@*<h2>/MicroEvent/AddEvent/Index</h2>*@
 <div class="topPanel">
     <div class="toolbar">
         <div class="btn-group">
@@ -100,9 +194,14 @@
         <div class="operate">
             <ul class="nav nav-pills">
                 <li class="first">已选中<span>1</span>项</li>
+                <li><a id="NF_Clone" authorize="yes" onclick="btn_clonebutton()"><i class="fa fa-paste"></i>复制添加</a></li>
                 <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改活动</a></li>
                 <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除活动</a></li>
                 <li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看活动</a></li>
+                <li><a id="NF-Candidate" authorize="yes" onclick="btn_candidatemanage()"><i class="fa fa-gavel"></i>选手管理</a></li>
+                <li class="split"></li>
+                <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>禁用</a></li>
+                <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>启用</a></li>
             </ul>
             <a href="javascript:;" class="close"></a>
         </div>
@@ -119,10 +218,23 @@
                         </span>
                     </div>
                 </td>
+                <td style="padding-left: 10px;">
+                    <div id="time_horizon" class="btn-group">
+                        <a class="btn btn-default active" data-value="1">全部活动</a>
+                        <a class="btn btn-default" data-value="2">报名中</a>
+                        <a class="btn btn-default" data-value="3">进行中</a>
+                        <a class="btn btn-default" data-value="4">已结束</a>
+                        <a class="btn btn-default" data-value="5">今日开始</a>
+                        <a class="btn btn-default" data-value="6">今日结束</a>
+                        <a class="btn btn-default" data-value="7">未开始</a>
+                        <a class="btn btn-default" data-value="8">待审核</a>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
 </div>
 <div class="gridPanel">
     <table id="gridList"></table>
+    <div id="gridPager"></div>
 </div>

@@ -27,12 +27,12 @@
                     </div>
                     <div class="panel-body" style="width: 98%;">
                         <table class="form">
-                            <tr style="display: none;">
+                            @*<tr style="display: none;">
                                 <th class="formTitle">活动ID</th>
                                 <td class="formValue">
                                     <select id="F_Id" name="F_Id" class="form-control required"></select>
                                 </td>
-                            </tr>
+                            </tr>*@
                             <tr>
                                 <th class="formTitle">活动标题：</th>
                                 <td class="formValue" colspan="3">
@@ -79,8 +79,8 @@
                                 <th class="formTitle">排行榜是否显示礼物点数：</th>
                                 <td class="formValue">
                                     <select id="F_RankingListIsShow" name="F_RankingListIsShow" class="form-control required">
-                                        <option value="1">是</option>
-                                        <option value="0" selected>否</option>
+                                        <option value="true">是</option>
+                                        <option value="false" selected>否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -88,8 +88,8 @@
                                 <th class="formTitle">选手页是否显示礼物点数：</th>
                                 <td class="formValue">
                                     <select id="F_CandidateListIsShow" name="F_CandidateListIsShow" class="form-control required">
-                                        <option value="1">是</option>
-                                        <option value="0" selected>否</option>
+                                        <option value="true">是</option>
+                                        <option value="false" selected>否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -97,8 +97,8 @@
                                 <th class="formTitle">活动结束后是否显示页面：</th>
                                 <td class="formValue">
                                     <select id="F_EndIsShow" name="F_EndIsShow" class="form-control required">
-                                        <option value="1">是</option>
-                                        <option value="0" selected>否</option>
+                                        <option value="true">是</option>
+                                        <option value="false" selected>否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -136,8 +136,8 @@
                                 <th class="formTitle">报名审核：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyAuditType" name="F_ApplyAuditType" class="form-control required">
-                                        <option value="1"selected>人工审核</option>
-                                        <option value="0">自动审核</option>
+                                        <option value="true"selected>人工审核</option>
+                                        <option value="false">自动审核</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择人工审核后，必须在后台人工审核后前台才显示！）</span></th>
@@ -188,8 +188,8 @@
                                 <th class="formTitle">投票消息提醒：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsRemindMsg" name="F_ApplyVoteIsRemindMsg" class="form-control required">
-                                        <option value="1">提醒</option>
-                                        <option value="0" selected>不提醒</option>
+                                        <option value="true">提醒</option>
+                                        <option value="false" selected>不提醒</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“不提醒”时，不给参加比赛用户发送被投票或者审核通过信息。需要开通客服服务信息接口权限！）</span></th>
@@ -198,8 +198,8 @@
                                 <th class="formTitle">匿名送礼：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsAnonymous" name="F_ApplyVoteIsAnonymous" class="form-control required">
-                                        <option value="1">匿名</option>
-                                        <option value="0" selected>不匿名</option>
+                                        <option value="true">匿名</option>
+                                        <option value="false" selected>不匿名</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“不匿名”时，送礼物不显示个人头像昵称！）</span></th>
@@ -208,8 +208,8 @@
                                 <th class="formTitle">是否允许给自己投票：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsToSelf" name="F_ApplyVoteIsToSelf" class="form-control required">
-                                        <option value="1" selected>允许</option>
-                                        <option value="0">不允许</option>
+                                        <option value="true" selected>允许</option>
+                                        <option value="false">不允许</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“允许”时，能给自己投票；否则不允许给自己投票！）</span></th>
@@ -218,8 +218,8 @@
                                 <th class="formTitle">投票时是否需要验证：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsValidation" name="F_ApplyVoteIsValidation" class="form-control required">
-                                        <option value="1">是</option>
-                                        <option value="0" selected>否</option>
+                                        <option value="true">是</option>
+                                        <option value="false" selected>否</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“否”时，需要设置下面2个参数。开启后增加刷票难度！）</span></th>
@@ -312,8 +312,8 @@
                                 <th class="formTitle">是否跳转到买礼物界面：</th>
                                 <td class="formValue">
                                     <select id="F_VoteSuccPictureIsToGift" name="F_VoteSuccPictureIsToGift" class="form-control required">
-                                        <option value="1" selected>是</option>
-                                        <option value="0">否</option>
+                                        <option value="true" selected>是</option>
+                                        <option value="false">否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -375,8 +375,8 @@
                                 <th class="formTitle">礼物详情：</th>
                                 <td class="formValue">
                                     <select id="F_PageIsShowGiftDetail" name="F_PageIsShowGiftDetail" class="form-control required">
-                                        <option value="1">是</option>
-                                        <option value="0" selected>否</option>
+                                        <option value="true">是</option>
+                                        <option value="false" selected>否</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“否”时，用户主页不显示礼物列表。）</span></th>
@@ -529,8 +529,8 @@
                                 <th class="formTitle">实时弹出送礼物记录：</th>
                                 <td class="formValue" colspan="2">
                                     <select id="F_GiftIsShowList" name="F_GiftIsShowList" class="form-control required">
-                                        <option value="1">是</option>
-                                        <option value="0" selected>否</option>
+                                        <option value="true">是</option>
+                                        <option value="false" selected>否</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（活动页面是否实时弹出送礼物记录。）</span></th>
@@ -573,8 +573,8 @@
                                 <th class="formTitle">活动状态：</th>
                                 <td class="formValue">
                                     <select id="F_Status" name="F_Status" class="form-control required">
-                                        <option value="1" selected>是</option>
-                                        <option value="0">否</option>
+                                        <option value="true" selected>是</option>
+                                        <option value="false">否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -592,6 +592,8 @@
 </form>
 <script>
     var keyValue = $.request("keyValue");
+    var isClone = $.request("isClone");
+    debugger;
     $(function () {
         Simditor.locale = 'zh-CN';//设置中文
         var editor = new Simditor({
@@ -732,7 +734,7 @@
         if (!!keyValue) {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetFormJson",
-                data: { keyValue: keyValue },
+                data: { keyValue: keyValue},
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -743,13 +745,9 @@
     })
 
     function initControl() {
-        $("#F_OrganizeId").bindSelect({
-            url: "/SystemManage/Organize/GetTreeSelectJson",
-        });
-        $("#F_Type").bindSelect({
-            url: "/SystemManage/ItemsData/GetSelectJson",
-            param: { enCode: "RoleType" }
-        });
+        //$("#F_OrganizeId").bindSelect({
+        //    url: "/MicroEvent/AddEvent/GetTreeSelectJson",
+        //});
         $('#wizard').wizard().on('change', function (e, data) {
             var $finish = $("#btn_finish");
             var $next = $("#btn_next");
@@ -800,18 +798,12 @@
                 $next.show();
             }
         });
-        $("#permissionTree").treeview({
-            height: 444,
-            showcheck: true,
-            url: "/MicroEvent/AddEventAuthorize/GetPermissionTree",
-            param: { roleId: keyValue }
-        });
     }
     function submitForm() {
         var postData = $("#form1").formSerialize();
-        postData["permissionIds"] = String($("#permissionTree").getCheckedNodes());
+        //postData["permissionIds"] = String($("#permissionTree").getCheckedNodes());
         $.submitForm({
-            url: "/MicroEvent/AddEvent/SubmitForm?keyValue=" + keyValue,
+            url: "/MicroEvent/AddEvent/SubmitForm?keyValue=" + keyValue + "&isClone=" +  + isClone,
             param: postData,
             success: function () {
                 $.currentWindow().$("#gridList").trigger("reloadGrid");
@@ -819,98 +811,3 @@
         });
     }
 </script>
-@*<div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
-    <form id="form1">
-        <div id="steps1"></div>
-
-        <div class="wrapper">
-            <ul class="pop-list">
-                <li style="display:none;">
-                    <label>ID</label>
-                    <input id="keyValue" name="keyValue" readonly type="text" class="form-control" value="@NFine.Code.OperatorProvider.Provider.GetCurrent().UserId" />
-                </li>
-                <li>
-                    <label>账户</label>
-                    <input id="UserCode" name="UserCode" readonly type="text" class="form-control" value="@NFine.Code.OperatorProvider.Provider.GetCurrent().UserCode" />
-                </li>
-                <li class="line">
-                    <h5><span>修改密码</span></h5>
-                </li>
-                <li>
-                    <label>新密码</label>
-                    <input id="userPassword" name="userPassword" type="password" class="form-control" />
-                </li>
-                <li>
-                    <label>确认新密码</label>
-                    <input id="userPasswordConfirm" name="userPasswordConfirm" type="password" class="form-control" />
-                </li>
-                <li>
-                    <div style="padding-left: 115px;">
-                        <a class="btn btn-primary" onclick="btn_revisepassword()"><i class="fa fa-save" style="margin-right:5px;"></i>确认修改</a>
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-    </form>
-</div>
-
-<script>
-    var steps1 = steps({
-        el: "#steps1",
-        data: [
-            { title: "活动设置", description: "" },
-            { title: "规则设置", description: "" },
-            { title: "投票设置", description: "" },
-            { title: "界面设置", description: "" },
-            { title: "报名设置", description: "" },
-            { title: "礼物设置", description: "" },
-            { title: "提交", description: "" },
-        ],
-        active: 0,
-        space: 200,
-        center: true
-    });
-
-    var keyValue = $.request("keyValue");
-    $(function () {
-        initControl();
-        if (!!keyValue) {
-            $.ajax({
-                url: "/MicroEvent/AddEvent/GetFormJson",
-                data: { keyValue: keyValue },
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    $("#form1").formSerialize(data);
-                }
-            });
-        }
-    });
-    function initControl() {
-        $("#F_Target").select2({
-            minimumResultsForSearch: -1
-        });
-        $("#F_ParentId").bindSelect({
-            url: "/MicroEvent/AddEvent/GetTreeSelectJson",
-        });
-    }
-    function submitForm() {
-        if (!$('#form1').formValid()) {
-            return false;
-        }
-        debugger;
-        if (steps1.getActive() != 6) {
-            $.modalMsg("请完成填写所有必填信息！");
-            return false;
-        }
-        $.submitForm({
-            url: "/MicroEvent/AddEvent/SubmitForm?keyValue=" + keyValue,
-            param: $("#form1").formSerialize(),
-            success: function () {
-                $.currentWindow().$("#gridList").resetSelection();
-                $.currentWindow().$("#gridList").trigger("reloadGrid");
-            }
-        })
-    }
-</script>*@

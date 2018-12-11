@@ -123,6 +123,7 @@
     <Compile Include="Areas\ExampleManage\Controllers\SignetController.cs" />
     <Compile Include="Areas\ExampleManage\ExampleManageAreaRegistration.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\AddEventController.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\CandidateController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\DatastatisticController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\DiamondVoteController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\OrderListController.cs" />
@@ -648,6 +649,8 @@
     <Content Include="Areas\MicroEvent\Views\AddEvent\AddEvent.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\Form.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\Details.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Candidate\Form.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Candidate\Index.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<script>
+    var eventID = $.request("eventID");
+    debugger;
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        var queryJson = {
+            eventId: eventID
+        }
+        $gridList.dataGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "F_EnCode",
+            url: "/MicroEvent/Candidate/GetGridJson",
+            postData: { queryJson: JSON.stringify(queryJson) },
+            height: $(window).height() - 128,
+            colModel: [
+                { label: "主键", name: "F_Id", hidden: true, key: true },
+                { label: '姓名', name: 'F_Name', width: 200, align: 'left' },
+                { label: '手机号码', name: 'F_Phone', width: 200, align: 'left' },
+                { label: '票数', name: 'F_VoteNumber', width: 50, align: 'left' },
+                { label: '礼物数', name: 'F_GiftNumber', width: 50, align: 'left' },
+                { label: '浏览量', name: 'F_ViewNumber', width: 50, align: 'left' },
+                {
+                    label: '参与时间', name: 'F_CreatorTime', width: 120, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
+                },
+                { label: '备注', name: 'F_Remark', width: 50, align: 'left' },
+                {
+                    label: "今日之星", name: "IsTodayStar", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                {
+                    label: "状态", name: "F_AuditIsOK", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                }
+            ],
+            pager: "#gridPager",
+            sortname: 'F_CreatorTime desc',
+            viewrecords: true
+        });
+        $("#time_horizon a.btn-default").click(function () {
+            $("#time_horizon a.btn-default").removeClass("active");
+            $(this).addClass("active");
+            $('#btn_search').trigger("click");
+        });
+        $("#btn_search").click(function () {
+            var timeType = $("#time_horizon a.active").attr('data-value');
+            var queryJson = {
+                keyword: $("#txt_keyword").val(),
+                timeType: $("#time_horizon a.active").attr('data-value'),
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) },
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "添加选手",
+            url: "/MicroEvent/Candidate/Form?eventId=" + eventID,
+            width: "1100px",
+            height: "920px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        debugger;
+        $.modalOpen({
+            id: "Form",
+            title: "修改选手",
+            url: "/MicroEvent/Candidate/Form?keyValue=" + keyValue,
+            width: "1100px",
+            height: "920px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/MicroEvent/Candidate/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().F_Id },
+            success: function () {
+                $.currentWindow().$("#gridList").resetSelection();
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+    function btn_disabled() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalConfirm("注：您确定要修改为【审核不通过】吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/Candidate/Disabled",
+                    param: { keyValue: keyValue },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
+    function btn_enabled() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalConfirm("注：您确定要修改为【审核通过】吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/Candidate/Enabled",
+                    param: { keyValue: keyValue },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
+    function btn_setstar() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalConfirm("注：您确定要设置为【今日之星】吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/Candidate/SetStar",
+                    param: { keyValue: keyValue },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
+    function btn_cancelstar() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalConfirm("注：您确定要取消【今日之星】吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/Candidate/CancelStar",
+                    param: { keyValue: keyValue },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
+</script>
+
+@*<h2>/MicroEvent/Candidate/Index</h2>*@
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>添加选手</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改选手</a></li>
+                <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除选手</a></li>
+                @*<li><a id="NF-Details" authorize="yes" onclick="btn_setstar()"><i class="fa fa-search-plus"></i>设为今日之星</a></li>*@
+                <li class="split"></li>
+                <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>审核通过</a></li>
+                <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>审核不通过</a></li>
+                <li class="split"></li>
+                <li><a id="NF-setstar" authorize="yes" onclick="btn_setstar()"><i class="fa fa-stop-circle"></i>设为今日之星</a></li>
+                <li><a id="NF-cancelstar" authorize="yes" onclick="btn_cancelstar()"><i class="fa fa-play-circle"></i>取消今日之星</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        <script>$('.toolbar').authorizeButton()</script>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+                <td style="padding-left: 10px;">
+                    <div id="time_horizon" class="btn-group">
+                        <a class="btn btn-default active" data-value="1">全部选手</a>
+                        <a class="btn btn-default" data-value="2">待审核</a>
+                        <a class="btn btn-default" data-value="3">已审核</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <style>
+        .ui-jqgrid {
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: 0px;
+        }
+    </style>
+    <div id="gridPager"></div>
+</div>

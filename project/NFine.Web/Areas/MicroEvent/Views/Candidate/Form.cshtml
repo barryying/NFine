@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<form id="form1">
+    <div style="padding-top: 30px; margin-right: 30px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">选手姓名：</th>
+                <td class="formValue">
+                    <input id="F_Name" name="F_Name" type="text" class="form-control required" placeholder="请输入选手姓名" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">选手手机号码：</th>
+                <td class="formValue">
+                    <input id="F_Phone" name="F_Phone" type="text" class="form-control required" placeholder="请输入选手手机号码" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">选手图片：</th>
+                <td class="formValue" colspan="3">
+                    <div class="container kv-main">
+                        <div class="form-group">
+                            <input id="F_PictureIDs" type="file" multiple class="file-loading" data-min-file-count="1">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">票数：</th>
+                <td class="formValue" colspan="1">
+                    <input id="F_VoteNumber" name="F_VoteNumber" type="text" class="form-control" placeholder="0" />
+                </td>
+                <td class="formValue" colspan="1">
+                    票
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">礼物：</th>
+                <td class="formValue" colspan="1">
+                    <input id="F_GiftNumber" name="F_GiftNumber" type="text" class="form-control" placeholder="0" />
+                </td>
+                <td class="formValue" colspan="1">
+                    元
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">虚拟热度：</th>
+                <td class="formValue" colspan="1">
+                    <input id="F_VirtualHeat" name="F_VirtualHeat" type="text" class="form-control" placeholder="0" />
+                </td>
+                <td class="formValue" colspan="1">
+                    用户热度 = 真实热度 + 虚拟热度
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">选手介绍：</th>
+                <td class="formValue simditor-toolbar" colspan="3">
+                    <textarea id="F_Introduction" name="F_Introduction" autofocus></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">审核是否通过：</th>
+                <td class="formValue">
+                    <select id="F_AuditIsOK" name="F_AuditIsOK" class="form-control required">
+                        <option value="true" selected>是</option>
+                        <option value="false">否</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<script>
+    var keyValue = $.request("keyValue");
+    var eventID = $.request("eventId");
+    debugger;
+    $(function () {
+        Simditor.locale = 'zh-CN';//设置中文
+        var editor = new Simditor({
+            textarea: $('#F_Introduction'),  //textarea的id
+            placeholder: '这里输入文字...',
+            toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'], //工具条都包含哪些内容
+            pasteImage: true,//允许粘贴图片
+            defaultImage: '~/Content/js/webuploader/images/image.png',//编辑器插入的默认图片，此处可以删除
+            upload: {
+                url: 'richtext_img_upload.do', //文件上传的接口地址
+                params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                fileKey: 'upload_file', //服务器端获取文件数据的参数名
+                connectionCount: 3,
+                leaveConfirm: '正在上传文件'
+            }
+        });
+
+        $("#F_PictureIDs").fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "#", //上传的地址
+            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+            overwriteInitial: false,
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式     
+            //dropZoneEnabled: false,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 5, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            slugCallback: function (filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        });
+        $("#F_PictureIDs").on("fileuploaded", function (event, data, previewId, index) {
+            $.modalMsg("上传成功！");
+        });
+        $("#F_PictureIDs").on("fileerror", function (event, data, previewId, index) {
+            $.modalMsg("上传失败！");
+        });
+
+        initControl();
+
+        if (!!keyValue) {
+            $.ajax({
+                url: "/MicroEvent/Candidate/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    })
+
+    function initControl() {
+        //$("#F_OrganizeId").bindSelect({
+        //    url: "/MicroEvent/AddEvent/GetTreeSelectJson",
+        //});
+        $('#wizard').wizard().on('change', function (e, data) {
+            var $finish = $("#btn_finish");
+            var $next = $("#btn_next");
+            if (data.direction == "next") {
+                switch (data.step) {
+                    //case 0:
+                    //    if (!$('#form1').formValid()) {
+                    //        return false;
+                    //    }
+                    //    break;
+                    //case 1:
+                    //    if (!$('#form1').formValid()) {
+                    //        return false;
+                    //    }
+                    //    break;
+                    //case 2:
+                    //    if (!$('#form1').formValid()) {
+                    //        return false;
+                    //    }
+                    //    break;
+                    //case 3:
+                    //    if (!$('#form1').formValid()) {
+                    //        return false;
+                    //    }
+                    //    break;
+                    //case 4:
+                    //    if (!$('#form1').formValid()) {
+                    //        return false;
+                    //    }
+                    //    break;
+                    //case 5:
+                    //    if (!$('#form1').formValid()) {
+                    //        return false;
+                    //    }
+                    //    break;
+                    case 6:
+                        if (!$('#form1').formValid()) {
+                            return false;
+                        }
+                        $finish.show();
+                        $next.hide();
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $finish.hide();
+                $next.show();
+            }
+        });
+    }
+    function submitForm() {
+        var postData = $("#form1").formSerialize();
+        //postData["permissionIds"] = String($("#permissionTree").getCheckedNodes());
+        $.submitForm({
+            url: "/MicroEvent/Candidate/SubmitForm?keyValue=" + keyValue + "&eventId=" + eventID,
+            param: postData,
+            success: function () {
+                top.candidateManage.$("#gridList").resetSelection();
+                top.candidateManage.$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+</script>
