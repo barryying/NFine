@@ -11,14 +11,18 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
 {
     public class AddEventController : ControllerBase
     {
+        private EventApp eventApp = new EventApp();
         //
         // GET: /MicroEvent/AddEvent/
-        
+
         public ActionResult AddEvent()
         {
             return View();
         }
-        private EventApp eventApp = new EventApp();
+        public ActionResult GenLink()
+        {
+            return View();
+        }
 
         //[HttpGet]
         //[HandlerAjaxOnly]
@@ -144,6 +148,14 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             eventEntity.F_Status = true;
             eventApp.UpdateForm(eventEntity);
             return Success("活动启用成功。");
+        }
+
+        [HttpGet]
+        // /MicroEvent/AddEvent/GetEventPrize?kevalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
+        public ActionResult GetEventPrize(string kevalue)
+        {            
+            var data = eventApp.GetEventPrize(kevalue);
+            return Content(data);
         }
     }
 }

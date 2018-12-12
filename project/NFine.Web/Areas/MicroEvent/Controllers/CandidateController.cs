@@ -155,11 +155,11 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             return Success("加浏览量成功");
         }
 
-        [HttpPost]
-        // /MicroEvent/Candidate/GetRankingList?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
-        public ActionResult GetRankingList(string eventId)
+        [HttpGet]
+        // /MicroEvent/Candidate/GetRankingList?kevalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
+        public ActionResult GetRankingList(string kevalue)
         {
-            var data = candidateApp.GetRankingList(eventId);
+            var data = candidateApp.GetRankingList(kevalue);
             return Content(data.ToJson());
         }
     }

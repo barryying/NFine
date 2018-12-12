@@ -106,9 +106,15 @@ namespace NFine.Application.BusinessManage
         {
             IEventRepository eventservice = new EventRepository();
             string sql1 = "SELECT F_PageRankingListMaxnumber,* from Sys_Event where F_ID='" + eventId + "'";
-            List<EventEntity> evententity = eventservice.FindList(sql1);            
-            string sql2 = "select top " + evententity[0].F_PageRankingListMaxnumber.ToString() + " F_ID,F_Name,F_VoteNumber,F_PictureIDs from Sys_Candidate where F_AuditIsOK=1  and F_EventID='" + eventId + "' order by F_VoteNumber DESC";
-            return service.FindList(sql2);
+            List<EventEntity> evententity = eventservice.FindList(sql1);
+            if (!evententity.IsEmpty())
+            {
+
+                string sql2 = "select top " + evententity[0].F_PageRankingListMaxnumber.ToString() + " * from Sys_Candidate where F_AuditIsOK=1  and F_EventID='" + eventId + "' order by F_VoteNumber DESC";
+                return service.FindList(sql2);
+            }
+            else
+                return null;
         }
     }
 }

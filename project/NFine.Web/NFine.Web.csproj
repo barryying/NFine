@@ -655,6 +655,7 @@
     <Content Include="Areas\MicroEvent\Views\Candidate\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\GenLink.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\DataRecords.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\AddEvent\GenLink.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

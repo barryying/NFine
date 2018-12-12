@@ -116,14 +116,25 @@
             }
         })
     }
-    function btn_details() {
+    //function btn_details() {
+    //    var keyValue = $("#gridList").jqGridRowValue().F_Id;
+    //    $.modalOpen({
+    //        id: "Details",
+    //        title: "查看活动",
+    //        url: "/MicroEvent/AddEvent/Details?keyValue=" + keyValue,
+    //        width: "1100px",
+    //        height: "920px",
+    //        btn: null,
+    //    });
+    //}
+    function btn_genlink() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalOpen({
-            id: "Details",
-            title: "查看活动",
-            url: "/MicroEvent/AddEvent/Details?keyValue=" + keyValue,
+            id: "GenLink",
+            title: "查看活动链接",
+            url: "/MicroEvent/AddEvent/GenLink?keyValue=" + keyValue,
             width: "1100px",
-            height: "920px",
+            height: "620px",
             btn: null,
         });
     }
@@ -197,7 +208,8 @@
                 <li><a id="NF_Clone" authorize="yes" onclick="btn_clonebutton()"><i class="fa fa-paste"></i>复制添加</a></li>
                 <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改活动</a></li>
                 <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除活动</a></li>
-                <li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看活动</a></li>
+                @*<li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看活动</a></li>*@
+                <li><a id="NF-genlink" authorize="yes" onclick="btn_genlink()"><i class="fa fa-search-plus"></i>查看活动链接</a></li>
                 <li><a id="NF-Candidate" authorize="yes" onclick="btn_candidatemanage()"><i class="fa fa-gavel"></i>选手管理</a></li>
                 <li class="split"></li>
                 <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>禁用</a></li>

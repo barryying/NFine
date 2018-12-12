@@ -58,6 +58,7 @@
             var timeType = $("#time_horizon a.active").attr('data-value');
             var queryJson = {
                 keyword: $("#txt_keyword").val(),
+                eventId: eventID,
                 timeType: $("#time_horizon a.active").attr('data-value'),
             }
             $gridList.jqGrid('setGridParam', {

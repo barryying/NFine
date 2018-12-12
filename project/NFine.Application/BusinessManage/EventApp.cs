@@ -118,5 +118,16 @@ namespace NFine.Application.BusinessManage
             eventEntity.F_Id = Common.GuId();
             service.SubmitCloneButton(eventEntity);
         }
+
+        public string GetEventPrize(string eventId)
+        {
+            IEventRepository eventservice = new EventRepository();
+            string sql = "SELECT F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
+            List<EventEntity> evententity = eventservice.FindList(sql);
+            if (!evententity.IsEmpty())
+                return evententity[0].F_VotePrizeIntroDuction.ToString();
+            else
+                return "";
+        }
     }
 }
