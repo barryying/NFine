@@ -42,5 +42,11 @@ namespace NFine.Application.BusinessManage
                 service.Insert(voteEntity);
             }
         }
+
+        public List<VoteEntity> GetList(string candidateId)
+        {
+            string sql = "SELECT * FROM Sys_Vote where F_CandidateID = '" + candidateId + "' and F_VoteType=2";
+            return service.FindList(sql);
+        }
     }
 }

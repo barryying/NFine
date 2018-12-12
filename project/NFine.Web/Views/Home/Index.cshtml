@@ -173,7 +173,7 @@
                             </div>
                         </div>
                         <div class="autofreshtext roll-nav">
-                            <font id="refresh" style="float:right;color:blue">已关闭自动刷新</font><br />
+                            <font id="refresh" style="float:right;color:#828282;">已关闭自动刷新</font><br />
                         </div>
                     </div>
                     <div class="content-iframe" style="background-color: #f9f9f9; overflow: hidden;">
@@ -195,19 +195,20 @@
     <script src="~/Content/js/loading/pace.min.js"></script>
 
     <script type="text/javascript">
-        spop({
-	        template: '寻找2018年度新疆葡萄种植基地A赛区网络评选大赛吐鲁番市火心葡萄种植基地￥5.00（支付中）',
-	        group: 'submit-satus',
-	        style: 'success',
-	        autoclose: 2000
+        $(document).ready(function () {
+            spop({
+                template: '寻找2018年度新疆葡萄种植基地A赛区网络评选大赛吐鲁番市火心葡萄种植基地￥5.00（支付中）',
+                group: 'submit-satus',
+                style: 'success',
+                autoclose: 2000
+            });
         });
         var t = 5;
-        function refresh()
-        {
+        function refresh() {
             t = t - 1;
             if (t == 0) {
                 $('.tabReload').click();
-		        t = 6;
+                t = 6;
             }
             else
                 document.getElementById("refresh").innerHTML = "离下次刷新时间还有 " + t + " 秒";
@@ -216,20 +217,22 @@
         function toogle(th) {
             var ele = $(th).children(".move");
             if (ele.attr("data-state") == "on") {
-                ele.animate({ left: "0" }, 300, function () {
+                ele.animate({ left: "0" }, 200, function () {
                     ele.attr("data-state", "off");
                     //alert("关！");
                 });
                 clearInterval(timer);
                 document.getElementById("refresh").innerHTML = "已关闭自动刷新";
+                $("#refresh").css("color", "#828282");
                 $(th).removeClass("on").addClass("off");
             } else if (ele.attr("data-state") == "off") {
-                ele.animate({ left: '30px' }, 300, function () {
+                ele.animate({ left: '30px' }, 200, function () {
                     $(this).attr("data-state", "on");
                     timer = window.setInterval(refresh, 1000);
                     t = 5;
                     //alert("开！");
                 });
+                $("#refresh").css("color", "#0078D7");
                 $(th).removeClass("off").addClass("on");
             }
         }

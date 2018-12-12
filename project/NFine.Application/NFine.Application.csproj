@@ -49,6 +49,7 @@
     <Compile Include="BusinessManage\GiftApp.cs" />
     <Compile Include="BusinessManage\GiftListApp.cs" />
     <Compile Include="BusinessManage\PictureApp.cs" />
+    <Compile Include="BusinessManage\ViewAllCandidateApp.cs" />
     <Compile Include="BusinessManage\VoteApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessManage\EventApp.cs" />

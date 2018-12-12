@@ -2,6 +2,8 @@
 using NFine.Code;
 using NFine.Domain.Entity;
 using NFine.Application.BusinessManage;
+using NFine.Domain.Entity.BusinessManage;
+using System;
 
 namespace NFine.Web.Areas.MicroEvent.Controllers
 {
@@ -12,6 +14,21 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
 
         private CandidateApp candidateApp = new CandidateApp();
 
+        public ActionResult GenLink()
+        {
+            return View();
+        }
+        public ActionResult DataRecords()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetAll()
+        {
+            var data = candidateApp.GetList();
+            return Content(data.ToJson());
+        }
         [HttpGet]
         [HandlerAjaxOnly]
         public ActionResult GetGridJson(Pagination pagination, string queryJson)
@@ -71,7 +88,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         {
             CandidateEntity candidateEntity = new CandidateEntity();
             candidateEntity.F_Id = keyValue;
-            candidateEntity.IsTodayStar = true;
+            candidateEntity.F_AuditIsOK = true;
             candidateApp.UpdateForm(candidateEntity);
             return Success("选手审核通过。");
         }
@@ -98,6 +115,52 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             candidateEntity.IsTodayStar = false;
             candidateApp.UpdateForm(candidateEntity);
             return Success("已去除今日之星。");
+        }
+
+        [HttpPost]
+        // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
+        public ActionResult Vote(string keyValue, int? votenumber)
+        {
+            CandidateEntity candidateEntity = candidateApp.GetForm(keyValue);
+            if(votenumber.IsEmpty())
+                candidateEntity.F_VoteNumber += 1;
+            else
+                candidateEntity.F_VoteNumber += votenumber;
+            candidateApp.UpdateForm(candidateEntity);
+
+            VoteEntity voteentity = new VoteEntity();
+            VoteApp voteapp = new VoteApp();
+            voteentity.F_Id = Common.GuId();
+            voteentity.F_CandidateID = keyValue;
+            voteentity.F_VoteType = "1";   //后台投票
+            voteentity.F_VoteNumber = votenumber;
+            voteentity.F_IP = Net.Ip;
+            voteentity.F_CreatorTime = DateTime.Now;
+            voteentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
+            voteapp.SubmitForm(voteentity, null);
+
+            return Success("投票成功");
+        }
+
+        [HttpPost]
+        // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
+        public ActionResult AddViewNumber(string keyValue, int? viewnumber)
+        {
+            CandidateEntity candidateEntity = candidateApp.GetForm(keyValue);
+            if (viewnumber.IsEmpty())
+                candidateEntity.F_ViewNumber += 1;
+            else
+                candidateEntity.F_ViewNumber += viewnumber;
+            candidateApp.UpdateForm(candidateEntity);
+            return Success("加浏览量成功");
+        }
+
+        [HttpPost]
+        // /MicroEvent/Candidate/GetRankingList?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
+        public ActionResult GetRankingList(string eventId)
+        {
+            var data = candidateApp.GetRankingList(eventId);
+            return Content(data.ToJson());
         }
     }
 }

@@ -18,9 +18,9 @@
         <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
             <div class="step-pane active" id="step-1" style="margin: 10px; margin-bottom: 0px;">
                 @*<div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
-                        <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
-                        请填写角色信息，用于创建或修改角色信息！
-                    </div>*@
+                <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                请填写角色信息，用于创建或修改角色信息！
+            </div>*@
                 <div class="panel panel-default panelheight">
                     <div class="panel-heading">
                         <h3 class="panel-title">活动设置：</h3>
@@ -28,11 +28,11 @@
                     <div class="panel-body" style="width: 98%;">
                         <table class="form">
                             @*<tr style="display: none;">
-                                    <th class="formTitle">活动ID</th>
-                                    <td class="formValue">
-                                        <select id="F_Id" name="F_Id" class="form-control required"></select>
-                                    </td>
-                                </tr>*@
+                            <th class="formTitle">活动ID</th>
+                            <td class="formValue">
+                                <select id="F_Id" name="F_Id" class="form-control required"></select>
+                            </td>
+                        </tr>*@
                             <tr>
                                 <th class="formTitle">活动标题：</th>
                                 <td class="formValue" colspan="3">
@@ -44,7 +44,7 @@
                                 <td class="formValue">
                                     <input id="F_ApplyStartTime" name="F_ApplyStartTime" type="text" class="form-control input-wdatepicker required" onfocus="WdatePicker()" />
                                 </td>
-                                <th class="formGap"> 到 </th>
+                                <td class="formGap"> 到 </td>
                                 <td class="formValue">
                                     <input id="F_ApplyEndTime" name="F_ApplyEndTime" type="text" class="form-control input-wdatepicker required" onfocus="WdatePicker()" />
                                 </td>
@@ -372,7 +372,7 @@
                                 <th class="formGap">个 <span style="color: red;">（设置排行榜显示选手最大数量。）</span></th>
                             </tr>
                             <tr>
-                                <th class="formTitle">礼物详情：</th>
+                                <th class="formTitle">是否显示礼物详情：</th>
                                 <td class="formValue">
                                     <select id="F_PageIsShowGiftDetail" name="F_PageIsShowGiftDetail" class="form-control required">
                                         <option value="true">是</option>
@@ -383,7 +383,7 @@
                             </tr>
                             <tr>
                                 <th class="formTitle">未关注引导提示：</th>
-                                <td class="formValue" colspan="1">
+                                <td class="formValue" colspan="3">
                                     <input id="F_PageNerverFollowNotice" name="F_PageNerverFollowNotice" type="text" class="form-control" placeholder="未关注用户提示关注时的提示语" />
                                 </td>
                                 <th class="formGap"><span style="color: red;">（未关注用户提示关注时的提示语。）</span></th>
@@ -431,11 +431,11 @@
                                 </th>
                                 <th class="formGap">至少购买</th>
                                 <td class="formValue">
-                                    <input id="F_PageBorderEffectsNum" name="F_PageBorderEffectsNum" type="text" class="form-control" placeholder="" />
+                                    <input id="F_PageBorderEffectsNum" name="F_PageBorderEffectsNum" type="text" class="form-control" placeholder="0" />
                                 </td>
                                 <th class="formGap">元的礼物，可加特效</th>
                                 <td class="formValue">
-                                    <input id="F_PageBorderEffectsDuration" name="F_PageBorderEffectsDuration" type="text" class="form-control" placeholder="" />
+                                    <input id="F_PageBorderEffectsDuration" name="F_PageBorderEffectsDuration" type="text" class="form-control" placeholder="0" />
                                 </td>
                                 <th class="formGap">小时</th>
                             </tr>
@@ -527,36 +527,36 @@
                         <table class="form">
                             <tr>
                                 <th class="formTitle">实时弹出送礼物记录：</th>
-                                <td class="formValue" colspan="2">
+                                <td class="formValue" colspan="1">
                                     <select id="F_GiftIsShowList" name="F_GiftIsShowList" class="form-control required">
                                         <option value="true">是</option>
                                         <option value="false" selected>否</option>
                                     </select>
                                 </td>
-                                <th class="formGap"><span style="color: red;">（活动页面是否实时弹出送礼物记录。）</span></th>
+                                <td class="formValue" colspan="3"><span style="color: red;">（活动页面是否实时弹出送礼物记录。）</span></td>
                             </tr>
                             <tr>
                                 <th class="formTitle" style="padding-top: 5px;">
                                     比例单位：
                                 </th>
-                                @*<th class="formGap">每一元礼物价值，等于</th>*@
-                                <td class="formValue">
-                                    <input id="F_GiftPerOne" name="F_GiftPerOne" type="text" class="form-control" placeholder="每一元礼物价值，等于（礼物比例）" />
+                                <td class="formValue" colspan="1">每一元礼物价值，等于</td>
+                                <td class="formValue" colspan="1">
+                                    <input id="F_GiftPerOne" name="F_GiftPerOne" type="text" class="form-control" placeholder="（礼物比例，如填：1）" />
                                 </td>
-                                @*<th class="formGap">（礼物比例）</th>*@
-                                <td class="formValue">
-                                    <input id="F_GiftUnit" name="F_GiftUnit" type="text" class="form-control" placeholder="（礼物单位）礼物" />
+                                <td class="formValue" colspan="1">
+                                    <input id="F_GiftUnit" name="F_GiftUnit" type="text" class="form-control" placeholder="（礼物单位，如填：点）" />
                                 </td>
+                                <td class="formValue" colspan="1">礼物</td>
                             </tr>
                             @*<tr>
-                                    <th class="formValue"><span style="color: red;margin-left:100px;">（如：每1元礼物等价于1点礼物。分别填写“1”和“点”。）</span></th>
-                                </tr>*@
+                            <th class="formValue"><span style="color: red;margin-left:100px;">（如：每1元礼物等价于1点礼物。分别填写“1”和“点”。）</span></th>
+                        </tr>*@
                             <tr>
                                 <th class="formTitle">礼物设置：</th>
-                                <td class="formValue" colspan="2">
+                                <td class="formValue" colspan="3">
                                     <input id="F_GiftID" name="F_GiftID" type="text" class="form-control" placeholder="1" />
                                 </td>
-                                <th class="formGap"><a id="NF-Add" authorize="yes" class="btn btn-primary dropdown-text" onclick=""><i class="fa fa-plus"></i>添加礼物</a></th>
+                                <td class="formGap" colspan="1"><a id="NF-Add" authorize="yes" class="btn btn-primary dropdown-text" onclick=""><i class="fa fa-plus"></i>添加礼物</a></td>
                             </tr>
                         </table>
                     </div>
@@ -581,7 +581,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>  
             <div class="form-button2" id="wizard-actions">
                 <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
                 <a id="btn_next" class="btn btn-default btn-next">下一步</a>

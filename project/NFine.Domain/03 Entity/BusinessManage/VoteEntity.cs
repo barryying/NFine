@@ -5,6 +5,8 @@ namespace NFine.Domain.Entity.BusinessManage
     public class VoteEntity : IEntity<VoteEntity>, ICreationAudited, IDeleteAudited, IModificationAudited
     {
         public string F_Id { get; set; }
+        public string F_VoteType { get; set; }    // 1 代表后台投票   2代表微信投票
+        public int? F_VoteNumber { get; set; }
         public string F_ParentId { get; set; }
         public string F_CandidateID { get; set; }
         public string F_WX_Nick { get; set; }

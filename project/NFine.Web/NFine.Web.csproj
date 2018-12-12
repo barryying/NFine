@@ -127,6 +127,8 @@
     <Compile Include="Areas\MicroEvent\Controllers\DatastatisticController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\DiamondVoteController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\OrderListController.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\ViewAllCandidateController.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\VoteController.cs" />
     <Compile Include="Areas\MicroEvent\MicroEventAreaRegistration.cs" />
     <Compile Include="Areas\ReportManage\Controllers\EchartsController.cs" />
     <Compile Include="Areas\ReportManage\Controllers\HighchartsController.cs" />
@@ -651,6 +653,8 @@
     <Content Include="Areas\MicroEvent\Views\AddEvent\Details.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\Form.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Candidate\GenLink.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Candidate\DataRecords.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

@@ -1,6 +1,8 @@
-﻿using NFine.Domain.Entity.BusinessManage;
+﻿using NFine.Code;
+using NFine.Domain.Entity.BusinessManage;
 using NFine.Domain.IRepository.BusinessManage;
 using NFine.Repository.BusinessManage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,37 +12,43 @@ namespace NFine.Application.BusinessManage
     {
         private IGiftListRepository service = new GiftListRepository();
 
+        public List<GiftListEntity> GetList(Pagination pagination, string queryJson)
+        {
+            var expression = ExtLinq.True<GiftListEntity>();
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                string keyword = queryParam["keyword"].ToString();
+                expression = expression.And(t => t.F_PaymentStatus.Contains(keyword));
+            }
+            if (!queryParam["timeType"].IsEmpty())
+            {
+                string timeType = queryParam["timeType"].ToString();
+                DateTime startTime = DateTime.Now.ToString("yyyy-MM-dd").ToDate();
+                DateTime endTime = DateTime.Now.ToString("yyyy-MM-dd").ToDate().AddDays(1);
+                switch (timeType)
+                {
+                    case "1":
+                        break;
+                    case "2":
+                        startTime = DateTime.Now.AddDays(-7);
+                        break;
+                    case "3":
+                        startTime = DateTime.Now.AddMonths(-1);
+                        break;
+                    case "4":
+                        startTime = DateTime.Now.AddMonths(-3);
+                        break;
+                    default:
+                        break;
+                }
+                expression = expression.And(t => t.F_CreatorTime >= startTime && t.F_CreatorTime <= endTime);
+            }
+            return service.FindList(expression, pagination);
+        }
         public List<GiftListEntity> GetList()
         {
             return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
-        }
-        public GiftListEntity GetForm(string keyValue)
-        {
-            return service.FindEntity(keyValue);
-        }
-        public void DeleteForm(string keyValue)
-        {
-            //if (service.IQueryable().Count(t => t.F_ParentId.Equals(keyValue)) > 0)
-            //{
-            //    throw new Exception("删除失败！操作的对象包含了下级数据。");
-            //}
-            //else
-            //{
-            service.Delete(t => t.F_Id == keyValue);
-            //}
-        }
-        public void SubmitForm(GiftListEntity giftListEntity, string keyValue)
-        {
-            if (!string.IsNullOrEmpty(keyValue))
-            {
-                giftListEntity.Modify(keyValue);
-                service.Update(giftListEntity);
-            }
-            else
-            {
-                giftListEntity.Create();
-                service.Insert(giftListEntity);
-            }
         }
     }
 }

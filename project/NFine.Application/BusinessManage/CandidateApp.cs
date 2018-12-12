@@ -1,9 +1,13 @@
 ﻿using NFine.Code;
 using NFine.Domain.Entity;
+using NFine.Domain.Entity.BusinessManage;
 using NFine.Domain.IRepository.BusinessManage;
+using NFine.Domain.ViewModel;
 using NFine.Repository.BusinessManage;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +59,7 @@ namespace NFine.Application.BusinessManage
         {
             return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
         }
+        
         public CandidateEntity GetForm(string keyValue)
         {
             return service.FindEntity(keyValue);
@@ -96,6 +101,14 @@ namespace NFine.Application.BusinessManage
                 candidateEntity.Create();
                 service.Insert(candidateEntity);
             }
+        }
+        public List<CandidateEntity> GetRankingList(string eventId)
+        {
+            IEventRepository eventservice = new EventRepository();
+            string sql1 = "SELECT F_PageRankingListMaxnumber,* from Sys_Event where F_ID='" + eventId + "'";
+            List<EventEntity> evententity = eventservice.FindList(sql1);            
+            string sql2 = "select top " + evententity[0].F_PageRankingListMaxnumber.ToString() + " F_ID,F_Name,F_VoteNumber,F_PictureIDs from Sys_Candidate where F_AuditIsOK=1  and F_EventID='" + eventId + "' order by F_VoteNumber DESC";
+            return service.FindList(sql2);
         }
     }
 }
