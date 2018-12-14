@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NFine.Domain.ViewModel
 {
-    public class ViewAllCandidate : IEntity<ViewAllCandidate>, ICreationAudited, IDeleteAudited, IModificationAudited
+    public class ViewAllCandidate
     {
-        public string F_Id { get; set; }
+        public string CandidateID { get; set; }
         public string F_EventID { get; set; }
         public string F_EnCode { get; set; }
         public string CandidateName { get; set; }
@@ -95,5 +95,8 @@ namespace NFine.Domain.ViewModel
         public string F_GiftID { get; set; }
         public bool? F_Status { get; set; }
         public int? EventViewNumber { get; set; }
+        public int? EventViewTotalNumber { get; set; }
+        public int? CandidateTotalNumber { get; set; }
+        public int? VoteTotalNumber { get; set; }
     }
 }

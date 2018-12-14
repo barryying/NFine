@@ -143,6 +143,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
         public ActionResult AddViewNumber(string keyValue, int? viewnumber)
         {
@@ -156,10 +157,11 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         }
 
         [HttpGet]
-        // /MicroEvent/Candidate/GetRankingList?kevalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
-        public ActionResult GetRankingList(string kevalue)
+        [AllowAnonymous]
+        // /MicroEvent/Candidate/GetRankingList?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
+        public ActionResult GetRankingList(string keyvalue)
         {
-            var data = candidateApp.GetRankingList(kevalue);
+            var data = candidateApp.GetRankingList(keyvalue);
             return Content(data.ToJson());
         }
     }

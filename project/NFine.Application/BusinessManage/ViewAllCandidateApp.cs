@@ -19,5 +19,10 @@ namespace NFine.Application.BusinessManage
             string sql = "SELECT * FROM F_ViewAllCandidate where F_EventId = '" + eventId + "'";
             return service.FindList(sql);
         }
+        public List<ViewAllCandidate> GetMain(string eventId)
+        {//COUNT(*) as CandidateTotalNumber,SUM(F_VoteNumber) as VoteTotalNumber,
+            string sql = "SELECT EventViewTotalNumber, F_VoteStartTime, F_VoteEndTime, CandidateTotalNumber, VoteTotalNumber FROM (SELECT EventViewNumber as EventViewTotalNumber, F_VoteStartTime, F_VoteEndTime, COUNT(*) as CandidateTotalNumber, SUM(F_VoteNumber) as VoteTotalNumber FROM F_ViewAllCandidate where F_EventID = '" + eventId + "'group by EventViewNumber, F_VoteStartTime, F_VoteEndTime) as A";
+            return service.FindList(sql);
+        }
     }
 }

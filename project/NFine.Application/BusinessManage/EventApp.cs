@@ -122,10 +122,10 @@ namespace NFine.Application.BusinessManage
         public string GetEventPrize(string eventId)
         {
             IEventRepository eventservice = new EventRepository();
-            string sql = "SELECT F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
+            string sql = "SELECT F_VoteRules,F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
             List<EventEntity> evententity = eventservice.FindList(sql);
             if (!evententity.IsEmpty())
-                return evententity[0].F_VotePrizeIntroDuction.ToString();
+                return evententity[0].F_VotePrizeIntroDuction.ToString() + evententity[0].F_VoteRules.ToString();
             else
                 return "";
         }

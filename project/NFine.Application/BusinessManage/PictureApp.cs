@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NFine.Application.BusinessManage
 {
-    class PictureApp
+    public class PictureApp
     {
         private IPictureRepository service = new PictureRepository();
 

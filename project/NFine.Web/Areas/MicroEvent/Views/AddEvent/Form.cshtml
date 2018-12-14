@@ -593,10 +593,9 @@
 <script>
     var keyValue = $.request("keyValue");
     var isClone = $.request("isClone");
-    debugger;
     $(function () {
         Simditor.locale = 'zh-CN';//设置中文
-        var editor = new Simditor({
+        var editorrules = new Simditor({
             textarea: $('#F_VoteRules'),  //textarea的id
             placeholder: '这里输入文字...',
             toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'], //工具条都包含哪些内容
@@ -610,14 +609,14 @@
                 leaveConfirm: '正在上传文件'
             }
         });
-        var editor = new Simditor({
+        var editorprize = new Simditor({
             textarea: $('#F_VotePrizeIntroDuction'),  //textarea的id
             placeholder: '这里输入文字...',
             toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'], //工具条都包含哪些内容
             pasteImage: true,//允许粘贴图片
             defaultImage: '~/Content/js/webuploader/images/image.png',//编辑器插入的默认图片，此处可以删除
             upload: {
-                url: 'richtext_img_upload.do', //文件上传的接口地址
+                url: '/MicroEvent/AddEvent/UploadImage', //文件上传的接口地址
                 params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
                 fileKey: 'upload_file', //服务器端获取文件数据的参数名
                 connectionCount: 3,
@@ -627,7 +626,8 @@
 
         $("#F_VoteCarouselIDs").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: "#", //上传的地址
+            uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "1","pictureLink": $("#F_Link").val() },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
@@ -647,17 +647,23 @@
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
-        });
-        $("#F_VoteCarouselIDs").on("fileuploaded", function (event, data, previewId, index) {
+        }).on('filepreupload', function(event, data, previewId, index) {     //上传中
+            if ($("#F_Link").val() == "")
+            {
+                $.modalMsg("请先填写好轮播图跳转链接再上传！");
+                $('#F_VoteCarouselIDs').fileinput('cancel');
+                return false;
+            }
+        }).on("fileuploaded", function (event, data, previewId, index) {
             $.modalMsg("上传成功！");
-        });
-        $("#F_VoteCarouselIDs").on("fileerror", function (event, data, previewId, index) {
+        }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
         });
 
         $("#F_VoteSuccPictureID").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: "#", //上传的地址
+            uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
+            uploadExtraData: { "keyValue": keyValue },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
@@ -670,7 +676,7 @@
             //maxImageHeight: 1000,//图片的最大高度
             //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
             //minFileCount: 0,
-            maxFileCount: 5, //表示允许同时上传的最大文件个数
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
@@ -678,6 +684,10 @@
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
+        }).on("fileuploaded", function (event, data, previewId, index) {
+            $.modalMsg("上传成功！");
+        }).on("fileuploaderror", function (event, data, previewId, index) {
+            $.modalMsg("上传失败！");
         });
 
         $("#F_PageBackgroundSong").fileinput({
@@ -739,6 +749,15 @@
                 async: false,
                 success: function (data) {
                     $("#form1").formSerialize(data);
+                    editorrules.setValue(data["F_VoteRules"]);
+                    //$("#F_VoteRules").html(data["F_VoteRules"]);
+                    //$(editorrules)[0].body[0].innerHTML = data["F_VoteRules"];
+                    //$(editorrules)[0].placeholderEl[0].style.cssText = "display: none;";
+
+                    editorprize.setValue(data["F_VotePrizeIntroDuction"]);
+                    //$("#F_VotePrizeIntroDuction").html(data["F_VotePrizeIntroDuction"]);
+                    //$(editorprize)[0].body[0].innerHTML = data["F_VotePrizeIntroDuction"];
+                    //$(editorprize)[0].placeholderEl[0].style.cssText = "display: none;";
                 }
             });
         }

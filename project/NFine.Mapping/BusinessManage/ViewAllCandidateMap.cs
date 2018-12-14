@@ -13,7 +13,7 @@ namespace NFine.Mapping.BusinessManage
         public ViewAllCandidateMap()
         {
             this.ToTable("F_ViewAllCandidate");
-            this.HasKey(t => t.F_Id);
+            this.HasKey(t => t.CandidateID);
         }
     }
 }

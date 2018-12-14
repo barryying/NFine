@@ -13,9 +13,18 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         private ViewAllCandidateApp viewallcandidateapp = new ViewAllCandidateApp();
 
         [HttpGet]
-        public ActionResult GetAll(string eventId)
+        [AllowAnonymous]
+        public ActionResult GetAll(string keyValue)
         {
-            var data = viewallcandidateapp.GetList(eventId);
+            var data = viewallcandidateapp.GetList(keyValue);
+            return Content(data.ToJson());
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult GetMain(string keyValue)
+        {
+            var data = viewallcandidateapp.GetMain(keyValue);
             return Content(data.ToJson());
         }
     }

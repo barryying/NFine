@@ -12,6 +12,11 @@ namespace NFine.Web
         }
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
+            bool flag = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true);
+            if (flag)
+            {
+                return;
+            }
             if (Ignore == false)
             {
                 return;
