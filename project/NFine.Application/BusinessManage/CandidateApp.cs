@@ -104,14 +104,23 @@ namespace NFine.Application.BusinessManage
         }
         public List<CandidateEntity> GetRankingList(string eventId)
         {
-            IEventRepository eventservice = new EventRepository();
-            string sql1 = "SELECT F_PageRankingListMaxnumber,* from Sys_Event where F_ID='" + eventId + "'";
-            List<EventEntity> evententity = eventservice.FindList(sql1);
-            if (!evententity.IsEmpty())
+            if (eventId != "")
             {
-
-                string sql2 = "select top " + evententity[0].F_PageRankingListMaxnumber.ToString() + " * from Sys_Candidate where F_AuditIsOK=1  and F_EventID='" + eventId + "' order by F_VoteNumber DESC";
-                return service.FindList(sql2);
+                IEventRepository eventservice = new EventRepository();
+                string sql1 = "SELECT F_PageRankingListMaxnumber,* from Sys_Event where F_ID='" + eventId + "'";
+                List<EventEntity> evententity = eventservice.FindList(sql1);
+                if (!evententity.IsEmpty())
+                {
+                    if(evententity[0].F_PageRankingListMaxnumber != null)
+                    {
+                        string sql2 = "select top " + evententity[0].F_PageRankingListMaxnumber.ToString() + " * from Sys_Candidate where F_AuditIsOK=1  and F_EventID='" + eventId + "' order by F_VoteNumber DESC";
+                        return service.FindList(sql2);
+                    }
+                    else
+                        return null;
+                }
+                else
+                    return null;
             }
             else
                 return null;

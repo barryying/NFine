@@ -116,6 +116,8 @@ namespace NFine.Application.BusinessManage
         {
             var data = this.GetList();
             eventEntity.F_Id = Common.GuId();
+            eventEntity.F_CreatorTime = DateTime.Now;
+            eventEntity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
             service.SubmitCloneButton(eventEntity);
         }
 
@@ -124,8 +126,23 @@ namespace NFine.Application.BusinessManage
             IEventRepository eventservice = new EventRepository();
             string sql = "SELECT F_VoteRules,F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
             List<EventEntity> evententity = eventservice.FindList(sql);
+
+            string result = "";
             if (!evententity.IsEmpty())
-                return evententity[0].F_VotePrizeIntroDuction.ToString() + evententity[0].F_VoteRules.ToString();
+            {
+                if (evententity[0].F_VotePrizeIntroDuction != null)
+                {
+                    result += evententity[0].F_VotePrizeIntroDuction.ToString();
+                    return result;
+                }
+                else if (evententity[0].F_VoteRules != null)
+                {
+                    result += evententity[0].F_VoteRules.ToString();
+                    return result;
+                }
+                else
+                    return "";
+            }
             else
                 return "";
         }

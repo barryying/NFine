@@ -96,7 +96,8 @@
 
         $("#F_PictureIDs").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: "#", //上传的地址
+            uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "2", "pictureLink": "" },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮

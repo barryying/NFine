@@ -624,6 +624,55 @@
             }
         });
 
+        var preListCarousel = new Array();
+        var preConfigListCarousel = new Array();
+        $.ajax({
+            url: "/MicroEvent/AddEvent/GetImageUrl",
+            data: { keyValue: keyValue, "uploadType": "1" },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                var html = "";
+                $.each(data, function (i, n) {
+                    html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
+                    preListCarousel.push(html);
+
+                    var tjson = {
+                        caption: n.split("/")[4], // 展示的文件名
+                        //width: '210px',
+                        url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
+                        key: i, // 删除是Ajax向后台传递的参数
+                        extra: { }
+                    };
+                    preConfigListCarousel.push(tjson);
+                })
+            }
+        });
+        var preListAdver = new Array();
+        var preConfigListAdver = new Array();
+        $.ajax({
+            url: "/MicroEvent/AddEvent/GetImageUrl",
+            data: { keyValue: keyValue, "uploadType": "2" },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                var html = "";
+                $.each(data, function (i, n) {
+                    html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
+                    preListAdver.push(html);
+
+                    var tjson = {
+                        caption: n.split("/")[4], // 展示的文件名
+                        //width: '210px',
+                        url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
+                        key: i, // 删除是Ajax向后台传递的参数
+                        extra: {}
+                    };
+                    preConfigListAdver.push(tjson);
+                })
+            }
+        });
+
         $("#F_VoteCarouselIDs").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
@@ -644,6 +693,11 @@
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            initialPreview: preListCarousel,
+            initialPreviewConfig: preConfigListCarousel,
+            initialPreviewAsData: true,
+            overwriteInitial: true,
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
@@ -663,7 +717,7 @@
         $("#F_VoteSuccPictureID").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
-            uploadExtraData: { "keyValue": keyValue },//这个是外带数据
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "2", "pictureLink": "" },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
@@ -681,6 +735,10 @@
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
             msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            initialPreview: preListAdver,
+            initialPreviewConfig: preConfigListAdver,
+            initialPreviewAsData: true,
+            overwriteInitial: true,
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
@@ -692,12 +750,13 @@
 
         $("#F_PageBackgroundSong").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: "#", //上传的地址
-            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+            uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "1", "pictureLink": "" },//这个是外带数据
+            allowedFileExtensions: ['mp3', 'wav'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
             showCaption: false,//是否显示标题
-            //browseClass: "btn btn-primary", //按钮样式     
+            //browseClass: "btn btn-primary", //按钮样式
             //dropZoneEnabled: false,//是否显示拖拽区域
             //minImageWidth: 50, //图片的最小宽度
             //minImageHeight: 50,//图片的最小高度
@@ -716,7 +775,8 @@
         });
         $("#F_PageBorderEffectsPictureID").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: "#", //上传的地址
+            uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "", "pictureLink": "" },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
@@ -737,6 +797,10 @@
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
+        }).on("fileuploaded", function (event, data, previewId, index) {
+            $.modalMsg("上传成功！");
+        }).on("fileuploaderror", function (event, data, previewId, index) {
+            $.modalMsg("上传失败！");
         });
 
         initControl();

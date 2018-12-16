@@ -176,6 +176,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                 if (Request.Files.Count > 0)
                 {
                     HttpFileCollectionBase Files = Request.Files;//该集合是所有fileupload文件的集合。
+                    List<string> listpictureids = new List<string>();
                     for (int i = 0; i < Files.Count; i++)
                     {
                         HttpPostedFileBase PostedFile = Files[i];
@@ -183,11 +184,11 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                         {
                             string FileName = PostedFile.FileName;//文件名自行处理
                             //大图文件夹
-                            string Dir = "Resource\\Image\\" + MappingDirName(uploadType) + "\\";
+                            string Dir = "Resource\\Image\\" + MappingDirName(uploadType) + "\\" + keyvalue + "\\";
                             if (!FileHelper.IsExistDirectory(Dir))
                                 FileHelper.CreateDir(Dir);
                             //小图文件夹
-                            string DirSmall = "Resource\\ImageSmall\\" + MappingDirName(uploadType) + "\\";
+                            string DirSmall = "Resource\\ImageSmall\\" + MappingDirName(uploadType) + "\\" + keyvalue + "\\";
                             if (!FileHelper.IsExistDirectory(DirSmall))
                                 FileHelper.CreateDir(DirSmall);
 
@@ -260,10 +261,16 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                             }
                             #endregion
 
-                            //写入数据库
+                            //写入Sys_Picture数据库
                             PictureEntity pictureentity = new PictureEntity();
                             pictureentity.F_Id = Common.GuId();
                             pictureentity.F_Type = uploadType;
+                            if(uploadType == "1" || uploadType == "2" || uploadType == "3")
+                                pictureentity.F_EventId = keyvalue;
+                            else if (uploadType == "4")
+                                pictureentity.F_CandidateId = keyvalue;
+                            else if (uploadType == "5")
+                                pictureentity.F_GiftID = keyvalue;
                             pictureentity.F_Link = pictureLink;
                             pictureentity.F_VirtualPath = Dir + FileName;
                             pictureentity.F_UploadDate = DateTime.Now;
@@ -271,10 +278,21 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                             pictureentity.F_CreatorTime = DateTime.Now;
                             pictureentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
 
-                            //pictureapp.SubmitForm(pictureentity, null);
-                        }
+                            pictureapp.SubmitForm(pictureentity, null);
 
+                            listpictureids.Add(pictureentity.F_Id);
+                        }
                     }
+                    //写入Sys_Event数据库
+                    //string ids = "";
+                    //foreach(var id in listpictureids)
+                    //{
+                    //    ids += id + ",";
+                    //}
+                    //ids = ids.Substring(0, ids.Length - 1);
+                    //EventEntity evententity = eventApp.GetForm(keyvalue);
+                    //evententity.F_VoteCarouselIDs = ids;
+                    //eventApp.SubmitForm(evententity, keyvalue,"0");
                 }
             }
             catch (Exception ex)
@@ -282,6 +300,28 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                 result = "failed：" + ex.Message;
             }
             return Json(result);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteImage(string key)
+        {
+            try
+            {
+                PictureEntity pictureentity = pictureapp.GetForm(key);
+                if(key != "")
+                {
+                    //pictureapp.DeleteForm(keyvalue);
+                }
+                string savePath = Server.MapPath("/") + pictureentity.F_VirtualPath;
+                string savePathSmall = Server.MapPath("/") + pictureentity.F_VirtualPath;
+                //FileHelper.DeleteFile(savePath);
+                //FileHelper.DeleteFile(savePathSmall);
+                return Json("success");
+            }
+            catch(Exception ex)
+            {
+                return Json(ex.Message);
+            }
         }
 
         private string MappingDirName(string uploadType)
@@ -310,6 +350,23 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                     break;
             }
             return DirName;
+        }
+        
+        [HttpGet]
+        [AllowAnonymous]
+        // /MicroEvent/AddEvent/GetImageList?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28&uploadType=1
+        public ActionResult GetImageList(string keyvalue, string uploadType)
+        {
+            var data = pictureapp.GetImageList(keyvalue,uploadType);
+            return Content(data.ToJson());
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        // /MicroEvent/AddEvent/GetImageUrl?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28&uploadType=1
+        public ActionResult GetImageUrl(string keyvalue, string uploadType)
+        {
+            var data = pictureapp.GetImageUrl(keyvalue,uploadType);
+            return Content(data.ToJson());
         }
     }
 }

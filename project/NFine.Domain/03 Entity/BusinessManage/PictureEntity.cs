@@ -6,6 +6,9 @@ namespace NFine.Domain.Entity.BusinessManage
     {
         public string F_Id { get; set; }
         public string F_ParentId { get; set; }
+        public string F_EventId { get; set; }
+        public string F_CandidateId { get; set; }
+        public string F_GiftID { get; set; }
         public string F_Type { get; set; }
         public string F_Link { get; set; }
         public string F_VirtualPath { get; set; }

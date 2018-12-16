@@ -1,0 +1,200 @@
+Sys_Event  活动列表
+	F_ID               活动ID 主键
+	F_ParentId         父级
+	F_EnCode           活动编码
+	F_Name             活动标题
+	F_ApplyStartTime   报名开始时间
+	F_ApplyEndTime     报名结束时间
+	F_VoteStartTime    投票开始时间
+	F_VoteEndTime      投票结束时间
+	F_VoteEndDuration  投票时间结束后还可以送礼物并加票
+	F_Mode             模式 礼物/普通投票  默认为礼物模式
+	F_RankingListIsShow       排行榜是否显示礼物点数  默认为不显示
+	F_CandidateListIsShow     选手页是否显示礼物点数  默认为不显示
+	F_EndIsShow        活动结束后是否显示页面
+	F_Remark           备注
+	F_ApplyIsNeedFollow     是否需要关注  默认为不需要关注
+	F_ApplyAuditType   报名审核  人工审核/自动审核  默认为人工审核
+	F_ApplyMinNumber   报名最小人数
+	F_ApplyNumberPerAll    每人每日每户最多可投票数
+	F_ApplyNumberPerDayAndPerson  每人每日最多可投票数
+	F_ApplyNumberPerPerson  每人最多可投票数
+	F_ApplyVoteTimeDuration   给同一选手投票时间间隔
+	F_ApplyGiftMaxNumberPerPerson  每人最多送礼物
+	F_ApplyVoteIsRemindMsg    投票是否消息提醒  是/否 默认为否
+	F_ApplyVoteIsAnonymous    是否匿名送礼  是/否  默认为否
+	F_ApplyVoteIsToSelf       是否允许给自己投票  是/否  默认为是
+	F_ApplyVoteIsValidation   投票是否验证  是/否  默认为否
+	F_ApplyVoteValidID        验证码ID
+	F_ApplyVoteValidKey       验证码Key
+	F_ApplyAutoLockDuration    自动锁定每多少分钟
+	F_ApplyAutoLockVoteNum     自动锁定超过多少票
+	F_ApplyAutoLockTime        自动锁定多少分钟
+	F_ApplyRegionLimit         地区限制
+	F_ApplyRegionLimitAPIKey   腾讯地图API接口的Key
+	F_VoteCarouselIDs          轮播图ID
+	F_VoteSuccPictureID        投票成功弹出广告图片ID 外键
+	F_VoteSuccPictureIsToGift  点击弹出广告是否跳转到买礼物界面  默认为否
+	F_VoteRules                活动规则
+	F_VotePrizeIntroDuction    奖品介绍
+	F_PageShowSortType         首页显示顺序
+	F_PageVirtualViewnumber    虚拟浏览量
+	F_PageRankingListMaxnumber 排行榜最大数量  默认为100
+	F_PageIsShowGiftDetail     是否显示礼物详情
+	F_PageNerverFollowNotice   未关注用户引导提示语
+	F_PageRollNotice           滚动公告
+	F_PageBackgroundSong       首页背景音乐
+	F_PageColorCustom          自定义颜色
+	F_PageColorTheme           主题颜色
+	F_PageBorderEffectsNum     首页边框特效数量
+	F_PageBorderEffectsDuration     首页边框特效时长
+	F_PageBorderEffectsPictureID     首页边框特效图片
+	F_PageFloatingEffects      首页漂浮物特效
+	F_ApplyPictureMinNum       最少上传图片数
+	F_ApplyPicturemaxNum       最多上传图片数
+	F_ApplyName                报名字段 姓名
+	F_ApplyPhone               报名字段 手机号码
+	F_ApplyDeclaration         报名字段 参赛宣言
+	F_ApplyDetail              其他报名字段
+	F_ApplyNotice              请如实填写报名信息，提交信息为唯一获奖凭证
+	F_GiftIsShowList           活动页面是否实时弹出送礼物记录
+	F_GiftPerOne               礼物比例
+	F_GiftUnit                 礼物单位
+	F_GiftID                   礼物设置ID
+	F_Status                   活动状态 默认为开启
+	F_ViewNumber        浏览量
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户 外键
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户 外键
+
+Sys_Picture   图片表
+	F_ID                图片ID 主键
+	F_EventId           活动ID
+	F_CandidateId       选手ID
+	F_GiftID            礼物图片ID  外键
+	F_ParentId          父级
+	F_Type              图片类型
+	F_Link              图片链接
+	F_VirtualPath       图片存储路径
+	F_UploadDate        图片上传日期
+	F_SmallSize         图片小图尺寸
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户
+	
+Sys_Candidate   选手表
+	F_ID                选手ID 主键
+	F_ParentId          父级
+	F_EventID           活动ID 外键
+	F_EnCode            选手编码
+	F_Name              选手姓名
+	F_SimpleSpelling    选手姓名简拼
+	F_PictureIDs        选手图片ID
+	F_Phone             手机号码
+	F_VoteNumber        票数  默认为0
+	F_GiftNumber        礼物数  默认为0
+	F_ViewNumber        浏览量
+	F_VirtualHeat       虚拟热度  默认为0
+	F_Introduction      选手介绍
+	F_IsTodayStar      选手介绍
+	F_Remark           备注
+	F_AuditIsOK         审核是否通过  默认为是
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户
+
+Sys_Vote   投票表
+	F_ID                投票ID
+	F_VoteType          投票类型
+	F_VoteNumber        投票数量
+	F_ParentId          父级
+	F_CandidateID       选手ID 外键
+	F_WX_Nick           微信昵称
+	F_WX_id             微信ID
+	F_IP                投票IP
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户
+	
+Sys_Gift  礼物表
+	F_ID                礼物ID 主键
+	F_ParentId          父级
+	F_EventID           活动ID 外键
+	F_EnCode            礼物编码
+	F_Name              礼物名称
+	F_PictureID         礼物图片ID  外键
+	F_Price             礼物价格
+	F_VoteNumber        礼物对应票数
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户 外键
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户 外键
+	
+Sys_GiftList  礼物订单表
+	F_ID                礼物订单ID 主键
+	F_ParentId          父级
+	F_CandidateID       选手ID 外键
+	F_GiftID            礼物ID 外键
+	F_Money             金额
+	F_PaymentStatus     付款状态  付款中/已取消/已付款
+	F_IP                下单IP
+	F_OPENID            OPENID
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户 外键
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户 外键
+
+Sys_AutoTask   自动任务表
+	F_ID                自动投票ID 主键
+	F_ParentId          父级
+	F_EnCode            自动任务类型编码
+	F_Type              自动任务类型
+	F_CandidateIDs      选手ID列表
+	F_Frequency         频率
+	F_LessThenMoney     送小于多少元的礼物
+	F_StartTime         执行任务开始时间
+	F_EndTime           执行任务结束时间
+	F_Detail            说明
+	F_SortCode          排序码
+	F_EnabledMark        删除标志
+	F_EnableMark        有效标志
+	F_CreatorTime        创建日期
+	F_CreatorUserId     创建用户 外键
+	F_LastModifyTime    最后修改时间
+	F_LastModifyUserId  最后修改用户 外键
+	F_DeleteTime        删除时间
+	F_DeleteUserId      删除用户 外键
