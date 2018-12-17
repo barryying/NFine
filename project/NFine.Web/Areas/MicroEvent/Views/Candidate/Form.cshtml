@@ -20,7 +20,7 @@
             <tr>
                 <th class="formTitle">选手图片：</th>
                 <td class="formValue" colspan="3">
-                    <div class="container kv-main">
+                    <div class="container kv-main" style="padding-left: 0px;">
                         <div class="form-group">
                             <input id="F_PictureIDs" type="file" multiple class="file-loading" data-min-file-count="1">
                         </div>
@@ -76,10 +76,9 @@
 <script>
     var keyValue = $.request("keyValue");
     var eventID = $.request("eventId");
-    debugger;
     $(function () {
         Simditor.locale = 'zh-CN';//设置中文
-        var editor = new Simditor({
+        var editorintro = new Simditor({
             textarea: $('#F_Introduction'),  //textarea的id
             placeholder: '这里输入文字...',
             toolbar: ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'], //工具条都包含哪些内容
@@ -93,11 +92,36 @@
                 leaveConfirm: '正在上传文件'
             }
         });
+        
+        var preListCandidate = new Array();
+        var preConfigListCandidate = new Array();
+        $.ajax({
+            url: "/MicroEvent/AddEvent/GetImageUrl",
+            data: { keyValue: keyValue, "uploadType": "4" },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                var html = "";
+                $.each(data, function (i, n) {
+                    html = "<img src='" + n + "' class='file-preview-image' alt='CandidatePicture' title='CandidatePicture'>"
+                    preListCandidate.push(html);
+
+                    var tjson = {
+                        caption: n.split("/")[4], // 展示的文件名
+                        //width: '210px',
+                        url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
+                        key: i, // 删除是Ajax向后台传递的参数
+                        extra: {}
+                    };
+                    preConfigListCandidate.push(tjson);
+                })
+            }
+        });
 
         $("#F_PictureIDs").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
-            uploadExtraData: { "keyValue": keyValue, "uploadType": "2", "pictureLink": "" },//这个是外带数据
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "4", "pictureLink": "" },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
@@ -114,6 +138,11 @@
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            initialPreview: preListCandidate,
+            initialPreviewConfig: preConfigListCandidate,
+            initialPreviewAsData: true,
+            overwriteInitial: true,
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
@@ -125,8 +154,6 @@
             $.modalMsg("上传失败！");
         });
 
-        initControl();
-
         if (!!keyValue) {
             $.ajax({
                 url: "/MicroEvent/Candidate/GetFormJson",
@@ -135,66 +162,13 @@
                 async: false,
                 success: function (data) {
                     $("#form1").formSerialize(data);
+
+                    editorintro.setValue(data["F_Introduction"]);
                 }
             });
         }
     })
 
-    function initControl() {
-        //$("#F_OrganizeId").bindSelect({
-        //    url: "/MicroEvent/AddEvent/GetTreeSelectJson",
-        //});
-        $('#wizard').wizard().on('change', function (e, data) {
-            var $finish = $("#btn_finish");
-            var $next = $("#btn_next");
-            if (data.direction == "next") {
-                switch (data.step) {
-                    //case 0:
-                    //    if (!$('#form1').formValid()) {
-                    //        return false;
-                    //    }
-                    //    break;
-                    //case 1:
-                    //    if (!$('#form1').formValid()) {
-                    //        return false;
-                    //    }
-                    //    break;
-                    //case 2:
-                    //    if (!$('#form1').formValid()) {
-                    //        return false;
-                    //    }
-                    //    break;
-                    //case 3:
-                    //    if (!$('#form1').formValid()) {
-                    //        return false;
-                    //    }
-                    //    break;
-                    //case 4:
-                    //    if (!$('#form1').formValid()) {
-                    //        return false;
-                    //    }
-                    //    break;
-                    //case 5:
-                    //    if (!$('#form1').formValid()) {
-                    //        return false;
-                    //    }
-                    //    break;
-                    case 6:
-                        if (!$('#form1').formValid()) {
-                            return false;
-                        }
-                        $finish.show();
-                        $next.hide();
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                $finish.hide();
-                $next.show();
-            }
-        });
-    }
     function submitForm() {
         var postData = $("#form1").formSerialize();
         //postData["permissionIds"] = String($("#permissionTree").getCheckedNodes());

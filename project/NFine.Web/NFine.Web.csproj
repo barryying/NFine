@@ -204,6 +204,13 @@
     <Content Include="Content\img\wechat.jpg" />
     <Content Include="Content\img\weipayimg.png" />
     <Content Include="Content\img\weixin_nfine.png" />
+    <Content Include="Content\js\boostrap-colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="Content\js\boostrap-colorpicker\js\bootstrap-colorpicker.js" />
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.css" />
     <Content Include="Content\js\charts\Chart.js" />
@@ -250,6 +257,8 @@
     <Content Include="Content\js\echarts\echarts.min.js" />
     <Content Include="Content\js\echarts\infographic.js" />
     <Content Include="Content\js\fileinput\css\fileinput.css" />
+    <Content Include="Content\js\fileinput\img\loading-sm.gif" />
+    <Content Include="Content\js\fileinput\img\loading.gif" />
     <Content Include="Content\js\fileinput\js\fileinput.js" />
     <Content Include="Content\js\fileinput\js\fileinput_locale_zh.js" />
     <Content Include="Content\js\highcharts\adapters\mootools-adapter.js" />

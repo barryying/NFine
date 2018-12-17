@@ -6,7 +6,6 @@
 <script src="~/Content/js/qrcode/qrcode.js"></script>
 <script>
     $(function () {
-        debugger;
         var keyValue = $.request("keyValue");
         $("#txt_barcod").val(keyValue);
         $('#qrcodeTable').qrcode({

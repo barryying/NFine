@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
 ################################################################################
 
@@ -21,3 +21,4 @@
 /project/NFine.Application/obj/Release
 /project/NFine.Application/bin/Release
 /project/NFine.Web/obj/Release
+project/NFine.Web/Resource/

@@ -2,6 +2,27 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
+<style>
+    #PageColorCustom, #PageColorTheme {
+        width: 295px;
+        text-indent: 20px;
+    }
+    .colorblock{
+        display: inline-block;
+        cursor: pointer;
+        height: 20px;
+        width: 20px;    
+        border-radius: 4px;
+        border: solid 0px;
+        vertical-align: middle;
+        margin-left: 5px;
+    }
+    .uploadwidth {
+        width: 400px;    
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+</style>
 <form id="form1">
     <div class="widget-body">
         <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
@@ -285,7 +306,7 @@
                             <tr>
                                 <th class="formTitle">轮播图：</th>
                                 <td class="formValue">
-                                    <div class="container kv-main">
+                                    <div class="container kv-main" style="padding-left: 0px;">
                                         <div class="form-group">
                                             <input id="F_VoteCarouselIDs" type="file" multiple class="file-loading" data-min-file-count="1">
                                         </div>
@@ -301,7 +322,7 @@
                             <tr>
                                 <th class="formTitle">投票成功后弹出广告：</th>
                                 <td class="formValue">
-                                    <div class="container kv-main">
+                                    <div class="uploadwidth container kv-main">
                                         <div class="form-group">
                                             <input id="F_VoteSuccPictureID" type="file" class="file-loading" data-min-file-count="1">
                                         </div>
@@ -393,14 +414,14 @@
                                     滚动公告：
                                 </th>
                                 <td class="formValue" colspan="3">
-                                    <textarea id="F_PageRollNotice" name="F_PageRollNotice" class="form-control" style="height: 60px;" placeholder="活动备注"></textarea>
+                                    <textarea id="F_PageRollNotice" name="F_PageRollNotice" class="form-control" style="height: 100px;" placeholder="活动备注"></textarea>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（活动首页最上方滚动公告。不填不显示！）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">首页背景音乐：</th>
                                 <td class="formValue" colspan="3">
-                                    <div class="container kv-main">
+                                    <div class="uploadwidth container kv-main">
                                         <div class="form-group">
                                             <input id="F_PageBackgroundSong" type="file" class="file-loading" data-min-file-count="1">
                                         </div>
@@ -409,20 +430,63 @@
                             </tr>
                             <tr>
                                 <th class="formTitle">自定义页面配色：</th>
-                                <td class="formValue" colspan="1">
-                                    <select id="F_PageColorCustom" name="F_PageColorCustom" class="form-control required">
-                                        <option value="red" selected>红</option>
-                                        <option value="blue">蓝</option>
-                                    </select>
+                                <td class="formValue" colspan="2">
+                                    <div id="cp1" class="input-group colorpicker-component">
+                                        <input id="PageColorCustom" name="PageColorCustom" type="text" class="form-control"/>
+                                        <span class="input-group-addon"><i></i></span>
+                                    </div>
+                                    <input id="F_PageColorCustom" name="F_PageColorCustom" type="text" class="form-control" style="display: none;" />
+                                    <script>
+                                        $(function () {
+                                            //$('#cp1').colorpicker();
+                                            // 添加change事件 改变背景色
+                                            $('#cp1').colorpicker().on('changeColor', function (e) {
+                                                if ($('#F_PageColorCustom').val() != $('#cp1').colorpicker('getValue'))
+                                                    $('#F_PageColorCustom').val($('#cp1').colorpicker('getValue'));
+                                                //$('#cp1').style.backgroundColor = $('.F_PageColorCustom').val();
+                                                //$('body')[0].style.backgroundColor = e.color.toString('rgba');
+                                            });
+                                        });
+                                    </script>
                                 </td>
                             </tr>
                             <tr>
                                 <th class="formTitle">主题颜色：</th>
-                                <td class="formValue" colspan="1">
-                                    <select id="F_PageColorTheme" name="F_PageColorTheme" class="form-control required">
-                                        <option value="red" selected>红</option>
-                                        <option value="blue">蓝</option>
-                                    </select>
+                                <td class="formValue" colspan="2">
+                                    <div id="cp2" class="input-group colorpicker-component">
+                                        <input id="PageColorTheme" name="PageColorTheme" type="text" class="form-control"/>
+                                        <span class="input-group-addon"><i></i></span>
+                                    </div>
+                                    <input id="F_PageColorTheme" name="F_PageColorTheme" type="text" class="form-control" style="display: none;" />
+                                    <script>
+                                        $(function() {
+                                            $('#cp2').colorpicker();
+                                            // 添加change事件 改变背景色
+                                            $('#cp2').on('change', function (event) {
+                                                if ($('#F_PageColorTheme').val() != $('#cp2').colorpicker('getValue'))
+                                                    $('#F_PageColorTheme').val($('#cp2').colorpicker('getValue'));
+                                            });
+                                        });
+                                    </script>
+                                </td>
+                                <td class="formValue" colspan="2">
+                                    常用颜色：
+                                    <input id="color1" type="button" class="colorblock" onclick="setColor('#6381FC');" style="background-color: #6381FC" />
+                                    <input id="color2" type="button" class="colorblock" onclick="setColor('#29ABDD');" style="background-color: #29ABDD" />
+                                    <input id="color3" type="button" class="colorblock" onclick="setColor('#FF7F26');" style="background-color: #FF7F26" />
+                                    <input id="color4" type="button" class="colorblock" onclick="setColor('#FF6A6B');" style="background-color: #FF6A6B" />
+                                    <input id="color5" type="button" class="colorblock" onclick="setColor('#FF4242');" style="background-color: #FF4242" />
+                                    <input id="color6" type="button" class="colorblock" onclick="setColor('#A3D3EE');" style="background-color: #A3D3EE" />
+                                    <input id="color4" type="button" class="colorblock" onclick="setColor('#FEB6C0');" style="background-color: #FEB6C0" />
+                                    <input id="color5" type="button" class="colorblock" onclick="setColor('#483DBB');" style="background-color: #483DBB" />
+                                    <input id="color6" type="button" class="colorblock" onclick="setColor('#A2CD5A');" style="background-color: #A2CD5A" />
+                                    <script>
+                                        function setColor(colorvalue) {
+                                            $('#cp2').colorpicker('setValue', colorvalue);
+                                            if ($('#F_PageColorTheme').val() != $('#cp2').colorpicker('getValue'))
+                                                $('#F_PageColorTheme').val($('#cp2').colorpicker('getValue'));
+                                        }
+                                    </script>
                                 </td>
                             </tr>
                             <tr>
@@ -442,7 +506,7 @@
                             <tr>
                                 <th class="formTitle">特效边框图片：</th>
                                 <td class="formValue" colspan="3">
-                                    <div class="container kv-main">
+                                    <div class="uploadwidth container kv-main">
                                         <div class="form-group">
                                             <input id="F_PageBorderEffectsPictureID" type="file" class="file-loading" data-min-file-count="1">
                                         </div>
@@ -822,6 +886,14 @@
                     //$("#F_VotePrizeIntroDuction").html(data["F_VotePrizeIntroDuction"]);
                     //$(editorprize)[0].body[0].innerHTML = data["F_VotePrizeIntroDuction"];
                     //$(editorprize)[0].placeholderEl[0].style.cssText = "display: none;";
+                    if (data["F_PageColorCustom"] == "")
+                        $('#cp1').colorpicker('setValue', "#FFFFFF");
+                    else
+                        $('#cp1').colorpicker('setValue', data["F_PageColorCustom"]);
+                    if (data["F_PageColorTheme"] == "")
+                        $('#cp2').colorpicker('setValue', "#6381FC");
+                    else
+                        $('#cp2').colorpicker('setValue', data["F_PageColorTheme"]);
                 }
             });
         }

@@ -118,12 +118,17 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
         public ActionResult Vote(string keyValue, int? votenumber)
         {
+            string isNormalVote = "1";
             CandidateEntity candidateEntity = candidateApp.GetForm(keyValue);
             if(votenumber.IsEmpty())
+            {
                 candidateEntity.F_VoteNumber += 1;
+                isNormalVote = "2";
+            }
             else
                 candidateEntity.F_VoteNumber += votenumber;
             candidateApp.UpdateForm(candidateEntity);
@@ -132,7 +137,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             VoteApp voteapp = new VoteApp();
             voteentity.F_Id = Common.GuId();
             voteentity.F_CandidateID = keyValue;
-            voteentity.F_VoteType = "1";   //后台投票
+            voteentity.F_VoteType = isNormalVote;   //后台投票
             voteentity.F_VoteNumber = votenumber;
             voteentity.F_IP = Net.Ip;
             voteentity.F_CreatorTime = DateTime.Now;
