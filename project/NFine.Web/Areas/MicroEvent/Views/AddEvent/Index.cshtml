@@ -39,12 +39,12 @@
                 { label: '浏览量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
                 { label: '分享量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
                 //{ label: '链接', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
-                {
-                    label: "链接", name: "F_Status", width: 100, align: "center",
-                    formatter: function (cellvalue) {
-                        return cellvalue == 1 ? "<a herf='#' style='color: #1ABC9C;cursor: pointer;'>查看链接</a>" : "请先启用该活动";
-                    }
-                },
+                //{
+                //    label: "链接", name: "F_Status", width: 100, align: "center",
+                //    formatter: function (cellvalue) {
+                //        return cellvalue == 1 ? "<a herf='#' style='color: #1ABC9C;cursor: pointer;'>查看链接</a>" : "请先启用该活动";
+                //    }
+                //},
                 {
                     label: "状态", name: "F_Status", width: 60, align: "center",
                     formatter: function (cellvalue) {
@@ -128,15 +128,21 @@
     //    });
     //}
     function btn_genlink() {
-        var keyValue = $("#gridList").jqGridRowValue().F_Id;
-        $.modalOpen({
-            id: "GenLink",
-            title: "查看活动链接",
-            url: "/MicroEvent/AddEvent/GenLink?keyValue=" + keyValue,
-            width: "1100px",
-            height: "620px",
-            btn: null,
-        });
+        var F_Status = $("#gridList").jqGridRowValue().F_Status;
+        if (F_Status == "<i class=\"fa fa-toggle-on\"></i>") {
+            var keyValue = $("#gridList").jqGridRowValue().F_Id;
+            $.modalOpen({
+                id: "GenLink",
+                title: "查看活动链接",
+                url: "/MicroEvent/AddEvent/GenLink?keyValue=" + keyValue,
+                width: "1100px",
+                height: "620px",
+                btn: null,
+            });
+        }
+        else {
+            $.modalMsg("请先启用该活动");
+        }
     }
     function btn_disabled() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
