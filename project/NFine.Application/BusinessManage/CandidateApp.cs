@@ -1,6 +1,8 @@
-﻿using NFine.Code;
+﻿using NFine.Application.SystemSecurity;
+using NFine.Code;
 using NFine.Domain.Entity;
 using NFine.Domain.Entity.BusinessManage;
+using NFine.Domain.Entity.SystemSecurity;
 using NFine.Domain.IRepository.BusinessManage;
 using NFine.Domain.ViewModel;
 using NFine.Repository.BusinessManage;
@@ -52,6 +54,15 @@ namespace NFine.Application.BusinessManage
                         break;
                 }
             }
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.GetList选手管理",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "访问了选手管理页面",
+            });
             return service.FindList(expression, pagination);
         }
 
@@ -71,6 +82,15 @@ namespace NFine.Application.BusinessManage
 
         public void DeleteForm(string keyValue)
         {
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.DeleteForm删除选手",
+                F_Type = DbLogType.Delete.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "删除了选手: " + keyValue,
+            });
             //if (service.IQueryable().Count(t => t.F_ParentId.Equals(keyValue)) > 0)
             //{
             //    throw new Exception("删除失败！操作的对象包含了下级数据。");
@@ -85,6 +105,15 @@ namespace NFine.Application.BusinessManage
             if (!string.IsNullOrEmpty(keyValue))
             {
                 candidateEntity.Modify(keyValue);
+                new LogApp().WriteDbLog(new LogEntity
+                {
+                    F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.SubmitForm修改选手",
+                    F_Type = DbLogType.Update.ToString(),
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                    F_Result = true,
+                    F_Description = "修改了选手: " + candidateEntity.F_Id,
+                });
                 service.Update(candidateEntity);
             }
             else
@@ -99,11 +128,29 @@ namespace NFine.Application.BusinessManage
                 candidateEntity.F_VirtualHeat = 0;
                 candidateEntity.F_AuditIsOK = true;
                 candidateEntity.Create();
+                new LogApp().WriteDbLog(new LogEntity
+                {
+                    F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.SubmitForm添加选手",
+                    F_Type = DbLogType.Create.ToString(),
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                    F_Result = true,
+                    F_Description = "添加了选手: " + candidateEntity.F_Id,
+                });
                 service.Insert(candidateEntity);
             }
         }
         public List<CandidateEntity> GetRankingList(string eventId)
         {
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.GetRankingList查询活动排行榜接口",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "访问了活动: " + eventId + "的活动排行榜接口",
+            });
             if (eventId != "")
             {
                 IEventRepository eventservice = new EventRepository();
@@ -111,7 +158,7 @@ namespace NFine.Application.BusinessManage
                 List<EventEntity> evententity = eventservice.FindList(sql1);
                 if (!evententity.IsEmpty())
                 {
-                    if(evententity[0].F_PageRankingListMaxnumber != null)
+                    if (evententity[0].F_PageRankingListMaxnumber != null)
                     {
                         string sql2 = "select top " + evententity[0].F_PageRankingListMaxnumber.ToString() + " * from Sys_Candidate where F_AuditIsOK=1  and F_EventID='" + eventId + "' order by F_VoteNumber DESC";
                         return service.FindList(sql2);

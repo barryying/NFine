@@ -1,6 +1,9 @@
-﻿using NFine.Application.BusinessManage;
+﻿using NFine.Application;
+using NFine.Application.BusinessManage;
+using NFine.Application.SystemSecurity;
 using NFine.Code;
 using NFine.Domain.Entity.BusinessManage;
+using NFine.Domain.Entity.SystemSecurity;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -26,6 +29,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         }
         public ActionResult GenLink()
         {
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.GenLink查看活动链接",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "点击了查看活动链接",
+            });
             return View();
         }
 
@@ -140,6 +152,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             eventEntity.F_Id = keyValue;
             eventEntity.F_Status = false;
             eventApp.UpdateForm(eventEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Disabled禁用活动",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了活动: " + eventEntity.F_Id + "  的 F_Status: 由‘true’改为了‘false’。",
+            });
             return Success("活动禁用成功。");
         }
         [HttpPost]
@@ -152,7 +173,45 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             eventEntity.F_Id = keyValue;
             eventEntity.F_Status = true;
             eventApp.UpdateForm(eventEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Enabled启用活动",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了活动: " + eventEntity.F_Id + "  的 F_Status: 由‘false’改为了‘true’。",
+            });
             return Success("活动启用成功。");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult AddViewNumber(string keyValue, int? viewnumber)
+        {
+            string discription = "";
+            EventEntity eventEntity = eventApp.GetForm(keyValue);
+            if (viewnumber.IsEmpty())
+            {
+                eventEntity.F_ViewNumber += 1;
+                discription = "前台修改了选手: " + eventEntity.F_Id + "  的 F_ViewNumber: 增加了" + viewnumber + "浏览量。";
+            }
+            else
+            {
+                eventEntity.F_ViewNumber += viewnumber;
+                discription = "后台修改了选手: " + eventEntity.F_Id + "  的 F_ViewNumber: 增加了" + viewnumber + "浏览量。";
+            }
+            eventApp.UpdateForm(eventEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.AddViewNumber加活动浏览量",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = discription,
+            });
+            return Success("加浏览量成功");
         }
 
         [HttpGet]
@@ -199,6 +258,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
 
                             //保存大图文件
                             PostedFile.SaveAs(savePath);
+                            new LogApp().WriteDbLog(new LogEntity
+                            {
+                                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadImage上传大图",
+                                F_Type = DbLogType.Update.ToString(),
+                                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                                F_Result = true,
+                                F_Description = "上传了大图: " + savePath,
+                            });
                             img = Image.FromFile(savePath);
 
                             //保存小图文件
@@ -250,6 +318,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                 {
                                     bmp.Save(savePathSmall, ImageFormat.Jpeg);
                                 }
+                                new LogApp().WriteDbLog(new LogEntity
+                                {
+                                    F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadImage上传小图",
+                                    F_Type = DbLogType.Update.ToString(),
+                                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                                    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                                    F_Result = true,
+                                    F_Description = "上传了小图: " + savePathSmall,
+                                });
                                 if (bmp != null)
                                 {
                                     bmp.Dispose();

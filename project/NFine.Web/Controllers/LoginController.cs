@@ -76,7 +76,7 @@ namespace NFine.Web.Controllers
                     operatorModel.LoginIPAddressName = Net.GetLocation(operatorModel.LoginIPAddress);
                     operatorModel.LoginTime = DateTime.Now;
                     operatorModel.LoginToken = DESEncrypt.Encrypt(Guid.NewGuid().ToString());
-                    if (userEntity.F_Account == "admin")
+                    if (userEntity.F_IsAdministrator == true)
                     {
                         operatorModel.IsSystem = true;
                     }

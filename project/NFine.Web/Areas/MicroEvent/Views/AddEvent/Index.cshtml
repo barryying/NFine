@@ -33,11 +33,11 @@
                     label: '报名结束时间', name: 'F_ApplyEndTime', width: 120, align: 'left',
                     formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
                 },
-                { label: '选手数量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
-                { label: '投票量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
-                { label: '礼物', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
-                { label: '浏览量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
-                { label: '分享量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
+                { label: '选手数量', name: 'F_ApplyMinNumber', width: 50, align: 'left', formatter: candidateNumberFormatter },
+                { label: '投票量', name: 'F_ApplyMinNumber', width: 50, align: 'left', formatter: voteNumberFormatter },
+                { label: '礼物', name: 'F_ApplyMinNumber', width: 50, align: 'left', formatter: giftFormatter },
+                { label: '浏览量', name: 'F_ViewNumber', width: 50, align: 'left', formatter: viewNumberFormatter },
+                //{ label: '分享量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
                 //{ label: '链接', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
                 //{
                 //    label: "链接", name: "F_Status", width: 100, align: "center",
@@ -57,6 +57,43 @@
             sortname: 'F_CreatorTime desc',
             viewrecords: true
         });
+
+        function candidateNumberFormatter(cellvalue, options, rowObject) {
+            var candidateNumber;
+            $.ajax({
+                url: "/MicroEvent/ViewAllCandidate/GetAll",
+                data: { keyValue: rowObject.F_Id },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    candidateNumber = data.length;                    
+                }
+            });
+            return "<i class=\"fa fa-group\"> " + candidateNumber + " </i>";
+        }
+        function voteNumberFormatter(cellvalue, options, rowObject) {
+            var voteNumber = 0;
+            $.ajax({
+                url: "/MicroEvent/ViewAllCandidate/GetAll",
+                data: { keyValue: rowObject.F_Id },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        voteNumber += data[i].F_VoteNumber;
+                    }
+                }
+            });
+            return "<i class=\"fa fa-ticket\"> " + voteNumber + " </i>";
+        }
+        function viewNumberFormatter(cellvalue, options, rowObject) {
+            return "<i class=\"fa fa-eye\"> " + cellvalue + " </i>";
+        }
+        function giftFormatter(cellvalue, options, rowObject) {
+            if (cellvalue == null)
+                cellvalue = "0";
+            return "<i class='fa fa-cny'></i> " + cellvalue;
+        }
         function buildImg(value, row, index) {
             return "<img src='" + rootPath + "/qcp/AuditingImg/showImg.action?filePath=" + value + "'  width='20' height='20'/>";
         }
@@ -197,6 +234,22 @@
             btn: null,
         });
     }
+    function btn_addviewnumber() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        var viewnumber = $("#viewnumber").val();
+        $.modalConfirm("注：您确定要给该活动加" + viewnumber + "浏览量吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/MicroEvent/AddEvent/AddViewNumber",
+                    param: { keyValue: keyValue, viewnumber: viewnumber },
+                    close: false,
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        });
+    }
 </script>
 
 @*<h2>/MicroEvent/AddEvent/Index</h2>*@
@@ -215,11 +268,14 @@
                 <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改活动</a></li>
                 <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除活动</a></li>
                 @*<li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看活动</a></li>*@
-                <li><a id="NF-genlink" authorize="yes" onclick="btn_genlink()"><i class="fa fa-search-plus"></i>查看活动链接</a></li>
-                <li><a id="NF-Candidate" authorize="yes" onclick="btn_candidatemanage()"><i class="fa fa-gavel"></i>选手管理</a></li>
+                <li><a id="NF-genlink" authorize="yes" onclick="btn_genlink()"><i class="fa fa-qrcode"></i>查看活动链接</a></li>
+                <li><a id="NF-Candidate" authorize="yes" onclick="btn_candidatemanage()"><i class="fa fa-group"></i>选手管理</a></li>
                 <li class="split"></li>
                 <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>禁用</a></li>
                 <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>启用</a></li>
+                <li class="split"></li>
+                <li><input type="text" id="viewnumber" name="viewnumber" value="1" style="margin-top: 6px; width: 60px;" /></li>
+                <li><a id="NF-addviewnumber" onclick="btn_addviewnumber()"><i class="fa fa-eye"></i>加浏览量</a></li>
             </ul>
             <a href="javascript:;" class="close"><i class="fa fa-reply"></i></a>
         </div>

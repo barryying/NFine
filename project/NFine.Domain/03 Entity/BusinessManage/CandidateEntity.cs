@@ -15,7 +15,7 @@ namespace NFine.Domain.Entity
         public string F_Name { get; set; }
         public string F_SimpleSpelling { get; set; }
         public string F_PictureIDs { get; set; }
-        public string F_Phone { get; set; }        
+        public string F_Phone { get; set; }
         public int? F_VoteNumber { get; set; }
         public int? F_GiftNumber { get; set; }
         public int? F_ViewNumber { get; set; }

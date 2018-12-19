@@ -16,7 +16,7 @@ namespace NFine.Application.BusinessManage
         
         public List<ViewAllCandidate> GetList(string eventId)
         {
-            string sql = "SELECT * FROM F_ViewAllCandidate where F_EventId = '" + eventId + "'";
+            string sql = "SELECT * FROM F_ViewAllCandidate where F_AuditIsOK=1 and F_EventId = '" + eventId + "'";
             return service.FindList(sql);
         }
         public List<ViewAllCandidate> GetMain(string eventId)

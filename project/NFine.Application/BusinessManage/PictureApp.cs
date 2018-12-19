@@ -1,5 +1,7 @@
-﻿using NFine.Code;
+﻿using NFine.Application.SystemSecurity;
+using NFine.Code;
 using NFine.Domain.Entity.BusinessManage;
+using NFine.Domain.Entity.SystemSecurity;
 using NFine.Domain.IRepository.BusinessManage;
 using NFine.Repository.BusinessManage;
 using System.Collections.Generic;
@@ -35,11 +37,29 @@ namespace NFine.Application.BusinessManage
             if (!string.IsNullOrEmpty(keyValue))
             {
                 pictureEntity.Modify(keyValue);
+                new LogApp().WriteDbLog(new LogEntity
+                {
+                    F_ModuleName = "NFine.Application.BusinessManage.PictureApp.SubmitForm修改图片",
+                    F_Type = DbLogType.Update.ToString(),
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                    F_Result = true,
+                    F_Description = "修改了图片: " + pictureEntity.F_Id,
+                });
                 service.Update(pictureEntity);
             }
             else
             {
                 pictureEntity.Create();
+                new LogApp().WriteDbLog(new LogEntity
+                {
+                    F_ModuleName = "NFine.Application.BusinessManage.PictureApp.SubmitForm添加图片",
+                    F_Type = DbLogType.Update.ToString(),
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                    F_Result = true,
+                    F_Description = "添加了图片: " + pictureEntity.F_Id,
+                });
                 service.Insert(pictureEntity);
             }
         }
@@ -67,6 +87,15 @@ namespace NFine.Application.BusinessManage
 
         public List<PictureEntity> GetImageList(string id, string uploadType)
         {
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Application.BusinessManage.PictureApp.GetImageList获取图片列表",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "获取图片列表",
+            });
             List<PictureEntity> pictureentity = GetList(id, uploadType);
             if (!pictureentity.IsEmpty())
             {
@@ -78,6 +107,15 @@ namespace NFine.Application.BusinessManage
         
         public Dictionary<string, string> GetImageUrl(string id, string uploadType)
         {
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Application.BusinessManage.PictureApp.GetImageUrl获取图片虚拟路径列表",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "获取图片虚拟路径列表",
+            });
             Dictionary<string, string> urlDic = new Dictionary<string, string>();
             List<PictureEntity> pictureentity = GetList(id, uploadType);
             if (!pictureentity.IsEmpty())

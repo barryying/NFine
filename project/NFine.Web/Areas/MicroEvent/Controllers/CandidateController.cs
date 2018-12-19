@@ -4,6 +4,9 @@ using NFine.Domain.Entity;
 using NFine.Application.BusinessManage;
 using NFine.Domain.Entity.BusinessManage;
 using System;
+using NFine.Application.SystemSecurity;
+using NFine.Domain.Entity.SystemSecurity;
+using NFine.Application;
 
 namespace NFine.Web.Areas.MicroEvent.Controllers
 {
@@ -16,6 +19,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
 
         public ActionResult GenLink()
         {
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.GenLink查看选手链接",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "点击了查看选手链接",
+            });
             return View();
         }
         public ActionResult DataRecords()
@@ -78,6 +90,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             candidateEntity.F_Id = keyValue;
             candidateEntity.F_AuditIsOK = false;
             candidateApp.UpdateForm(candidateEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Disabled选手审核不通过",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了选手: " + candidateEntity.F_Id + "  的 F_AuditIsOK: 由‘true’改为了‘false’。",
+            });
             return Success("选手审核不通过。");
         }
         [HttpPost]
@@ -90,6 +111,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             candidateEntity.F_Id = keyValue;
             candidateEntity.F_AuditIsOK = true;
             candidateApp.UpdateForm(candidateEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Enabled选手审核通过",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了选手: " + candidateEntity.F_Id + "  的 F_AuditIsOK: 由‘false’改为了‘true’。",
+            });
             return Success("选手审核通过。");
         }
         [HttpPost]
@@ -102,6 +132,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             candidateEntity.F_Id = keyValue;
             candidateEntity.IsTodayStar = true;
             candidateApp.UpdateForm(candidateEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.SetStar设为今日之星",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了选手: " + candidateEntity.F_Id + "  的 IsTodayStar: 由‘false’改为了‘true’。",
+            });
             return Success("已设为今日之星。");
         }
         [HttpPost]
@@ -114,6 +153,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             candidateEntity.F_Id = keyValue;
             candidateEntity.IsTodayStar = false;
             candidateApp.UpdateForm(candidateEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.CancelStar去除今日之星",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了选手: " + candidateEntity.F_Id + "  的 IsTodayStar: 由‘true’改为了‘false’。",
+            });
             return Success("已去除今日之星。");
         }
 
@@ -122,28 +170,42 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
         public ActionResult Vote(string keyValue, int? votenumber)
         {
+            string discription = "";
             string isNormalVote = "1";
             CandidateEntity candidateEntity = candidateApp.GetForm(keyValue);
             if(votenumber.IsEmpty())
             {
                 candidateEntity.F_VoteNumber += 1;
                 isNormalVote = "2";
+                discription = "前台修改了选手: " + candidateEntity.F_Id + "  的 F_VoteNumber: 增加了" + votenumber + "票。";
             }
             else
+            {
                 candidateEntity.F_VoteNumber += votenumber;
+                discription = "后台修改了选手: " + candidateEntity.F_Id + "  的 F_VoteNumber: 增加了" + votenumber + "票。";
+            }
             candidateApp.UpdateForm(candidateEntity);
 
             VoteEntity voteentity = new VoteEntity();
             VoteApp voteapp = new VoteApp();
             voteentity.F_Id = Common.GuId();
             voteentity.F_CandidateID = keyValue;
-            voteentity.F_VoteType = isNormalVote;   //后台投票
+            voteentity.F_VoteType = isNormalVote;   //1后台投票 2前台投票
             voteentity.F_VoteNumber = votenumber;
             voteentity.F_IP = Net.Ip;
             voteentity.F_CreatorTime = DateTime.Now;
             voteentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
             voteapp.SubmitForm(voteentity, null);
 
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Vote投票成功",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = discription,
+            });
             return Success("投票成功");
         }
 
@@ -152,12 +214,28 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb
         public ActionResult AddViewNumber(string keyValue, int? viewnumber)
         {
+            string discription = "";
             CandidateEntity candidateEntity = candidateApp.GetForm(keyValue);
             if (viewnumber.IsEmpty())
+            {
                 candidateEntity.F_ViewNumber += 1;
+                discription = "前台修改了选手: " + candidateEntity.F_Id + "  的 F_ViewNumber: 增加了" + viewnumber + "浏览量。";
+            }
             else
+            {
                 candidateEntity.F_ViewNumber += viewnumber;
+                discription = "后台修改了选手: " + candidateEntity.F_Id + "  的 F_ViewNumber: 增加了" + viewnumber + "浏览量。";
+            }
             candidateApp.UpdateForm(candidateEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.AddViewNumber加浏览量成功",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = discription,
+            });
             return Success("加浏览量成功");
         }
 
