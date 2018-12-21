@@ -920,7 +920,7 @@
                 }
                 settings = $.extend({
                     url: vUrl,
-                    type: 'DELETE',
+                    type: 'POST',
                     dataType: 'json',
                     data: $.extend({key: vKey}, extraData),
                     beforeSend: function (jqXHR) {
@@ -964,7 +964,11 @@
                     }
                 }, self.ajaxDeleteSettings);
                 $el.off('click').on('click', function () {
-                    $.ajax(settings);
+                    //$.modalConfirm(self.confirmDelete, function (r) {
+                    //    if (r) {
+                            $.ajax(settings);
+                    //    }
+                    //});
                 });
             });
         },
@@ -1855,6 +1859,15 @@
                 self.$container.removeClass('file-input-new file-input-ajax-new');
                 return;
             }
+            if (previewCache.count(self.id) + total > 5) {
+                msg = self.msgFilesFull.repl('{m}', self.maxFileCount);
+                self.isError = throwError(msg, null, null, null);
+                self.$captionContainer.find('.kv-caption-icon').hide();
+                self.$caption.html(self.msgValidationError);
+                self.setEllipsis();
+                self.$container.removeClass('file-input-new file-input-ajax-new');
+                return;
+            }
             if (!self.isIE9) {
                 self.readFiles(tfiles);
             } else {
@@ -2085,6 +2098,7 @@
         uploadTitle: 'Upload selected files',
         msgSizeTooLarge: 'File "{name}" (<b>{size} KB</b>) exceeds maximum allowed upload size of <b>{maxSize} KB</b>. Please retry your upload!',
         msgFilesTooLess: 'You must select at least <b>{n}</b> {files} to upload. Please retry your upload!',
+        msgFilesFull: 'Number of files selected for upload exceeds maximum allowed limit of <b>{m}</b>',
         msgFilesTooMany: 'Number of files selected for upload <b>({n})</b> exceeds maximum allowed limit of <b>{m}</b>. Please retry your upload!',
         msgFileNotFound: 'File "{name}" not found!',
         msgFileSecured: 'Security restrictions prevent reading the file "{name}".',

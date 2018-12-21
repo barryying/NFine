@@ -22,6 +22,7 @@
             uploadTitle: '上传选中文件',
             msgSizeTooLarge: '文件 "{name}" (<b>{size} KB</b>) 超过允许上传的最大文件大小 <b>{maxSize} KB</b>. 请重新上传!',
             msgFilesTooLess: '文件数量必须大于 <b>{n}</b> {files} ，请重新上传！',
+            msgFilesFull: '上传文件的最大数量为{m}!',
             msgFilesTooMany: '选择上传的文件数量 <b>({n})</b> 超过允许的最大数值 <b>{m}</b> ！ 请重新上传!',
             msgFileNotFound: '文件 "{name}" 未找到!',
             msgFileSecured: '安全限制阻止读取文件: "{name}".',
@@ -37,6 +38,7 @@
             msgFoldersNotAllowed: '只允许拖放文件! {n} 文件夹不允许拖放.',
             dropZoneTitle: '在此处拖放文件 &hellip;',
             indicatorNewTitle: '还未上传',
+            confirmDelete: '注：您确定要【删除】该图片吗？删除不可恢复！',
     };
 
     $.extend($.fn.fileinput.defaults, $.fn.fileinput.locales.zh);

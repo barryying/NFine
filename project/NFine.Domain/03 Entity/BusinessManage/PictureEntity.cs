@@ -12,6 +12,7 @@ namespace NFine.Domain.Entity.BusinessManage
         public string F_Type { get; set; }
         public string F_Link { get; set; }
         public string F_VirtualPath { get; set; }
+        public string F_VirtualPathSmall { get; set; }        
         public DateTime? F_UploadDate { get; set; }
         public string F_SmallSize { get; set; }
         public string F_SortCode { get; set; }

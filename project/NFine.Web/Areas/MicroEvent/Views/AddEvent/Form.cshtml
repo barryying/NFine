@@ -666,7 +666,7 @@
             pasteImage: true,//允许粘贴图片
             defaultImage: '~/Content/js/webuploader/images/image.png',//编辑器插入的默认图片，此处可以删除
             upload: {
-                url: 'richtext_img_upload.do', //文件上传的接口地址
+                url: '/MicroEvent/AddEvent/UploadImage', //文件上传的接口地址
                 params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
                 fileKey: 'upload_file', //服务器端获取文件数据的参数名
                 connectionCount: 3,
@@ -696,20 +696,22 @@
             dataType: "json",
             async: false,
             success: function (data) {
-                var html = "";
-                $.each(data, function (i, n) {
-                    html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
-                    preListCarousel.push(html);
+                if (data.state != "error") {
+                    var html = "";
+                    $.each(data, function (i, n) {
+                        html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
+                        preListCarousel.push(html);
 
-                    var tjson = {
-                        caption: n.split("/")[4], // 展示的文件名
-                        //width: '210px',
-                        url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
-                        key: i, // 删除是Ajax向后台传递的参数
-                        extra: { }
-                    };
-                    preConfigListCarousel.push(tjson);
-                })
+                        var tjson = {
+                            caption: n.split("/")[5], // 展示的文件名
+                            //width: '210px',
+                            url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
+                            key: i, // 删除是Ajax向后台传递的参数
+                            extra: { keyValue: keyValue }
+                        };
+                        preConfigListCarousel.push(tjson);
+                    })
+                }
             }
         });
         var preListAdver = new Array();
@@ -720,20 +722,74 @@
             dataType: "json",
             async: false,
             success: function (data) {
-                var html = "";
-                $.each(data, function (i, n) {
-                    html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
-                    preListAdver.push(html);
+                if (data.state != "error") {
+                    var html = "";
+                    $.each(data, function (i, n) {
+                        html = "<img src='" + n + "' class='file-preview-image' alt='AdverPicture' title='AdverPicture'>"
+                        preListAdver.push(html);
 
-                    var tjson = {
-                        caption: n.split("/")[4], // 展示的文件名
-                        //width: '210px',
-                        url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
-                        key: i, // 删除是Ajax向后台传递的参数
-                        extra: {}
-                    };
-                    preConfigListAdver.push(tjson);
-                })
+                        var tjson = {
+                            caption: n.split("/")[5], // 展示的文件名
+                            //width: '210px',
+                            url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
+                            key: i, // 删除是Ajax向后台传递的参数
+                            extra: { keyValue: keyValue }
+                        };
+                        preConfigListAdver.push(tjson);
+                    })
+                }
+            }
+        });
+        var preListSong = new Array();
+        var preConfigListSong = new Array();
+        $.ajax({
+            url: "/MicroEvent/AddEvent/GetImageUrl",
+            data: { keyValue: keyValue, "uploadType": "6" },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.state != "error") {
+                    var html = "";
+                    $.each(data, function (i, n) {
+                        html = "<audio controls=''><source src='" + n + "' type='audio/mp3'><div class='file-preview-other'><i class='glyphicon glyphicon-king'></i></div></audio>"
+                        preListSong.push(html);
+
+                        var tjson = {
+                            caption: n.split("/")[4], // 展示的文件名
+                            //width: '210px',
+                            url: "/MicroEvent/AddEvent/DeleteFile", // 删除url
+                            key: i, // 删除是Ajax向后台传递的参数
+                            extra: { keyValue: keyValue }
+                        };
+                        preConfigListSong.push(tjson);
+                    })
+                }
+            }
+        });
+        var preListBorder = new Array();
+        var preConfigListBorder = new Array();
+        $.ajax({
+            url: "/MicroEvent/AddEvent/GetImageUrl",
+            data: { keyValue: keyValue, "uploadType": "3" },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.state != "error") {
+                    var html = "";
+                    $.each(data, function (i, n) {
+                        html = "<img src='" + n + "' class='file-preview-image' alt='BorderPicture' title='BorderPicture'>"
+                        preListBorder.push(html);
+
+                        var tjson = {
+                            caption: n.split("/")[5], // 展示的文件名
+                            //width: '210px',
+                            url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
+                            key: i, // 删除是Ajax向后台传递的参数
+                            extra: { keyValue: keyValue }
+                        };
+                        preConfigListBorder.push(tjson);
+                    })
+                }
             }
         });
 
@@ -757,7 +813,6 @@
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
             initialPreview: preListCarousel,
             initialPreviewConfig: preConfigListCarousel,
             initialPreviewAsData: true,
@@ -768,15 +823,24 @@
         }).on('filepreupload', function(event, data, previewId, index) {     //上传中
             if ($("#F_Link").val() == "")
             {
-                $.modalMsg("请先填写好轮播图跳转链接再上传！");
-                $('#F_VoteCarouselIDs').fileinput('cancel');
-                return false;
+                $.modalMsg("请继续按要求填写轮播图跳转链接！");
+                //$('#F_VoteCarouselIDs').fileinput('cancel');
+                //return false;
             }
         }).on("fileuploaded", function (event, data, previewId, index) {
-            $.modalMsg("上传成功！");
+            if (data.response == "success")
+                $.modalMsg("上传成功！");
+            else if (data.response == "full")
+                $.modalMsg("已上传了5张图片！请先删除旧的图片再上传！");
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
+        }).on('filepredelete', function(event, key) {
+            //console.log('Key = ' + key);
+        }).on('filedeleted', function(event, key) {
+            //console.log('Key = ' + key);
+            //top.layer.close(document.getElementsByClassName('layui-layer-dialog')[0].getAttribute('times'));
         });
+
 
         $("#F_VoteSuccPictureID").fileinput({
             language: 'zh', //设置语言
@@ -798,7 +862,6 @@
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
             initialPreview: preListAdver,
             initialPreviewConfig: preConfigListAdver,
             initialPreviewAsData: true,
@@ -806,17 +869,23 @@
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
+        }).on('filepreupload', function (event, data, previewId, index) {     //上传中
         }).on("fileuploaded", function (event, data, previewId, index) {
             $.modalMsg("上传成功！");
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
+        }).on('filepredelete', function (event, key) {
+            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, key) {
+            //console.log('Key = ' + key);
         });
+
 
         $("#F_PageBackgroundSong").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
-            uploadExtraData: { "keyValue": keyValue, "uploadType": "1", "pictureLink": "" },//这个是外带数据
-            allowedFileExtensions: ['mp3', 'wav'],//接收的文件后缀
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "6", "pictureLink": "" },//这个是外带数据
+            allowedFileExtensions: ['mp3', 'wav', 'ogg', 'm4a', 'flac'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
             showCaption: false,//是否显示标题
@@ -826,21 +895,34 @@
             //minImageHeight: 50,//图片的最小高度
             //maxImageWidth: 1000,//图片的最大宽度
             //maxImageHeight: 1000,//图片的最大高度
-            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
             //minFileCount: 0,
-            maxFileCount: 5, //表示允许同时上传的最大文件个数
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            initialPreview: preListSong,
+            initialPreviewConfig: preConfigListSong,
+            initialPreviewAsData: true,
+            overwriteInitial: true,
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
+        }).on('filepreupload', function (event, data, previewId, index) {     //上传中
+        }).on("fileuploaded", function (event, data, previewId, index) {
+            $.modalMsg("上传成功！");
+        }).on("fileuploaderror", function (event, data, previewId, index) {
+            $.modalMsg("上传失败！");
+        }).on('filepredelete', function (event, key) {
+            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, key) {
+            //console.log('Key = ' + key);
         });
+
         $("#F_PageBorderEffectsPictureID").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
-            uploadExtraData: { "keyValue": keyValue, "uploadType": "", "pictureLink": "" },//这个是外带数据
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "3", "pictureLink": "" },//这个是外带数据
             allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
             overwriteInitial: false,
             showUpload: true, //是否显示上传按钮
@@ -853,18 +935,26 @@
             //maxImageHeight: 1000,//图片的最大高度
             //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
             //minFileCount: 0,
-            maxFileCount: 5, //表示允许同时上传的最大文件个数
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            initialPreview: preListBorder,
+            initialPreviewConfig: preConfigListBorder,
+            initialPreviewAsData: true,
+            overwriteInitial: true,
             slugCallback: function (filename) {
                 return filename.replace('(', '_').replace(']', '_');
             }
+        }).on('filepreupload', function (event, data, previewId, index) {     //上传中
         }).on("fileuploaded", function (event, data, previewId, index) {
             $.modalMsg("上传成功！");
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
+        }).on('filepredelete', function (event, key) {
+            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, key) {
+            //console.log('Key = ' + key);
         });
 
         initControl();

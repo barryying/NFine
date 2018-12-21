@@ -67,20 +67,20 @@ namespace NFine.Application.BusinessManage
         private List<PictureEntity> GetList(string id, string uploadType)
         {
             List<string> urlList = new List<string>();
-            string sql = "SELECT * from Sys_Picture ";
-            if (uploadType == "1" || uploadType == "2" || uploadType == "3")
+            string sql = "SELECT * from Sys_Picture where 1=1";
+            if (uploadType == "1" || uploadType == "2" || uploadType == "3" || uploadType == "6")
             {
-                sql += "where F_EventId = '";
+                sql += " and F_EventId = '" + id;
             }
             else if (uploadType == "4")
             {
-                sql += "where F_CandidateId = '";
+                sql += " and F_CandidateId = '" + id;
             }
             else if (uploadType == "5")
             {
-                sql += "where F_GiftID = '";
+                sql += " and F_GiftID = '" + id;
             }
-            sql = sql + id + "' and F_Type='" + uploadType + "'";
+            sql = sql + "' and F_Type='" + uploadType + "'";
             List<PictureEntity> pictureentity = service.FindList(sql);
             return pictureentity;
         }
