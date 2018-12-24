@@ -64,7 +64,7 @@ Sys_Event  活动列表
 	F_Status                   活动状态 默认为开启
 	F_ViewNumber        浏览量
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键
@@ -72,6 +72,7 @@ Sys_Event  活动列表
 	F_LastModifyUserId  最后修改用户 外键
 	F_DeleteTime        删除时间
 	F_DeleteUserId      删除用户 外键
+	
 
 Sys_Picture   图片表
 	F_ID                图片ID 主键
@@ -82,10 +83,11 @@ Sys_Picture   图片表
 	F_Type              图片类型
 	F_Link              图片链接
 	F_VirtualPath       图片存储路径
+	F_VirtualPathSmall  小图存储路径
 	F_UploadDate        图片上传日期
 	F_SmallSize         图片小图尺寸
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键
@@ -112,7 +114,7 @@ Sys_Candidate   选手表
 	F_Remark           备注
 	F_AuditIsOK         审核是否通过  默认为是
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键
@@ -131,7 +133,7 @@ Sys_Vote   投票表
 	F_WX_id             微信ID
 	F_IP                投票IP
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键
@@ -150,7 +152,7 @@ Sys_Gift  礼物表
 	F_Price             礼物价格
 	F_VoteNumber        礼物对应票数
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键
@@ -169,7 +171,7 @@ Sys_GiftList  礼物订单表
 	F_IP                下单IP
 	F_OPENID            OPENID
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键
@@ -177,6 +179,18 @@ Sys_GiftList  礼物订单表
 	F_LastModifyUserId  最后修改用户 外键
 	F_DeleteTime        删除时间
 	F_DeleteUserId      删除用户 外键
+	TodayMoney
+	YesterdayMoney
+	TotalMoney
+	TotalCount
+	NotStartCount
+	EndCount
+	VotingCount
+	VoteTodayStartCount
+	VoteTodayEndCount
+	TotalVoteNumber
+	TotalViewNumber
+	TotalGiftNumber
 
 Sys_AutoTask   自动任务表
 	F_ID                自动投票ID 主键
@@ -190,7 +204,7 @@ Sys_AutoTask   自动任务表
 	F_EndTime           执行任务结束时间
 	F_Detail            说明
 	F_SortCode          排序码
-	F_EnabledMark        删除标志
+	F_DeleteMark        删除标志
 	F_EnableMark        有效标志
 	F_CreatorTime        创建日期
 	F_CreatorUserId     创建用户 外键

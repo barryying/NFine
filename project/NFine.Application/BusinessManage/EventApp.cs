@@ -68,7 +68,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.GetList钻石投票",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "访问了钻石投票页面",
@@ -85,14 +85,17 @@ namespace NFine.Application.BusinessManage
         //    }
         //    return service.FindList(expression, pagination);
         //}
+
         public List<EventEntity> GetList()
         {
             return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
         }
+
         public EventEntity GetForm(string keyValue)
         {
             return service.FindEntity(keyValue);
         }
+
         public void UpdateForm(EventEntity eventEntity)
         {
             service.Update(eventEntity);
@@ -104,7 +107,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.DeleteForm删除活动",
                 F_Type = DbLogType.Delete.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "删除了活动: " + keyValue,
@@ -133,7 +136,7 @@ namespace NFine.Application.BusinessManage
                     {
                         F_ModuleName = "NFine.Application.BusinessManage.SubmitForm修改活动",
                         F_Type = DbLogType.Update.ToString(),
-                        F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                        F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                         F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                         F_Result = true,
                         F_Description = "修改了活动: " + eventEntity.F_Id,
@@ -149,7 +152,7 @@ namespace NFine.Application.BusinessManage
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.SubmitForm添加活动",
                     F_Type = DbLogType.Create.ToString(),
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                     F_Result = true,
                     F_Description = "添加了活动: " + eventEntity.F_Id,
@@ -167,7 +170,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.SubmitCloneButton复制添加活动",
                 F_Type = DbLogType.Create.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "复制添加活动: " + eventEntity.F_Id,
@@ -181,7 +184,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.GetEventPrize查询活动规则奖品接口",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "访问了活动: " + eventId + "的规则奖品接口",

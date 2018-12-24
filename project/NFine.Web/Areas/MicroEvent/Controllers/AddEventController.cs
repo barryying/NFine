@@ -33,7 +33,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             {
                 F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.GenLink查看活动链接",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "点击了查看活动链接",
@@ -116,6 +116,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             };
             return Content(data.ToJson());
         }
+
         [HttpGet]
         [HandlerAjaxOnly]
         public ActionResult GetFormJson(string keyValue)
@@ -123,6 +124,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             var data = eventApp.GetForm(keyValue);
             return Content(data.ToJson());
         }
+
         [HttpPost]
         [HandlerAjaxOnly]
         [ValidateAntiForgeryToken]
@@ -132,6 +134,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             eventApp.SubmitForm(eventEntity, keyValue, isClone);
             return Success("操作成功。");
         }
+
         [HttpPost]
         [HandlerAjaxOnly]
         [HandlerAuthorize]
@@ -156,7 +159,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             {
                 F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Disabled禁用活动",
                 F_Type = DbLogType.Update.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "修改了活动: " + eventEntity.F_Id + "  的 F_Status: 由‘true’改为了‘false’。",
@@ -177,7 +180,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             {
                 F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Enabled启用活动",
                 F_Type = DbLogType.Update.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "修改了活动: " + eventEntity.F_Id + "  的 F_Status: 由‘false’改为了‘true’。",
@@ -206,7 +209,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             {
                 F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.AddViewNumber加活动浏览量",
                 F_Type = DbLogType.Update.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = discription,
@@ -273,7 +276,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                 {
                                     F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadFile上传背景音乐",
                                     F_Type = DbLogType.Update.ToString(),
-                                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                                     F_Result = true,
                                     F_Description = "上传了背景音乐: " + savePath,
@@ -305,7 +308,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                     {
                                         F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadImage上传大图",
                                         F_Type = DbLogType.Update.ToString(),
-                                        F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                                        F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                                         F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                                         F_Result = true,
                                         F_Description = "上传了大图: " + savePath,
@@ -396,7 +399,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                     {
                                         F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadImage上传小图",
                                         F_Type = DbLogType.Update.ToString(),
-                                        F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                                        F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                                         F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                                         F_Result = true,
                                         F_Description = "上传了小图: " + savePathSmall,
@@ -427,7 +430,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                 {
                     F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadImage上传小图",
                     F_Type = DbLogType.Update.ToString(),
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                     F_Result = true,
                     F_Description = "上传失败" + ex.Message,

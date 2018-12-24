@@ -14,7 +14,7 @@ namespace NFine.Domain.Entity.BusinessManage
         public int? F_VoteNumber { get; set; }
         public string F_SortCode { get; set; }
         public bool? F_DeleteMark { get; set; }
-        public bool? F_EnabledMark { get; set; }
+        public bool? F_EnableMark { get; set; }
         public DateTime? F_CreatorTime { get; set; }
         public string F_CreatorUserId { get; set; }
         public DateTime? F_LastModifyTime { get; set; }

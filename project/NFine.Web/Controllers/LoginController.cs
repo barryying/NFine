@@ -38,7 +38,7 @@ namespace NFine.Web.Controllers
             {
                 F_ModuleName = "系统登录",
                 F_Type = DbLogType.Exit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "安全退出系统",

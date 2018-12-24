@@ -41,7 +41,7 @@ namespace NFine.Application.BusinessManage
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.PictureApp.SubmitForm修改图片",
                     F_Type = DbLogType.Update.ToString(),
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                     F_Result = true,
                     F_Description = "修改了图片: " + pictureEntity.F_Id,
@@ -55,7 +55,7 @@ namespace NFine.Application.BusinessManage
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.PictureApp.SubmitForm添加图片",
                     F_Type = DbLogType.Update.ToString(),
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                     F_Result = true,
                     F_Description = "添加了图片: " + pictureEntity.F_Id,
@@ -91,7 +91,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.PictureApp.GetImageList获取图片列表",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "获取图片列表",
@@ -111,7 +111,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.PictureApp.GetImageUrl获取图片虚拟路径列表",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "获取图片虚拟路径列表",

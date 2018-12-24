@@ -133,9 +133,7 @@
     <Compile Include="Areas\ReportManage\Controllers\EchartsController.cs" />
     <Compile Include="Areas\ReportManage\Controllers\HighchartsController.cs" />
     <Compile Include="Areas\ReportManage\ReportManageAreaRegistration.cs" />
-    <Compile Include="Areas\StatisticalInfo\Controllers\MonthStatisticController.cs" />
-    <Compile Include="Areas\StatisticalInfo\Controllers\TodayStatisticController.cs" />
-    <Compile Include="Areas\StatisticalInfo\Controllers\WeekStatisticController.cs" />
+    <Compile Include="Areas\StatisticalInfo\Controllers\StatisticController.cs" />
     <Compile Include="Areas\StatisticalInfo\StatisticalInfoAreaRegistration.cs" />
     <Compile Include="Areas\SystemManage\Controllers\AreaController.cs" />
     <Compile Include="Areas\SystemManage\Controllers\DutyController.cs" />
@@ -651,9 +649,8 @@
     <Content Include="Areas\MicroEvent\Views\DiamondVote\EventList.cshtml" />
     <Content Include="Areas\MicroEvent\Views\OrderList\OrderList.cshtml" />
     <Content Include="Areas\StatisticalInfo\Views\Web.config" />
-    <Content Include="Areas\StatisticalInfo\Views\MonthStatistic\Index.cshtml" />
-    <Content Include="Areas\StatisticalInfo\Views\TodayStatistic\Index.cshtml" />
-    <Content Include="Areas\StatisticalInfo\Views\WeekStatistic\Index.cshtml" />
+    <Content Include="Areas\StatisticalInfo\Views\Statistic\MonthList.cshtml" />
+    <Content Include="Areas\StatisticalInfo\Views\Statistic\WeekList.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Datastatistic\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Datastatistic\Datastatistic.cshtml" />
@@ -665,6 +662,7 @@
     <Content Include="Areas\MicroEvent\Views\Candidate\GenLink.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\DataRecords.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\GenLink.cshtml" />
+    <Content Include="Areas\StatisticalInfo\Views\Statistic\TodayList.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

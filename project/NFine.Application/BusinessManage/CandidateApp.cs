@@ -58,7 +58,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.GetList选手管理",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "访问了选手管理页面",
@@ -86,7 +86,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.DeleteForm删除选手",
                 F_Type = DbLogType.Delete.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "删除了选手: " + keyValue,
@@ -109,7 +109,7 @@ namespace NFine.Application.BusinessManage
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.SubmitForm修改选手",
                     F_Type = DbLogType.Update.ToString(),
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                     F_Result = true,
                     F_Description = "修改了选手: " + candidateEntity.F_Id,
@@ -132,7 +132,7 @@ namespace NFine.Application.BusinessManage
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.SubmitForm添加选手",
                     F_Type = DbLogType.Create.ToString(),
-                    F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                     F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                     F_Result = true,
                     F_Description = "添加了选手: " + candidateEntity.F_Id,
@@ -146,7 +146,7 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.GetRankingList查询活动排行榜接口",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserCode,
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
                 F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
                 F_Result = true,
                 F_Description = "访问了活动: " + eventId + "的活动排行榜接口",
