@@ -199,15 +199,12 @@ namespace NFine.Application.BusinessManage
                 if (evententity[0].F_VotePrizeIntroDuction != null)
                 {
                     result += evententity[0].F_VotePrizeIntroDuction.ToString();
-                    return result;
                 }
-                else if (evententity[0].F_VoteRules != null)
+                if (evententity[0].F_VoteRules != null)
                 {
                     result += evententity[0].F_VoteRules.ToString();
-                    return result;
                 }
-                else
-                    return "";
+                return result;
             }
             else
                 return "";

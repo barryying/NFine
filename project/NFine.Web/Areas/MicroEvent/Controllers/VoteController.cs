@@ -27,7 +27,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        // /MicroEvent/Candidate/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb&ip=127.0.0.1&WXid=aaa&WXnick=bbb
+        // /MicroEvent/Vote/Vote?kevalue=f488b366-287d-40b2-bc64-c42254e634bb&ip=127.0.0.1&WXid=aaa&WXnick=bbb
         public ActionResult Vote(string keyValue, string ip = null, string WXid = null, string WXnick = null)
         {
             CandidateApp candidateApp = new CandidateApp();
