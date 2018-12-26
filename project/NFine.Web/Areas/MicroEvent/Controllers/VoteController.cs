@@ -48,15 +48,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             voteentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
             voteapp.SubmitForm(voteentity, null);
 
-            new LogApp().WriteDbLog(new LogEntity
-            {
-                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Vote投票成功",
-                F_Type = DbLogType.Update.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                F_Result = true,
-                F_Description = "前台给选手: " + candidateEntity.F_Id + " 投了1票。",
-            });
+            //new LogApp().WriteDbLog(new LogEntity
+            //{
+            //    F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Vote投票成功",
+            //    F_Type = DbLogType.Update.ToString(),
+            //    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
+            //    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+            //    F_Result = true,
+            //    F_Description = "前台给选手: " + candidateEntity.F_Id + " 投了1票。",
+            //});
             return Success("投票成功");
         }
 

@@ -142,15 +142,15 @@ namespace NFine.Application.BusinessManage
         }
         public List<CandidateEntity> GetRankingList(string eventId)
         {
-            new LogApp().WriteDbLog(new LogEntity
-            {
-                F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.GetRankingList查询活动排行榜接口",
-                F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                F_Result = true,
-                F_Description = "访问了活动: " + eventId + "的活动排行榜接口",
-            });
+            //new LogApp().WriteDbLog(new LogEntity
+            //{
+            //    F_ModuleName = "NFine.Application.BusinessManage.CandidateApp.GetRankingList查询活动排行榜接口",
+            //    F_Type = DbLogType.Visit.ToString(),
+            //    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
+            //    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+            //    F_Result = true,
+            //    F_Description = "访问了活动: " + eventId + "的活动排行榜接口",
+            //});
             if (eventId != "")
             {
                 IEventRepository eventservice = new EventRepository();

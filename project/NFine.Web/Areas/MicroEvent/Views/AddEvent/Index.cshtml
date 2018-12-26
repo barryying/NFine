@@ -61,7 +61,7 @@
         function candidateNumberFormatter(cellvalue, options, rowObject) {
             var candidateNumber;
             $.ajax({
-                url: "/MicroEvent/ViewAllCandidate/GetAll",
+                url: "/MicroEvent/ViewAllCandidate/GetAllByEventID",
                 data: { keyValue: rowObject.F_Id },
                 dataType: "json",
                 async: false,
@@ -74,7 +74,7 @@
         function voteNumberFormatter(cellvalue, options, rowObject) {
             var voteNumber = 0;
             $.ajax({
-                url: "/MicroEvent/ViewAllCandidate/GetAll",
+                url: "/MicroEvent/ViewAllCandidate/GetAllByEventID",
                 data: { keyValue: rowObject.F_Id },
                 dataType: "json",
                 async: false,

@@ -180,15 +180,6 @@ namespace NFine.Application.BusinessManage
 
         public string GetEventPrize(string eventId)
         {
-            new LogApp().WriteDbLog(new LogEntity
-            {
-                F_ModuleName = "NFine.Application.BusinessManage.GetEventPrize查询活动规则奖品接口",
-                F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                F_Result = true,
-                F_Description = "访问了活动: " + eventId + "的规则奖品接口",
-            });
             IEventRepository eventservice = new EventRepository();
             string sql = "SELECT F_VoteRules,F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
             List<EventEntity> evententity = eventservice.FindList(sql);

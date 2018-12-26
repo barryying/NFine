@@ -227,15 +227,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                 discription = "后台修改了选手: " + candidateEntity.F_Id + "  的 F_ViewNumber: 增加了" + viewnumber + "浏览量。";
             }
             candidateApp.UpdateForm(candidateEntity);
-            new LogApp().WriteDbLog(new LogEntity
-            {
-                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.AddViewNumber加浏览量成功",
-                F_Type = DbLogType.Update.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                F_Result = true,
-                F_Description = discription,
-            });
+            //new LogApp().WriteDbLog(new LogEntity
+            //{
+            //    F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.AddViewNumber加浏览量成功",
+            //    F_Type = DbLogType.Update.ToString(),
+            //    F_Account = OperatorProvider.Provider.GetCurrent().UserId,
+            //    F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+            //    F_Result = true,
+            //    F_Description = discription,
+            //});
             return Success("加浏览量成功");
         }
 

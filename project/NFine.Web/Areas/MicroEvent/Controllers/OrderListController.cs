@@ -1,9 +1,5 @@
 ﻿using NFine.Application.BusinessManage;
 using NFine.Code;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace NFine.Web.Areas.MicroEvent.Controllers
@@ -34,5 +30,14 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             };
             return Content(data.ToJson());
         }
+        
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetTodayListCount()
+        {
+            var data = giftlistApp.GetTodayList();
+            return Content(data.ToJson());
+        }
+
     }
 }

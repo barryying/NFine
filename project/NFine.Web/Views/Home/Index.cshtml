@@ -14,6 +14,62 @@
     <script src="~/Content/js/indextab.js"></script>
     <script src="~/Content/js/SmallPop/spop.js"></script>
     <link href="~/Content/js/SmallPop/spop.css" rel="stylesheet" />
+
+    <style>
+        .switch {
+            width: 50px;
+            margin: 2px 0px 0 2px;
+        }
+
+        .btn_fath {
+            margin: 10px 10px 10px 10px;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .btn1 {
+            float: left;
+        }
+
+        .btn2 {
+            float: right;
+        }
+
+        .btnSwitch {
+            height: 20px;
+            width: 20px;
+            border: none;
+            color: #fff;
+            line-height: 20px;
+            font-size: 8px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .move {
+            z-index: 100;
+            width: 20px;
+            border-radius: 10px;
+            height: 20px;
+            position: absolute;
+            cursor: pointer;
+            border: 1px solid #828282;
+            background-color: #f1eff0;
+            box-shadow: 1px 2px 2px 1px #fff inset,0 0 5px 1px #999;
+        }
+
+        .on .move {
+            left: 30px;
+        }
+
+        .on.btn_fath {
+            background-color: #5281cd;
+        }
+
+        .off.btn_fath {
+            background-color: #828282;
+        }
+    </style>
 </head>
 <body style="overflow: hidden;">
     <div id="ajax-loader" style="cursor: progress; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: #fff; z-index: 10000; overflow: hidden;">
@@ -55,7 +111,7 @@
                             <li>
                                 <a class="menuItem" href="/MicroEvent/OrderList/Index">订单列表
                                     <i class="fa fa-bell"></i>
-                                    <span class="count">8</span>
+                                    <span id="todayorderlistcount" class="count"></span>
                                 </a>
                             </li>
                             @*<li class="dropdown hidden-xs">
@@ -203,8 +259,9 @@
                 autoclose: 2000
             });
         });
+
         var t = 5;
-        function refresh() {
+        function refreshtime() {
             t = t - 1;
             if (t == 0) {
                 $('.tabReload').click();
@@ -212,6 +269,7 @@
             }
             else
                 document.getElementById("refresh").innerHTML = "离下次刷新时间还有 " + t + " 秒";
+            updateTodayList();
         }
         var timer;
         function toogle(th) {
@@ -228,7 +286,7 @@
             } else if (ele.attr("data-state") == "off") {
                 ele.animate({ left: '30px' }, 200, function () {
                     $(this).attr("data-state", "on");
-                    timer = window.setInterval(refresh, 1000);
+                    timer = window.setInterval(refreshtime, 1000);
                     t = 5;
                     //alert("开！");
                 });
@@ -236,58 +294,23 @@
                 $(th).removeClass("off").addClass("on");
             }
         }
-    </script>
 
-    <style>
-        .switch{
-            width: 50px;
-            margin: 2px 0px 0 2px;
+        function updateTodayList() {
+            $.ajax({
+                url: "/MicroEvent/OrderList/GetTodayListCount",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#todayorderlistcount").html(data.length);
+                    //for (var i = 0; i < data.length; i++) {
+                    //    todayorderlistcount = data[i].F_VoteNumber;
+                    //}
+                }
+            });
         }
-        .btn_fath{
-            margin: 10px 10px 10px 10px;
-            position: relative;
-            border-radius: 10px;
-        }
- 
-        .btn1{
-            float: left;
-        }
- 
-        .btn2{
-            float: right;
-        }
-        .btnSwitch{
-            height: 20px;
-            width: 20px;
-            border:none;
-            color: #fff;
-            line-height: 20px;
-            font-size: 8px;
-            text-align: center;
-            z-index: 1;
-        }
- 
-        .move{
-            z-index: 100;
-            width: 20px;
-            border-radius: 10px;
-            height: 20px;
-            position: absolute;
-            cursor: pointer;
-            border: 1px solid #828282;
-            background-color: #f1eff0;
-            box-shadow: 1px 2px 2px 1px #fff inset,0 0 5px 1px #999;
-        }
-        .on .move{
-            left: 30px;
-        }
-        .on.btn_fath{
-            background-color: #5281cd;
-        }
-        .off.btn_fath {
-            background-color: #828282;
-        }
-    </style>
+        var timer2 = window.setInterval(updateTodayList, 1000);
 
+    </script>    
 </body>
 </html>

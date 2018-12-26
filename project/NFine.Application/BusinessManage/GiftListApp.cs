@@ -4,6 +4,7 @@ using NFine.Domain.IRepository.BusinessManage;
 using NFine.Repository.BusinessManage;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace NFine.Application.BusinessManage
@@ -46,11 +47,21 @@ namespace NFine.Application.BusinessManage
             }
             return service.FindList(expression, pagination);
         }
+
         public List<GiftListEntity> GetList()
         {
             return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
         }
-        
+
+        public List<GiftListEntity> GetTodayList()
+        {
+            string time = DateTime.Now.ToShortDateString();
+            DateTime time1 = Convert.ToDateTime(time + " 0:00:00");  // 数字前 记得 加空格
+            DateTime time2 = Convert.ToDateTime(time + " 23:59:59");
+            //expression = expression.And(t => t.UpdateTime > time1 & t.UpdateTime < time2);
+            return service.IQueryable().Where(t => t.F_CreatorTime > time1 & t.F_CreatorTime < time2).ToList();
+        }
+
         public GiftListEntity GetDatatistic(string keyValue)
         {
             string sql = "SELECT ";
@@ -85,5 +96,28 @@ namespace NFine.Application.BusinessManage
             sql += "F_ID,F_ParentId,F_CandidateID,F_GiftID,F_Money,F_PaymentStatus,F_IP,F_OPENID,F_SortCode,F_DeleteMark,F_EnabledMark,F_CreatorTime,F_CreatorUserId,F_LastModifyTime,F_LastModifyUserId,F_DeleteTime,F_DeleteUserId FROM Sys_GiftList";
             return service.FindList(sql).FirstOrDefault();
         }
+        
+        //SqlDependency dependency = new SqlDependency();
+        //private void Update()
+        //{
+        //    //此处 要注意 不能使用*  表名要加[dbo]  否则会出现一直调用执行 OnChange
+        //    string sql = "SELECT F_ID,[F_CandidateID],[F_GiftID],[F_Money],[F_PaymentStatus] FROM [dbo].[Sys_GiftList]";
+
+        //    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+        //    //必须要执行一下command
+        //    service.FindEntity(sql);
+        //    Console.WriteLine(dependency.HasChanges);
+        //}
+
+
+
+        ////update insert delete都会进入
+        //private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        //{
+        //    Console.WriteLine("onchange方法中：" + dependency.HasChanges);
+        //    Console.WriteLine("数据库数据发生变化" + DateTime.Now);
+        //    //这里要再次调用
+        //    Update();
+        //}
     }
 }

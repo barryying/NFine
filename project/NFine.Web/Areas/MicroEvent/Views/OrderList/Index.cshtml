@@ -17,28 +17,76 @@
             height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },
-                { label: '组名', name: 'F_Id', width: 100, align: 'left' },
-                { label: '活动', name: 'F_CandidateID', width: 200, align: 'left' },
-                { label: '商家', name: 'F_CandidateID', width: 150, align: 'left' },
+                { label: '组名', name: 'F_Id', width: 200, align: 'left' },
+                { label: '活动', name: 'F_CandidateID', width: 260, align: 'left', formatter: eventNameFormatter },
+                { label: '商家', name: 'F_CandidateID', width: 200, align: 'left', formatter: candidateNameFormatter },
                 //{ label: '编号', name: 'F_EnCode', width: 150, align: 'left' },
                 {
                     label: '下单时间', name: 'F_CreatorTime', width: 120, align: 'left',
                     formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
                 },
-                { label: '金额', name: 'F_Money', width: 50, align: 'left' },
-                {
-                    label: "付款状态", name: "F_PaymentStatus", width: 60, align: "center",
-                    formatter: function (cellvalue) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
-                    }
-                },
-                { label: '礼物付款ip', name: 'F_IP', width: 50, align: 'left' },
-                { label: 'OPENID', name: 'F_OPENID', width: 50, align: 'left' }
+                { label: '金额', name: 'F_Money', width: 60, align: 'left', formatter: moneyFormatter },
+                { label: "付款状态", name: "F_PaymentStatus", width: 100, align: "center", formatter: paymentStatusFormatter },
+                { label: '付款ip', name: 'F_IP', width: 100, align: 'left' },
+                { label: 'OPENID', name: 'F_OPENID', width: 170, align: 'left' }
             ],
             pager: "#gridPager",
             sortname: 'F_CreatorTime desc',
             viewrecords: true
         });
+        function eventNameFormatter(cellvalue, options, rowObject) {
+            var eventName = 0;
+            $.ajax({
+                url: "/MicroEvent/ViewAllCandidate/GetAllByCandidateID",
+                data: { keyValue: rowObject.F_CandidateID },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        eventName = data[i].EventName;
+                    }
+                }
+            });
+            return eventName;
+        }
+        function candidateNameFormatter(cellvalue, options, rowObject) {
+            var candidateName = 0;
+            $.ajax({
+                url: "/MicroEvent/ViewAllCandidate/GetAllByCandidateID",
+                data: { keyValue: rowObject.F_CandidateID },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        candidateName = data[i].CandidateName;
+                    }
+                }
+            });
+            return "<i style=\"color:blue;\"> " + candidateName + " </i>";
+        }
+        function moneyFormatter(cellvalue, options, rowObject) {
+            if (cellvalue == null)
+                cellvalue = "0";
+            return "<i class='fa fa-cny'></i> " + cellvalue;
+        }
+        function paymentStatusFormatter(cellvalue, options, rowObject) {
+            if (cellvalue == null)
+                cellvalue = "未发起付款";
+            switch (cellvalue) {
+                case "1":
+                    cellvalue = "已取消";
+                    break;
+                case "2":
+                    cellvalue = "支付中";
+                    break;
+                case "3":
+                    cellvalue = "已付款";
+                    break;
+                default:
+                    break;
+            }
+            return cellvalue;
+        }
         $("#time_horizon a.btn-default").click(function () {
             $("#time_horizon a.btn-default").removeClass("active");
             $(this).addClass("active");
@@ -95,8 +143,8 @@
                 </td>
                 <td style="padding-left: 10px;">
                     <div id="time_horizon" class="btn-group">
-                        <a class="btn btn-default active" data-value="1">今天</a>
-                        <a class="btn btn-default" data-value="2">近7天</a>
+                        <a class="btn btn-default" data-value="1">今天</a>
+                        <a class="btn btn-default active" data-value="2">近7天</a>
                         <a class="btn btn-default" data-value="3">近1个月</a>
                         <a class="btn btn-default" data-value="4">近3个月</a>
                     </div>
