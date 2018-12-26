@@ -265,7 +265,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                 pictureentity.F_Type = "6";
                                 pictureentity.F_EventId = keyvalue;
                                 pictureentity.F_Link = "";
-                                pictureentity.F_VirtualPath = Dir + FileName;
+                                pictureentity.F_VirtualPath = "/" + (Dir + FileName).Replace("\\", "/");
                                 pictureentity.F_VirtualPathSmall = "";
                                 pictureentity.F_UploadDate = DateTime.Now;
                                 pictureentity.F_CreatorTime = DateTime.Now;
@@ -386,8 +386,8 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                     else if (uploadType == "5")
                                         pictureentity.F_GiftID = keyvalue;
                                     pictureentity.F_Link = pictureLink;
-                                    pictureentity.F_VirtualPath = Dir + FileName;
-                                    pictureentity.F_VirtualPathSmall = DirSmall + FileName;
+                                    pictureentity.F_VirtualPath = "/" + (Dir + FileName).Replace("\\", "/");
+                                    pictureentity.F_VirtualPathSmall = "/" + (DirSmall + FileName).Replace("\\", "/");
                                     pictureentity.F_UploadDate = DateTime.Now;
                                     pictureentity.F_SmallSize = towidth.ToString() + "*" + toheight.ToString();
                                     pictureentity.F_CreatorTime = DateTime.Now;
@@ -520,7 +520,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             return Content(data.ToJson());
         }
         [HttpGet]
-        [AllowAnonymous]
+        [HandlerAjaxOnly]
         // /MicroEvent/AddEvent/GetImageUrl?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28&uploadType=1
         public ActionResult GetImageUrl(string keyvalue, string uploadType)
         {

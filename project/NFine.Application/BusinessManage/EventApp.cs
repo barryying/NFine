@@ -180,25 +180,41 @@ namespace NFine.Application.BusinessManage
 
         public string GetEventPrize(string eventId)
         {
-            IEventRepository eventservice = new EventRepository();
-            string sql = "SELECT F_VoteRules,F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
-            List<EventEntity> evententity = eventservice.FindList(sql);
-
-            string result = "";
-            if (!evententity.IsEmpty())
+            try
             {
-                if (evententity[0].F_VotePrizeIntroDuction != null)
+                new LogApp().WriteDbLog(new LogEntity
                 {
-                    result += evententity[0].F_VotePrizeIntroDuction.ToString();
-                }
-                if (evententity[0].F_VoteRules != null)
+                    F_ModuleName = "NFine.Application.BusinessManage.GetEventPrize查询活动规则奖品接口",
+                    F_Type = DbLogType.Visit.ToString(),
+                    F_Account = "前台请求接口",
+                    F_NickName = "前台",
+                    F_Result = true,
+                    F_Description = "访问了活动: " + eventId + "的规则奖品接口",
+                });
+                IEventRepository eventservice = new EventRepository();
+                string sql = "SELECT F_VoteRules,F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
+                List<EventEntity> evententity = eventservice.FindList(sql);
+
+                string result = "";
+                if (!evententity.IsEmpty())
                 {
-                    result += evententity[0].F_VoteRules.ToString();
+                    if (evententity[0].F_VotePrizeIntroDuction != null)
+                    {
+                        result += evententity[0].F_VotePrizeIntroDuction.ToString();
+                    }
+                    if (evententity[0].F_VoteRules != null)
+                    {
+                        result += evententity[0].F_VoteRules.ToString();
+                    }
+                    return result;
                 }
-                return result;
+                else
+                    return "Empty";
             }
-            else
-                return "";
+            catch(Exception ex)
+            {
+                return "Error:" + ex.Message;
+            }
         }
     }
 }

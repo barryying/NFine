@@ -91,8 +91,8 @@ namespace NFine.Application.BusinessManage
             {
                 F_ModuleName = "NFine.Application.BusinessManage.PictureApp.GetImageList获取图片列表",
                 F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Account = "前台请求接口",
+                F_NickName = "前台",
                 F_Result = true,
                 F_Description = "获取图片列表",
             });
@@ -107,22 +107,16 @@ namespace NFine.Application.BusinessManage
         
         public Dictionary<string, string> GetImageUrl(string id, string uploadType)
         {
-            new LogApp().WriteDbLog(new LogEntity
-            {
-                F_ModuleName = "NFine.Application.BusinessManage.PictureApp.GetImageUrl获取图片虚拟路径列表",
-                F_Type = DbLogType.Visit.ToString(),
-                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-                F_Result = true,
-                F_Description = "获取图片虚拟路径列表",
-            });
             Dictionary<string, string> urlDic = new Dictionary<string, string>();
             List<PictureEntity> pictureentity = GetList(id, uploadType);
             if (!pictureentity.IsEmpty())
             {
                 foreach(PictureEntity entity in pictureentity)
                 {
-                    urlDic.Add(entity.F_Id, "/" + entity.F_VirtualPath.Replace("\\", "/"));
+                    if(uploadType != "6")
+                        urlDic.Add(entity.F_Id, entity.F_VirtualPathSmall);
+                    else
+                        urlDic.Add(entity.F_Id, entity.F_VirtualPath);
                 }
                 return urlDic;
             }
