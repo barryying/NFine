@@ -17,6 +17,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         public ActionResult GetAllByEventID(string keyValue)
         {
             var data = viewallcandidateapp.GetAllByEventID(keyValue);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(data.ToJson());
         }
 
@@ -25,6 +26,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         public ActionResult GetAllByCandidateID(string keyValue)
         {
             var data = viewallcandidateapp.GetAllByCandidateID(keyValue);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(data.ToJson());
         }
 
@@ -33,6 +35,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         public ActionResult GetMain(string keyValue)
         {
             var data = viewallcandidateapp.GetMain(keyValue);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(data.ToJson());
         }
     }

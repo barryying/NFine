@@ -59,6 +59,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                     F_Result = true,
                     F_Description = "前台给选手: " + candidateEntity.F_Id + " 投了1票。",
                 });
+                HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
                 return Success("投票成功");
             }
             catch(Exception ex)

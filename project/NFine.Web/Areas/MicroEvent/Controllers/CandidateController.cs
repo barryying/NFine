@@ -236,6 +236,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             //    F_Result = true,
             //    F_Description = discription,
             //});
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Success("加浏览量成功");
         }
 
@@ -245,6 +246,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         public ActionResult GetRankingList(string keyvalue)
         {
             var data = candidateApp.GetRankingList(keyvalue);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(data.ToJson());
         }
     }

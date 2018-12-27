@@ -222,8 +222,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         // /MicroEvent/AddEvent/GetEventPrize?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
         public ActionResult GetEventPrize(string keyValue)
         {
+            string callbackFunc = Request.QueryString["callback"];
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+
             var data = eventApp.GetEventPrize(keyValue);
-            return Content(data);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            return Content(callbackFunc + "(" + jss.Serialize(new
+            {
+                data = data
+            }) + ")");
         }
         
         [HttpPost]
@@ -517,6 +524,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         public ActionResult GetImageList(string keyvalue, string uploadType)
         {
             var data = pictureapp.GetImageList(keyvalue,uploadType);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(data.ToJson());
         }
         [HttpGet]
