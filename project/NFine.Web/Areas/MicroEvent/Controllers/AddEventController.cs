@@ -220,12 +220,12 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HttpGet]
         [AllowAnonymous]
         // /MicroEvent/AddEvent/GetEventPrize?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
-        public ActionResult GetEventPrize(string keyValue)
+        public ActionResult GetEventPrizeOrRules(string keyValue, string type)
         {
             string callbackFunc = Request.QueryString["callback"];
             System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
 
-            var data = eventApp.GetEventPrize(keyValue);
+            var data = eventApp.GetEventPrizeOrRules(keyValue,type);
             HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(callbackFunc + "(" + jss.Serialize(new
             {
@@ -523,9 +523,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         // /MicroEvent/AddEvent/GetImageList?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28&uploadType=1
         public ActionResult GetImageList(string keyvalue, string uploadType)
         {
-            var data = pictureapp.GetImageList(keyvalue,uploadType);
+            string callbackFunc = Request.QueryString["callback"];
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+            var data = pictureapp.GetImageList(keyvalue, uploadType);
             HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-            return Content(data.ToJson());
+            return Content(callbackFunc + "(" + jss.Serialize(new
+            {
+                data = data
+            }) + ")");
         }
         [HttpGet]
         [HandlerAjaxOnly]

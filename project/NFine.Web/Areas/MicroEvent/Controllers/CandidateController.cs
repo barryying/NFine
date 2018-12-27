@@ -245,9 +245,15 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         // /MicroEvent/Candidate/GetRankingList?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
         public ActionResult GetRankingList(string keyvalue)
         {
+            string callbackFunc = Request.QueryString["callback"];
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+
             var data = candidateApp.GetRankingList(keyvalue);
             HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-            return Content(data.ToJson());
+            return Content(callbackFunc + "(" + jss.Serialize(new
+            {
+                data = data
+            }) + ")");
         }
     }
 }

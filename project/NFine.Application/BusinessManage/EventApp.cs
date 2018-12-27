@@ -178,7 +178,7 @@ namespace NFine.Application.BusinessManage
             service.SubmitCloneButton(eventEntity);
         }
 
-        public string GetEventPrize(string eventId)
+        public string GetEventPrizeOrRules(string eventId, string type)
         {
             try
             {
@@ -198,13 +198,13 @@ namespace NFine.Application.BusinessManage
                 string result = "";
                 if (!evententity.IsEmpty())
                 {
-                    if (evententity[0].F_VotePrizeIntroDuction != null)
+                    if (type.ToLower() == "prize" && evententity[0].F_VotePrizeIntroDuction != null)
                     {
-                        result += evententity[0].F_VotePrizeIntroDuction.ToString();
+                        result = evententity[0].F_VotePrizeIntroDuction.ToString();
                     }
-                    if (evententity[0].F_VoteRules != null)
+                    if (type.ToLower() == "rules" && evententity[0].F_VoteRules != null)
                     {
-                        result += evententity[0].F_VoteRules.ToString();
+                        result = evententity[0].F_VoteRules.ToString();
                     }
                     return result;
                 }
