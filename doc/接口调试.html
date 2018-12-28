@@ -5,11 +5,11 @@
 <title>jsonp</title>
 </head>
 <style type="text/css">
-ul{ list-style:none; padding:0px; margin:0px; width:590px;
+ul{ list-style:none; padding:5px; margin:0px; width:590px;
 height:20px; line-height:20px; border:1px solid #99CC00;
 border-top:0px; font-size:12px;}
 ul li{ display:block; width:33%; float:left;text-indent:2em}
-ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;border-radius: 10px;}
+ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;margin-right: 5px;border-radius: 10px;}
 .th{ background:#F1FADE; font-weight:bold; border-top:1px }
 </style>
 <body>
@@ -55,6 +55,7 @@ $(function(){
 		}
 	});
 	
+	var ids = new Array();
 	$.ajax({
 		url: 'http://120.78.154.91/MicroEvent/Candidate/GetRankingList',
 		type: 'get',
@@ -64,35 +65,38 @@ $(function(){
 		jsonpCallback: 'getRankingList',
 		success: function(data){
 			var rankinglist = data["data"];
-			var id;
 			var index;
 			var candidatename;
 			var votenumber;
 			var htmlstr;
 			var imagestr;
 			for(var i = 0; i < rankinglist.length; i++){	
-				id = rankinglist[i].F_Id;
-				$.ajax({
-					url: 'http://120.78.154.91/MicroEvent/AddEvent/GetImageList',
-					type: 'get',
-					dataType: 'jsonp',
-					data: {keyvalue: id, uploadType: '4' },
-					jsonp: 'callback',
-					jsonpCallback: 'getCandidateImage',
-					success: function(data2){
-						imagestr = "http://120.78.154.91" + data2["data"][0].F_VirtualPathSmall;
-						$("#" + id).find("img").attr("src",imagestr);
-					}
-				});
-	
+				ids.push(rankinglist[i].F_Id);
 				index = i + 1;
 				candidatename = rankinglist[i].F_Name;
 				votenumber = rankinglist[i].F_VoteNumber;
 				htmlstr = "<ul id='" + rankinglist[i].F_Id + "'><li>" + index + "</li><li><img src='' width='100' height='75' />" + candidatename + "</li><li>" + votenumber + "</li></ul>" 
-				$("#rankinglist").append(htmlstr);
-			}
+				$("#rankinglist").append(htmlstr);		
+				GenImage(ids[i]);				
+			}			
 		}
 	});
+	
+	function GenImage(id){		
+		$.ajax({
+			url: 'http://120.78.154.91/MicroEvent/AddEvent/GetImageList',
+			type: 'get',
+			dataType: 'jsonp',
+			data: {keyvalue: id, uploadType: '4' },
+			jsonp: 'callback',
+			async: false,//设置成同步
+			jsonpCallback: 'getCandidateImage' + id.substr(0,4),
+			success: function(data2){
+				imagestr = "http://120.78.154.91" + data2["data"][0].F_VirtualPathSmall;
+				$("#" + id).find("img").attr("src",imagestr);
+			}
+		});
+	}
 	
 	$.ajax({
 		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetImageList',
