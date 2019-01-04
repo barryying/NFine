@@ -17,32 +17,37 @@
     <script>
         $(function () {
             GetSalaryChart();
-            GetLeaveChart();
         });
         function GetSalaryChart() {
+            var array = [];
+            for(var i = 0;i < 21; i=i+7){
+                array.push(new Date(new Date()
+                .setDate(new Date().getDate()-i))
+                .toLocaleDateString())
+            }
             var randomScalingFactor = function () { return Math.round(Math.random() * 60000) };
             var lineChartData = {
-                labels: ["20181128", "20181127", "20181126", "20181125", "20181124", "20181123", "20181122", "20181121", "20181120", "20181119"],
+                labels: array,
                 datasets: [
                     {
-                        label: "My First dataset",
+                        label: "交易金额",
                         fillColor: "rgba(220,220,220,0.2)",
                         strokeColor: "rgba(220,220,220,1)",
                         pointColor: "rgba(220,220,220,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
                     },
                     {
-                        label: "My Second dataset",
+                        label: "投票数量",
                         fillColor: "rgba(151,187,205,0.2)",
                         strokeColor: "rgba(151,187,205,1)",
                         pointColor: "rgba(151,187,205,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(151,187,205,1)",
-                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
                     }
                 ]
             }
@@ -51,45 +56,6 @@
                 responsive: false,
                 bezierCurve: false
             });
-        }
-        function GetLeaveChart() {
-            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
-            var a_value = randomScalingFactor();
-            var b_value = randomScalingFactor();
-            var c_value = randomScalingFactor();
-            var d_value = randomScalingFactor();
-            var doughnutData = [
-	            {
-	                value: a_value,
-	                color: "#F7464A",
-	                highlight: "#FF5A5E",
-	                label: "事假"
-	            },
-	            {
-	                value: b_value,
-	                color: "#46BFBD",
-	                highlight: "#5AD3D1",
-	                label: "病假"
-	            },
-	            {
-	                value: c_value,
-	                color: "#FDB45C",
-	                highlight: "#FFC870",
-	                label: "公休假"
-	            },
-	            {
-	                value: d_value,
-	                color: "#949FB1",
-	                highlight: "#A8B3C5",
-	                label: "调休假"
-	            }
-            ];
-            var ctx = document.getElementById("leavechart").getContext("2d");
-            window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, { responsive: false });
-            $("#a_value").html(a_value + "小时");
-            $("#b_value").html(b_value + "小时");
-            $("#c_value").html(c_value + "小时");
-            $("#d_value").html(d_value + "小时");
         }
     </script>
 </head>
@@ -107,18 +73,18 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #fc8675;">
                             <h5>本周交易</h5>
-                            <h3 class="m-top-none">@Html.Label("F_Money", Model.F_Money.ToString())</h3>
-                            <h6 class="m-top-none">本周：@Html.Label("YesterdayMoney", Model.YesterdayMoney.ToString())</h6>
-                            <h6 class="m-top-none">累计：@Html.Label("TotalMoney", Model.TotalMoney.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("TodayMoney", Model.TodayMoney == null ? "0" : Model.TodayMoney.ToString())</h3>
+                            <h6 class="m-top-none">上周：@Html.Label("YesterdayMoney", Model.YesterdayMoney == null ? "0" : Model.YesterdayMoney.ToString())</h6>
+                            <h6 class="m-top-none">累计：@Html.Label("TotalMoney", Model.TotalMoney == null ? "0" : Model.TotalMoney.ToString())</h6>
                             <div class="stat-icon"><i class="fa fa-user fa-3x"></i></div>
                         </div>
                     </div>
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #6bafbd;">
                             <h5>进行中</h5>
-                            <h3 class="m-top-none">@Html.Label("VotingCount", Model.VotingCount.ToString())</h3>
-                            <h6 class="m-top-none">本周开始：@Html.Label("VoteTodayStartCount", Model.VoteTodayStartCount.ToString())</h6>
-                            <h6 class="m-top-none">本周结束：@Html.Label("VoteTodayEndCount", Model.VoteTodayEndCount.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("VotingCount", Model.VotingCount == null ? "0" : Model.VotingCount.ToString())</h3>
+                            <h6 class="m-top-none">本周开始：@Html.Label("VoteTodayStartCount", Model.VoteTodayStartCount == null ? "0" : Model.VoteTodayStartCount.ToString())</h6>
+                            <h6 class="m-top-none">本周结束：@Html.Label("VoteTodayEndCount", Model.VoteTodayEndCount == null ? "0" : Model.VoteTodayEndCount.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-hdd-o fa-3x"></i>
                             </div>
@@ -127,9 +93,9 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #f3ce85;">
                             <h5>投票活动</h5>
-                            <h3 class="m-top-none">@Html.Label("TotalCount", Model.TotalCount.ToString())</h3>
-                            <h6 class="m-top-none">未开始：@Html.Label("NotStartCount", Model.NotStartCount.ToString())</h6>
-                            <h6 class="m-top-none">已结束：@Html.Label("EndCount", Model.EndCount.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("TotalCount", Model.TotalCount == null ? "0" : Model.TotalCount.ToString())</h3>
+                            <h6 class="m-top-none">未开始：@Html.Label("NotStartCount", Model.NotStartCount == null ? "0" : Model.NotStartCount.ToString())</h6>
+                            <h6 class="m-top-none">已结束：@Html.Label("EndCount", Model.EndCount == null ? "0" : Model.EndCount.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-shopping-cart fa-3x"></i>
                             </div>
@@ -138,9 +104,9 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #949FB1;">
                             <h5>累积投票</h5>
-                            <h3 class="m-top-none">@Html.Label("TotalVoteNumber", Model.TotalVoteNumber.ToString())</h3>
-                            <h6 class="m-top-none">累计浏览：@Html.Label("TotalViewNumber", Model.TotalViewNumber.ToString())</h6>
-                            <h6 class="m-top-none">累计送票：@Html.Label("TotalGiftNumber", Model.TotalGiftNumber.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("TotalVoteNumber", Model.TotalVoteNumber == null ? "0" : Model.TotalVoteNumber.ToString())</h3>
+                            <h6 class="m-top-none">累计浏览：@Html.Label("TotalViewNumber", Model.TotalViewNumber == null ? "0" : Model.TotalViewNumber.ToString())</h6>
+                            <h6 class="m-top-none">累计送票：@Html.Label("TotalGiftNumber", Model.TotalGiftNumber == null ? "0" : Model.TotalGiftNumber.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-gavel fa-3x"></i>
                             </div>

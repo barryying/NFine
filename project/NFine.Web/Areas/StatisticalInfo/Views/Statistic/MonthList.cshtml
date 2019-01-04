@@ -18,12 +18,17 @@
     <script>
         $(function () {
             GetSalaryChart();
-            GetLeaveChart();
         });
         function GetSalaryChart() {
+            var array = [];
+            for (var i = 0; i < 63; i = i + 31) {
+                array.push(new Date(new Date()
+                .setDate(new Date().getDate() - i))
+                .toLocaleDateString())
+            }
             var randomScalingFactor = function () { return Math.round(Math.random() * 60000) };
             var lineChartData = {
-                labels: ["20181128", "20181127", "20181126", "20181125", "20181124", "20181123", "20181122", "20181121", "20181120", "20181119"],
+                labels: array,
                 datasets: [
                     {
                         label: "My First dataset",
@@ -110,9 +115,9 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #fc8675;">
                             <h5>本月交易</h5>
-                            <h3 class="m-top-none">@Html.Label("F_Money", Model.F_Money.ToString())</h3>
-                            <h6 class="m-top-none">上月：@Html.Label("YesterdayMoney", Model.YesterdayMoney.ToString())</h6>
-                            <h6 class="m-top-none">累计：@Html.Label("TotalMoney", Model.TotalMoney.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("TodayMoney", Model.TodayMoney == null ? "0" : Model.TodayMoney.ToString())</h3>
+                            <h6 class="m-top-none">上月：@Html.Label("YesterdayMoney", Model.YesterdayMoney == null ? "0" : Model.YesterdayMoney.ToString())</h6>
+                            <h6 class="m-top-none">累计：@Html.Label("TotalMoney", Model.TotalMoney == null ? "0" : Model.TotalMoney.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-user fa-3x"></i>
                             </div>
@@ -121,9 +126,9 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #6bafbd;">
                             <h5>进行中</h5>
-                            <h3 class="m-top-none">@Html.Label("VotingCount", Model.VotingCount.ToString())</h3>
-                            <h6 class="m-top-none">本月开始：@Html.Label("VoteTodayStartCount", Model.VoteTodayStartCount.ToString())</h6>
-                            <h6 class="m-top-none">本月结束：@Html.Label("VoteTodayEndCount", Model.VoteTodayEndCount.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("VotingCount", Model.VotingCount == null ? "0" : Model.VotingCount.ToString())</h3>
+                            <h6 class="m-top-none">本月开始：@Html.Label("VoteTodayStartCount", Model.VoteTodayStartCount == null ? "0" : Model.VoteTodayStartCount.ToString())</h6>
+                            <h6 class="m-top-none">本月结束：@Html.Label("VoteTodayEndCount", Model.VoteTodayEndCount == null ? "0" : Model.VoteTodayEndCount.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-hdd-o fa-3x"></i>
                             </div>
@@ -132,9 +137,9 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #f3ce85;">
                             <h5>投票活动</h5>
-                            <h3 class="m-top-none">@Html.Label("TotalCount", Model.TotalCount.ToString())</h3>
-                            <h6 class="m-top-none">未开始：@Html.Label("NotStartCount", Model.NotStartCount.ToString())</h6>
-                            <h6 class="m-top-none">已结束：@Html.Label("EndCount", Model.EndCount.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("TotalCount", Model.TotalCount == null ? "0" : Model.TotalCount.ToString())</h3>
+                            <h6 class="m-top-none">未开始：@Html.Label("NotStartCount", Model.NotStartCount == null ? "0" : Model.NotStartCount.ToString())</h6>
+                            <h6 class="m-top-none">已结束：@Html.Label("EndCount", Model.EndCount == null ? "0" : Model.EndCount.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-shopping-cart fa-3x"></i>
                             </div>
@@ -143,9 +148,9 @@
                     <div class="dashboard-stats">
                         <div class="dashboard-stats-item" style="background-color: #949FB1;">
                             <h5>累积投票</h5>
-                            <h3 class="m-top-none">@Html.Label("TotalVoteNumber", Model.TotalVoteNumber.ToString())</h3>
-                            <h6 class="m-top-none">累计浏览：@Html.Label("TotalViewNumber", Model.TotalViewNumber.ToString())</h6>
-                            <h6 class="m-top-none">累计送票：@Html.Label("TotalGiftNumber", Model.TotalGiftNumber.ToString())</h6>
+                            <h3 class="m-top-none">@Html.Label("TotalVoteNumber", Model.TotalVoteNumber == null ? "0" : Model.TotalVoteNumber.ToString())</h3>
+                            <h6 class="m-top-none">累计浏览：@Html.Label("TotalViewNumber", Model.TotalViewNumber == null ? "0" : Model.TotalViewNumber.ToString())</h6>
+                            <h6 class="m-top-none">累计送票：@Html.Label("TotalGiftNumber", Model.TotalGiftNumber == null ? "0" : Model.TotalGiftNumber.ToString())</h6>
                             <div class="stat-icon">
                                 <i class="fa fa-gavel fa-3x"></i>
                             </div>

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BusinessManage\AutoTaskMap.cs" />
     <Compile Include="BusinessManage\CandidateMap.cs" />
+    <Compile Include="BusinessManage\GiftListInsertMap.cs" />
     <Compile Include="BusinessManage\GiftListMap.cs" />
     <Compile Include="BusinessManage\GiftMap.cs" />
     <Compile Include="BusinessManage\PictureMap.cs" />

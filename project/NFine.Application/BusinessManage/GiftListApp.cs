@@ -1,5 +1,7 @@
-﻿using NFine.Code;
+﻿using NFine.Application.SystemSecurity;
+using NFine.Code;
 using NFine.Domain.Entity.BusinessManage;
+using NFine.Domain.Entity.SystemSecurity;
 using NFine.Domain.IRepository.BusinessManage;
 using NFine.Repository.BusinessManage;
 using System;
@@ -96,7 +98,7 @@ namespace NFine.Application.BusinessManage
             sql += "F_ID,F_ParentId,F_CandidateID,F_GiftID,F_Money,F_PaymentStatus,F_IP,F_OPENID,F_SortCode,F_DeleteMark,F_EnabledMark,F_CreatorTime,F_CreatorUserId,F_LastModifyTime,F_LastModifyUserId,F_DeleteTime,F_DeleteUserId FROM Sys_GiftList";
             return service.FindList(sql).FirstOrDefault();
         }
-        
+
         //SqlDependency dependency = new SqlDependency();
         //private void Update()
         //{
@@ -119,5 +121,21 @@ namespace NFine.Application.BusinessManage
         //    //这里要再次调用
         //    Update();
         //}
+        
+        public void SubmitForm(string keyValue, string money, string giftid, string paymentstatus, string ip, string openid)
+        {
+            GiftListEntity giftListEntity = new GiftListEntity();
+            giftListEntity.F_CandidateID = keyValue;
+            giftListEntity.F_GiftID = giftid;
+            giftListEntity.F_Money = decimal.Parse(money);
+            giftListEntity.F_PaymentStatus = paymentstatus;
+            giftListEntity.F_IP = ip;
+            giftListEntity.F_OPENID = openid;
+            giftListEntity.F_CreatorTime = DateTime.Now;
+            giftListEntity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
+
+            giftListEntity.Create();
+            service.Insert(giftListEntity);
+        }
     }
 }

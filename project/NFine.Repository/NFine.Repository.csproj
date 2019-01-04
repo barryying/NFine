@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BusinessManage\AutoTaskRepository.cs" />
     <Compile Include="BusinessManage\CandidateRepository.cs" />
+    <Compile Include="BusinessManage\GiftListInsertRepository.cs" />
     <Compile Include="BusinessManage\GiftListRepository.cs" />
     <Compile Include="BusinessManage\GiftRepository.cs" />
     <Compile Include="BusinessManage\PictureRepository.cs" />

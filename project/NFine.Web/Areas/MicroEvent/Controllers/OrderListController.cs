@@ -16,6 +16,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         }
 
         private GiftListApp giftlistApp = new GiftListApp();
+        private GiftListInsertApp giftlistinsertApp = new GiftListInsertApp();
 
         [HttpGet]
         [HandlerAjaxOnly]
@@ -39,5 +40,35 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             return Content(data.ToJson());
         }
 
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetOrderListInsert()
+        {
+            var data = giftlistinsertApp.GetOrderListInsert();
+            return Content(data.ToJson());
+        }
+
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult DeleteTable()
+        {
+            var data = giftlistinsertApp.DeleteTable();
+            return Content(data.ToJson());
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SubmitForm(string keyvalue, string money, string giftid, string paymentstatus, string ip, string openid)
+        {
+            string callbackFunc = Request.QueryString["callback"];
+            System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+            giftlistApp.SubmitForm(keyvalue, money, giftid, paymentstatus, ip, openid);
+            HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            return Content(callbackFunc + "(" + jss.Serialize(new
+            {
+                data = Success("操作成功。")
+            }) + ")");
+        }
     }
 }

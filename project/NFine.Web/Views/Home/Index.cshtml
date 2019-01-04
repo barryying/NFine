@@ -252,14 +252,49 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            spop({
-                template: '寻找2018年度新疆葡萄种植基地A赛区网络评选大赛吐鲁番市火心葡萄种植基地￥5.00（支付中）',
-                group: 'submit-satus',
-                style: 'success',
-                autoclose: 2000
-            });
+            var timer3 = window.setInterval(smallPop, 3000);
         });
-
+        function smallPop() {
+            $.ajax({
+                url: "/MicroEvent/OrderList/GetOrderListInsert",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        var status, style;
+                        switch (data[0].F_PaymentStatus) {
+                            case "1":
+                                status = "已取消";
+                                style = "error";
+                                break;
+                            case "2":
+                                status = "支付中";
+                                style = "warning";
+                                break;
+                            case "3":
+                                status = "已付款";
+                                style = "success";
+                                break;
+                        }
+                        spop({
+                            template: data[0].EventName + '</br>' + data[0].CandidateName + ' ￥' + data[0].F_Money + ' (' + status + '）',
+                            group: 'submit-satus',
+                            style: style,
+                            autoclose: 2000
+                        });
+                        $.ajax({
+                            url: "/MicroEvent/OrderList/DeleteTable",
+                            data: {},
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                            }
+                        });
+                    }
+                }
+            });
+        }
         var t = 5;
         function refreshtime() {
             t = t - 1;

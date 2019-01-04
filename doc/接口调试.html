@@ -8,7 +8,7 @@
 ul{ list-style:none; padding:5px; margin:0px; width:590px;
 height:20px; line-height:20px; border:1px solid #99CC00;
 border-top:0px; font-size:12px;}
-ul li{ display:block; width:33%; float:left;text-indent:2em}
+ul li{ display:block; width:25%; float:left;text-indent:2em}
 ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;margin-right: 5px;border-radius: 10px;}
 .th{ background:#F1FADE; font-weight:bold; border-top:1px }
 </style>
@@ -22,14 +22,50 @@ ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;m
 <li>排名</li>
 <li>选手</li>
 <li>票数</li>
+<li>操作</li>
 </ul>
 </div>
 </br>
 </br>
 <div id="imagelist"></div>
+</br>
+</br>
+<div id="order">
+<input id="order" type="button" value="点击模拟下单" onclick="Order('f488b366-287d-40b2-bc64-c42254e634bb','200.00','07513269-963b-43b4-bbc7-cfb765126635','1','127.0.0.1', 'f34frrq');"/>
+</div>
 
 <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script>
+	function Order(keyvalue, money, giftid, paymentstatus, ip, openid){		
+		$.ajax({
+			url: 'http://120.78.154.91/MicroEvent/OrderList/SubmitForm',
+			type: 'get',
+			dataType: 'jsonp',
+			data: {keyvalue: keyvalue,money: money,giftid: giftid,paymentstatus: paymentstatus,ip: ip,openid: openid},
+			jsonp: 'callback',
+			async: false,//设置成同步
+			jsonpCallback: 'order' + keyvalue.substr(0,4),
+			success: function(data){
+				//alert(data.message);
+			}
+		});
+	}
+	//Vote('f488b366-287d-40b2-bc64-c42254e634bb','127.0.0.1','aaa','bbb');
+	function Vote(keyvalue,ip,WXid,WXnick){		
+		$.ajax({
+			url: 'http://localhost:1851/MicroEvent/Vote/Vote',
+			type: 'get',
+			dataType: 'jsonp',
+			data: {keyvalue: keyvalue,ip: ip,WXid: WXid,WXnick: WXnick},
+			jsonp: 'callback',
+			async: false,//设置成同步
+			jsonpCallback: 'vote' + keyvalue.substr(0,4),
+			success: function(data){
+				alert(data.data.Content);
+			}
+		});
+	}
+	
 $(function(){
 	$.ajax({
 		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetEventPrizeOrRules',
@@ -75,7 +111,7 @@ $(function(){
 				index = i + 1;
 				candidatename = rankinglist[i].F_Name;
 				votenumber = rankinglist[i].F_VoteNumber;
-				htmlstr = "<ul id='" + rankinglist[i].F_Id + "'><li>" + index + "</li><li><img src='' width='100' height='75' />" + candidatename + "</li><li>" + votenumber + "</li></ul>" 
+				htmlstr = "<ul id='" + rankinglist[i].F_Id + "'><li>" + index + "</li><li><img src='' width='100' height='75' />" + candidatename + "</li><li>" + votenumber + "</li><li><a href='javascript:void(0);' onclick=\"Vote('" + rankinglist[i].F_Id + "','127.0.0.1','aaa','bbb');\">投票</a></li></ul>" 
 				$("#rankinglist").append(htmlstr);		
 				GenImage(ids[i]);				
 			}			
