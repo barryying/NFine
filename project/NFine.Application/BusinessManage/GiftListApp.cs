@@ -132,7 +132,7 @@ namespace NFine.Application.BusinessManage
             giftListEntity.F_IP = ip;
             giftListEntity.F_OPENID = openid;
             giftListEntity.F_CreatorTime = DateTime.Now;
-            giftListEntity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
+            giftListEntity.F_CreatorUserId = openid;
 
             giftListEntity.Create();
             service.Insert(giftListEntity);

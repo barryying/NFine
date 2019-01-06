@@ -51,7 +51,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                 voteentity.F_WX_id = WXid;
                 voteentity.F_WX_Nick = WXnick;
                 voteentity.F_CreatorTime = DateTime.Now;
-                voteentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
+                voteentity.F_CreatorUserId = WXnick;
                 voteapp.SubmitForm(voteentity, null);
                 
                 return Content(callbackFunc + "(" + jss.Serialize(new

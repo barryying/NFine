@@ -53,7 +53,7 @@ ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;m
 	//Vote('f488b366-287d-40b2-bc64-c42254e634bb','127.0.0.1','aaa','bbb');
 	function Vote(keyvalue,ip,WXid,WXnick){		
 		$.ajax({
-			url: 'http://localhost:1851/MicroEvent/Vote/Vote',
+			url: 'http://120.78.154.91/MicroEvent/Vote/Vote',
 			type: 'get',
 			dataType: 'jsonp',
 			data: {keyvalue: keyvalue,ip: ip,WXid: WXid,WXnick: WXnick},
@@ -62,6 +62,7 @@ ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;m
 			jsonpCallback: 'vote' + keyvalue.substr(0,4),
 			success: function(data){
 				alert(data.data.Content);
+				location.reload();
 			}
 		});
 	}
