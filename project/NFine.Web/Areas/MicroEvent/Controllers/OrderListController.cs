@@ -70,5 +70,13 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                 data = Success("操作成功。")
             }) + ")");
         }
+
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetStatisticMoney()
+        {
+            var data = giftlistApp.GetStatisticMoney();
+            return Content(data.ToJson());
+        }
     }
 }

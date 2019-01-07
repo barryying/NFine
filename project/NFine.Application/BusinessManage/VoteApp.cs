@@ -1,5 +1,7 @@
-﻿using NFine.Domain.Entity.BusinessManage;
+﻿using NFine.Code;
+using NFine.Domain.Entity.BusinessManage;
 using NFine.Domain.IRepository.BusinessManage;
+using NFine.Domain.ViewModel;
 using NFine.Repository.BusinessManage;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,21 @@ namespace NFine.Application.BusinessManage
         {
             string sql = "SELECT * FROM Sys_Vote where F_CandidateID = '" + candidateId + "' and F_VoteType=2";
             return service.FindList(sql);
+        }
+
+        public List<StatisticVoteNumberModel> GetStatisticVoteNumber()
+        {
+            var statisticVoteNumberModel = new List<StatisticVoteNumberModel>();
+            string sql = "SELECT * from Sys_Vote";
+            List<VoteEntity> voteEntity = service.FindList(sql);
+            var sums = from temp in voteEntity
+                       orderby temp.F_CreatorTime descending
+                       group temp by temp.F_CreatorTime.ToDateString() into g
+                       select new { DateStr = g.Key, Count = g.Sum(temp => temp.F_VoteNumber) };
+
+            foreach (var sum in sums)
+                statisticVoteNumberModel.Add(new StatisticVoteNumberModel { DateStr = sum.DateStr.ToString(), CountVoteNumber = sum.Count });
+            return statisticVoteNumberModel;
         }
     }
 }

@@ -44,6 +44,8 @@
     <Compile Include="01 Infrastructure\IDeleteAudited.cs" />
     <Compile Include="01 Infrastructure\IEntity.cs" />
     <Compile Include="01 Infrastructure\IModificationAudited.cs" />
+    <Compile Include="02 ViewModel\StatisticMoneyModel.cs" />
+    <Compile Include="02 ViewModel\StatisticVoteNumberModel.cs" />
     <Compile Include="02 ViewModel\ViewAllCandidate.cs" />
     <Compile Include="03 Entity\BusinessManage\AutoTaskEntity.cs" />
     <Compile Include="03 Entity\BusinessManage\GiftEntity.cs" />

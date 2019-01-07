@@ -19,14 +19,109 @@
         $(function () {
             GetSalaryChart();
         });
-        function GetSalaryChart() {
-            var array = [];
-            for (var i = 0; i < 63; i = i + 31) {
-                array.push(new Date(new Date()
-                .setDate(new Date().getDate() - i))
-                .toLocaleDateString())
+        function getMaximin(arr, maximin) {
+            if (maximin == "max") {
+                return Math.max.apply(Math, arr);
             }
-            var randomScalingFactor = function () { return Math.round(Math.random() * 60000) };
+            else if (maximin == "min") {
+                return Math.min.apply(Math, arr);
+            }
+        }
+        //获取两日期之间日期列表函数
+        function getdiffdate(stime, etime, duration) {
+            //初始化日期列表，数组
+            var diffdate = new Array();
+            //开始日期小于等于结束日期,并循环
+            while (stime <= etime) {
+                diffdate.unshift(stime);
+                //stime = new Date(stime.getTime());
+
+                //获取开始日期时间戳
+                var stime_ts = new Date(stime).getTime();
+                //console.log('当前日期：' + stime + '当前时间戳：' + stime_ts);
+
+                //增加一天时间戳后的日期
+                var next_date;
+                if (duration != 1)
+                    next_date = stime_ts + (24 * 60 * 60 * 1000 * duration);
+                else
+                    next_date = stime_ts + (24 * 60 * 60 * 1000);
+
+                //拼接年月日，这里的月份会返回（0-11），所以要+1
+                var next_dates_y = new Date(next_date).getFullYear() + '-';
+                var next_dates_m = (new Date(next_date).getMonth() + 1 < 10) ? '0' + (new Date(next_date).getMonth() + 1) + '-' : (new Date(next_date).getMonth() + 1) + '-';
+                var next_dates_d = (new Date(next_date).getDate() < 10) ? '0' + new Date(next_date).getDate() : new Date(next_date).getDate();
+
+                stime = next_dates_y + next_dates_m + next_dates_d;
+
+            }
+            //console.log(diffdate);
+            return diffdate;
+        }
+        function GetSalaryChart() {
+            var t = new Date().getTime() - 1000 * 60 * 60 * 24 * 62;
+            var stime = new Date(t).format("Y-m-d");
+            var etime = new Date().format("Y-m-d");
+            var array = getdiffdate(stime, etime, 31);
+            var arraydata1 = new Array();
+            var arraydata2 = new Array();
+
+            //var array = [];
+            //for (var i = 0; i < 63; i = i + 31) {
+            //    array.push(new Date(new Date()
+            //    .setDate(new Date().getDate() - i))
+            //    .toLocaleDateString())
+            //}
+
+            $.ajax({
+                url: "/MicroEvent/OrderList/GetStatisticMoney",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    debugger;
+                    //console.log(data);
+                    for (var j = 0; j < array.length; j++) {
+                        var count = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var t1 = new Date(array[j]).setDate(new Date(array[j]).getDate() - 31);
+                            var t2 = new Date(data[i].DateStr).setDate(new Date(data[i].DateStr).getDate());
+                            var t3 = new Date(array[j]).setDate(new Date(array[j]).getDate());
+                            if (t1 < t2 && t3 > t2)
+                                count += data[i].CountMoney;
+                            //if (array[j] > data[i].DateStr && array[j + 1] < data[i].DateStr) {
+                            //    count += data[i].CountMoney;
+                            //}
+                        }
+                        arraydata1.push(count);
+                    }
+                    console.log("arraydata1:" + arraydata1);
+                }
+            });
+
+            $.ajax({
+                url: "/MicroEvent/Vote/GetStatisticVoteNumber",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    //console.log(data);
+                    for (var j = 0; j < array.length; j++) {
+                        var count = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var t1 = new Date(array[j]).setDate(new Date(array[j]).getDate() - 31);
+                            var t2 = new Date(data[i].DateStr).setDate(new Date(data[i].DateStr).getDate());
+                            var t3 = new Date(array[j]).setDate(new Date(array[j]).getDate());
+                            if (t1 < t2 && t3 > t2)
+                                count += data[i].CountVoteNumber;
+                        }
+                        arraydata2.push(count);
+                    }
+                    console.log("arraydata2:" + arraydata2);
+                }
+            });
+
+            var randomScalingFactor = function () { return Math.round(Math.random() * getMaximin(arraydata, "max")) };
             var lineChartData = {
                 labels: array,
                 datasets: [
@@ -38,7 +133,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                        data: arraydata1
                     },
                     {
                         label: "My Second dataset",
@@ -48,7 +143,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(151,187,205,1)",
-                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                        data: arraydata2
                     }
                 ]
             }

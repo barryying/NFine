@@ -214,6 +214,7 @@
     <Content Include="Content\js\charts\Chart.js" />
     <Content Include="Content\js\charts\Chart.min.js" />
     <Content Include="Content\js\cookie\jquery.cookie.js" />
+    <Content Include="Content\js\dateformat\date.format.js" />
     <Content Include="Content\js\datepicker\calendar.js" />
     <Content Include="Content\js\datepicker\DatePicker.js" />
     <Content Include="Content\js\datepicker\lang\en.js" />

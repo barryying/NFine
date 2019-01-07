@@ -77,5 +77,12 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             }
         }
 
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetStatisticVoteNumber()
+        {
+            var data = voteapp.GetStatisticVoteNumber();
+            return Content(data.ToJson());
+        }
     }
 }

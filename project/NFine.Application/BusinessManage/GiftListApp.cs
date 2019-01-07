@@ -3,6 +3,7 @@ using NFine.Code;
 using NFine.Domain.Entity.BusinessManage;
 using NFine.Domain.Entity.SystemSecurity;
 using NFine.Domain.IRepository.BusinessManage;
+using NFine.Domain.ViewModel;
 using NFine.Repository.BusinessManage;
 using System;
 using System.Collections.Generic;
@@ -136,6 +137,21 @@ namespace NFine.Application.BusinessManage
 
             giftListEntity.Create();
             service.Insert(giftListEntity);
+        }
+        
+        public List<StatisticMoneyModel> GetStatisticMoney()
+        {
+            var statisticMoneyModel = new List<StatisticMoneyModel>();
+            string sql = "SELECT * from Sys_GiftList";
+            List<GiftListEntity> giftListentity = service.FindList(sql);
+            var sums = from temp in giftListentity
+                        where temp.F_PaymentStatus.Equals("3")
+                        group temp by temp.F_CreatorTime.ToDateString() into g
+                        select new { DateStr = g.Key, Count = g.Sum(temp => temp.F_Money) };
+
+            foreach (var sum in sums)
+                statisticMoneyModel.Add(new StatisticMoneyModel { DateStr = sum.DateStr.ToString(), CountMoney = sum.Count });
+             return statisticMoneyModel;
         }
     }
 }
