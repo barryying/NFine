@@ -236,6 +236,10 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HttpPost]
         public ActionResult UploadImage(string keyvalue, string uploadType = "1", string pictureLink = "#")
         {
+            PictureEntity pictureentity = new PictureEntity();
+            pictureentity.F_Id = Common.GuId();
+            if (keyvalue == "")
+                keyvalue = pictureentity.F_Id;
             Image img = null;
             int towidth = 0;
             int toheight = 0;
@@ -267,8 +271,8 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                 PostedFile.SaveAs(savePath);
 
                                 //写入Sys_Picture数据库
-                                PictureEntity pictureentity = new PictureEntity();
-                                pictureentity.F_Id = Common.GuId();
+                                //PictureEntity pictureentity = new PictureEntity();
+                                //pictureentity.F_Id = Common.GuId();
                                 pictureentity.F_Type = "6";
                                 pictureentity.F_EventId = keyvalue;
                                 pictureentity.F_Link = "";
@@ -383,8 +387,6 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                     #endregion
 
                                     //写入Sys_Picture数据库
-                                    PictureEntity pictureentity = new PictureEntity();
-                                    pictureentity.F_Id = Common.GuId();
                                     pictureentity.F_Type = uploadType;
                                     if (uploadType == "1" || uploadType == "2" || uploadType == "3")
                                         pictureentity.F_EventId = keyvalue;

@@ -83,7 +83,8 @@ namespace NFine.Application.SystemManage
                     if (item.F_ItemType == 1)
                     {
                         ModuleEntity moduleEntity = moduledata.Find(t => t.F_Id == item.F_ItemId);
-                        authorizeurldata.Add(new AuthorizeActionModel { F_Id = moduleEntity.F_Id, F_UrlAddress = moduleEntity.F_UrlAddress });
+                        if(moduleEntity != null)
+                            authorizeurldata.Add(new AuthorizeActionModel { F_Id = moduleEntity.F_Id, F_UrlAddress = moduleEntity.F_UrlAddress });
                     }
                     else if (item.F_ItemType == 2)
                     {

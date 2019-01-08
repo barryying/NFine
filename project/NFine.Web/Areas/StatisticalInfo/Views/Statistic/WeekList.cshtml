@@ -26,6 +26,14 @@
                 return Math.min.apply(Math, arr);
             }
         }
+        function getMaximinInTwoArray(arr1, arr2, maximin) {
+            if (maximin == "max") {
+                return Math.max.apply(Math, arr1) > Math.max.apply(Math, arr2) ? Math.max.apply(Math, arr1) : Math.max.apply(Math, arr2);
+            }
+            else if (maximin == "min") {
+                return Math.min.apply(Math, arr) < Math.max.apply(Math, arr) ? Math.max.apply(Math, arr1) : Math.max.apply(Math, arr2);
+            }
+        }
         //获取两日期之间日期列表函数
         function getdiffdate(stime, etime, duration) {
             //初始化日期列表，数组
@@ -120,7 +128,7 @@
                 }
             });
 
-            var randomScalingFactor = function () { return Math.round(Math.random() * getMaximin(arraydata2, "max")) };
+            var randomScalingFactor = function () { return Math.round(Math.random() * getMaximinInTwoArray(arraydata1, arraydata2, "max")) };
             var lineChartData = {
                 labels: array,
                 datasets: [

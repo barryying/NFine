@@ -17,12 +17,7 @@
             height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },
-                {
-                    label: "图片", name: "F_VoteCarouselIDs", width: 100, align: "center",
-                    formatter: function (cellvalue) {
-                        return "<img src='../../Content/img/samples/scarlet-159.png' width='100' height='75' />";
-                    }
-                },
+                { label: "图片", name: "F_VoteCarouselIDs", width: 100, align: "center", formatter: imageFormatter },
                 { label: '名称', name: 'F_Name', width: 200, align: 'left' },
                 //{ label: '编号', name: 'F_EnCode', width: 150, align: 'left' },
                 {
@@ -58,6 +53,26 @@
             viewrecords: true
         });
 
+        function imageFormatter(cellvalue, options, rowObject) {
+            var imagePath;
+            $.ajax({
+                url: '/MicroEvent/AddEvent/GetImageUrl',
+                data: { keyvalue: rowObject.F_Id, uploadType: '1' },
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    //var imagelist = data["data"];
+                    imagePath = data["1#" + rowObject.F_Id];
+                    //var htmlstr;
+                    //for (var i = 0; i < imagelist.length; i++) {
+                        //htmlstr = "<img src='http://120.78.154.91" + imagelist[i].F_VirtualPathSmall + "' width='100' height='75' />"
+                        //$("#imagelist").append(htmlstr);
+                    //}
+                }
+            });
+            return "<img src='" + imagePath + "' width='100' height='75' onerror=\"this.src='../../Content/img/nofile.png'\"/>";
+
+        }
         function candidateNumberFormatter(cellvalue, options, rowObject) {
             var candidateNumber;
             $.ajax({

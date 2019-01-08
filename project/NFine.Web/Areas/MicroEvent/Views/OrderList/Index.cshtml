@@ -7,13 +7,28 @@
     $(function () {
         gridList();
     })
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
     function gridList() {
         var $gridList = $("#gridList");
+        if (getQueryString("timeType") != null) {
+            $("#time_horizon a.active").attr('class', "btn btn-default");
+            $("#time_horizon a[data-value|='1']").attr("class", "btn btn-default active");
+        }
+        var queryJson = {
+            keyword: $("#txt_keyword").val(),
+            timeType: getQueryString("timeType") == null ? $("#time_horizon a.active").attr('data-value') : getQueryString("timeType"),
+        }
         $gridList.dataGrid({
             treeGrid: true,
             treeGridModel: "adjacency",
             ExpandColumn: "F_EnCode",
             url: "/MicroEvent/OrderList/GetGridJson",
+            postData: { queryJson: JSON.stringify(queryJson) },
             height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },

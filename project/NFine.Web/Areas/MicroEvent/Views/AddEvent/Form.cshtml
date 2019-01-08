@@ -690,108 +690,116 @@
 
         var preListCarousel = new Array();
         var preConfigListCarousel = new Array();
-        $.ajax({
-            url: "/MicroEvent/AddEvent/GetImageUrl",
-            data: { keyValue: keyValue, "uploadType": "1" },
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (data.state != "error") {
-                    var html = "";
-                    $.each(data, function (i, n) {
-                        html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
-                        preListCarousel.push(html);
+        if (keyValue != "") {
+            $.ajax({
+                url: "/MicroEvent/AddEvent/GetImageUrl",
+                data: { keyValue: keyValue, "uploadType": "1" },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state != "error") {
+                        var html = "";
+                        $.each(data, function (i, n) {
+                            html = "<img src='" + n + "' class='file-preview-image' alt='CarouselPicture' title='CarouselPicture'>"
+                            preListCarousel.push(html);
 
-                        var tjson = {
-                            caption: n.split("/")[5], // 展示的文件名
-                            //width: '210px',
-                            url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
-                            key: i, // 删除是Ajax向后台传递的参数
-                            extra: { keyValue: keyValue }
-                        };
-                        preConfigListCarousel.push(tjson);
-                    })
+                            var tjson = {
+                                caption: n.split("/")[5], // 展示的文件名
+                                //width: '210px',
+                                url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
+                                key: i, // 删除是Ajax向后台传递的参数
+                                extra: { keyValue: keyValue }
+                            };
+                            preConfigListCarousel.push(tjson);
+                        })
+                    }
                 }
-            }
-        });
+            });
+        }
         var preListAdver = new Array();
         var preConfigListAdver = new Array();
-        $.ajax({
-            url: "/MicroEvent/AddEvent/GetImageUrl",
-            data: { keyValue: keyValue, "uploadType": "2" },
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (data.state != "error") {
-                    var html = "";
-                    $.each(data, function (i, n) {
-                        html = "<img src='" + n + "' class='file-preview-image' alt='AdverPicture' title='AdverPicture'>"
-                        preListAdver.push(html);
+        if (keyValue != "") {
+            $.ajax({
+                url: "/MicroEvent/AddEvent/GetImageUrl",
+                data: { keyValue: keyValue, "uploadType": "2" },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state != "error") {
+                        var html = "";
+                        $.each(data, function (i, n) {
+                            html = "<img src='" + n + "' class='file-preview-image' alt='AdverPicture' title='AdverPicture'>"
+                            preListAdver.push(html);
 
-                        var tjson = {
-                            caption: n.split("/")[5], // 展示的文件名
-                            //width: '210px',
-                            url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
-                            key: i, // 删除是Ajax向后台传递的参数
-                            extra: { keyValue: keyValue }
-                        };
-                        preConfigListAdver.push(tjson);
-                    })
+                            var tjson = {
+                                caption: n.split("/")[5], // 展示的文件名
+                                //width: '210px',
+                                url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
+                                key: i, // 删除是Ajax向后台传递的参数
+                                extra: { keyValue: keyValue }
+                            };
+                            preConfigListAdver.push(tjson);
+                        })
+                    }
                 }
-            }
-        });
+            });
+        }
         var preListSong = new Array();
         var preConfigListSong = new Array();
-        $.ajax({
-            url: "/MicroEvent/AddEvent/GetImageUrl",
-            data: { keyValue: keyValue, "uploadType": "6" },
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (data.state != "error") {
-                    var html = "";
-                    $.each(data, function (i, n) {
-                        html = "<audio controls=''><source src='" + n + "' type='audio/mp3'><div class='file-preview-other'><i class='glyphicon glyphicon-king'></i></div></audio>"
-                        preListSong.push(html);
+        if (keyValue != "") {
+            $.ajax({
+                url: "/MicroEvent/AddEvent/GetImageUrl",
+                data: { keyValue: keyValue, "uploadType": "6" },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state != "error") {
+                        var html = "";
+                        $.each(data, function (i, n) {
+                            html = "<audio controls=''><source src='" + n + "' type='audio/mp3'><div class='file-preview-other'><i class='glyphicon glyphicon-king'></i></div></audio>"
+                            preListSong.push(html);
 
-                        var tjson = {
-                            caption: n.split("/")[4], // 展示的文件名
-                            //width: '210px',
-                            url: "/MicroEvent/AddEvent/DeleteFile", // 删除url
-                            key: i, // 删除是Ajax向后台传递的参数
-                            extra: { keyValue: keyValue }
-                        };
-                        preConfigListSong.push(tjson);
-                    })
+                            var tjson = {
+                                caption: n.split("/")[4], // 展示的文件名
+                                //width: '210px',
+                                url: "/MicroEvent/AddEvent/DeleteFile", // 删除url
+                                key: i, // 删除是Ajax向后台传递的参数
+                                extra: { keyValue: keyValue }
+                            };
+                            preConfigListSong.push(tjson);
+                        })
+                    }
                 }
-            }
-        });
+            });
+        }
         var preListBorder = new Array();
         var preConfigListBorder = new Array();
-        $.ajax({
-            url: "/MicroEvent/AddEvent/GetImageUrl",
-            data: { keyValue: keyValue, "uploadType": "3" },
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (data.state != "error") {
-                    var html = "";
-                    $.each(data, function (i, n) {
-                        html = "<img src='" + n + "' class='file-preview-image' alt='BorderPicture' title='BorderPicture'>"
-                        preListBorder.push(html);
+        if (keyValue != "") {
+            $.ajax({
+                url: "/MicroEvent/AddEvent/GetImageUrl",
+                data: { keyValue: keyValue, "uploadType": "3" },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state != "error") {
+                        var html = "";
+                        $.each(data, function (i, n) {
+                            html = "<img src='" + n + "' class='file-preview-image' alt='BorderPicture' title='BorderPicture'>"
+                            preListBorder.push(html);
 
-                        var tjson = {
-                            caption: n.split("/")[5], // 展示的文件名
-                            //width: '210px',
-                            url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
-                            key: i, // 删除是Ajax向后台传递的参数
-                            extra: { keyValue: keyValue }
-                        };
-                        preConfigListBorder.push(tjson);
-                    })
+                            var tjson = {
+                                caption: n.split("/")[5], // 展示的文件名
+                                //width: '210px',
+                                url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
+                                key: i, // 删除是Ajax向后台传递的参数
+                                extra: { keyValue: keyValue }
+                            };
+                            preConfigListBorder.push(tjson);
+                        })
+                    }
                 }
-            }
-        });
+            });
+        }
 
         $("#F_VoteCarouselIDs").fileinput({
             language: 'zh', //设置语言

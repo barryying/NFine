@@ -111,12 +111,14 @@ namespace NFine.Application.BusinessManage
             List<PictureEntity> pictureentity = GetList(id, uploadType);
             if (!pictureentity.IsEmpty())
             {
+                int i = 1;
                 foreach(PictureEntity entity in pictureentity)
                 {
                     if(uploadType != "6")
-                        urlDic.Add(entity.F_Id, entity.F_VirtualPathSmall);
+                        urlDic.Add(i + "#" + entity.F_EventId, entity.F_VirtualPathSmall);
                     else
-                        urlDic.Add(entity.F_Id, entity.F_VirtualPath);
+                        urlDic.Add(i + "#" + entity.F_EventId, entity.F_VirtualPath);
+                    i++;
                 }
                 return urlDic;
             }

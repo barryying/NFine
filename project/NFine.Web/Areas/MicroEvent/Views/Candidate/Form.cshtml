@@ -74,6 +74,7 @@
 </form>
 
 <script>
+    debugger;
     var keyValue = $.request("keyValue");
     var eventID = $.request("eventId");
     $(function () {
@@ -92,33 +93,35 @@
                 leaveConfirm: '正在上传文件'
             }
         });
-        
+
         var preListCandidate = new Array();
         var preConfigListCandidate = new Array();
-        $.ajax({
-            url: "/MicroEvent/AddEvent/GetImageUrl",
-            data: { keyValue: keyValue, "uploadType": "4" },
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                if (data.state != "error") {
-                    var html = "";
-                    $.each(data, function (i, n) {
-                        html = "<img src='" + n + "' class='file-preview-image' alt='CandidatePicture' title='CandidatePicture'>"
-                        preListCandidate.push(html);
+        if (keyValue != "") {
+            $.ajax({
+                url: "/MicroEvent/AddEvent/GetImageUrl",
+                data: { keyValue: keyValue, "uploadType": "4" },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state != "error") {
+                        var html = "";
+                        $.each(data, function (i, n) {
+                            html = "<img src='" + n + "' class='file-preview-image' alt='CandidatePicture' title='CandidatePicture'>"
+                            preListCandidate.push(html);
 
-                        var tjson = {
-                            caption: n.split("/")[5], // 展示的文件名
-                            //width: '210px',
-                            url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
-                            key: i, // 删除是Ajax向后台传递的参数
-                            extra: {}
-                        };
-                        preConfigListCandidate.push(tjson);
-                    })
+                            var tjson = {
+                                caption: n.split("/")[5], // 展示的文件名
+                                //width: '210px',
+                                url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
+                                key: i, // 删除是Ajax向后台传递的参数
+                                extra: {}
+                            };
+                            preConfigListCandidate.push(tjson);
+                        })
+                    }
                 }
-            }
-        });
+            });
+        }
 
         $("#F_PictureIDs").fileinput({
             language: 'zh', //设置语言
