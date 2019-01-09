@@ -193,6 +193,7 @@
     <Content Include="Content\img\floatimage\xuehua.png" />
     <Content Include="Content\img\loading.gif" />
     <Content Include="Content\img\nofile.png" />
+    <Content Include="Content\img\nofile2.png" />
     <Content Include="Content\img\radio1.jpg" />
     <Content Include="Content\img\radio2.jpg" />
     <Content Include="Content\img\samples\angelina-300.jpg" />
