@@ -173,6 +173,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             string discription = "";
             //string isNormalVote = "1";
             CandidateEntity candidateEntity = candidateApp.GetForm(keyValue);
+            candidateEntity.F_VoteNumber += votenumber;
             //if(votenumber.IsEmpty())
             //{
             //    candidateEntity.F_VoteNumber += 1;
