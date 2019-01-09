@@ -7,8 +7,10 @@ using NFine.Domain.ViewModel;
 using NFine.Repository.BusinessManage;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 
 namespace NFine.Application.BusinessManage
 {
@@ -48,7 +50,9 @@ namespace NFine.Application.BusinessManage
                 }
                 expression = expression.And(t => t.F_CreatorTime >= startTime && t.F_CreatorTime <= endTime);
             }
-            return service.FindList(expression, pagination);
+            var list = service.FindList(expression, pagination);
+            var list2 = service.GetGiftList();
+            return list.Where(a => list2.Exists(t => a.F_Id.Contains(t.F_Id))).ToList();
         }
 
         public List<GiftListEntity> GetList()

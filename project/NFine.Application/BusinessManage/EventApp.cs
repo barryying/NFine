@@ -178,22 +178,21 @@ namespace NFine.Application.BusinessManage
             service.SubmitCloneButton(eventEntity);
         }
 
-        public string GetEventPrizeOrRules(string eventId, string type)
+        public string GetEventDataByType(string eventId, string type)
         {
             try
             {
                 new LogApp().WriteDbLog(new LogEntity
                 {
-                    F_ModuleName = "NFine.Application.BusinessManage.GetEventPrize查询活动规则奖品接口",
+                    F_ModuleName = "NFine.Application.BusinessManage.GetEventDataByType通过查询类型查询活动数据",
                     F_Type = DbLogType.Visit.ToString(),
                     F_Account = "前台请求接口",
                     F_NickName = "前台",
                     F_Result = true,
-                    F_Description = "访问了活动: " + eventId + "的规则奖品接口",
+                    F_Description = "访问了活动: " + eventId + "的数据接口",
                 });
-                IEventRepository eventservice = new EventRepository();
-                string sql = "SELECT F_VoteRules,F_VotePrizeIntroDuction,* from Sys_Event where F_ID='" + eventId + "'";
-                List<EventEntity> evententity = eventservice.FindList(sql);
+                string sql = "SELECT * from Sys_Event where F_ID='" + eventId + "'";
+                List<EventEntity> evententity = service.FindList(sql);
 
                 string result = "";
                 if (!evententity.IsEmpty())
@@ -205,6 +204,10 @@ namespace NFine.Application.BusinessManage
                     if (type.ToLower() == "rules" && evententity[0].F_VoteRules != null)
                     {
                         result = evententity[0].F_VoteRules.ToString();
+                    }
+                    if (type.ToLower() == "float" && evententity[0].F_PageFloatingEffects != null)
+                    {
+                        result = evententity[0].F_PageFloatingEffects.ToString();
                     }
                     return result;
                 }

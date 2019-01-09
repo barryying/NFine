@@ -220,12 +220,12 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HttpGet]
         [AllowAnonymous]
         // /MicroEvent/AddEvent/GetEventPrize?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28
-        public ActionResult GetEventPrizeOrRules(string keyValue, string type)
+        public ActionResult GetEventDataByType(string keyValue, string type)
         {
             string callbackFunc = Request.QueryString["callback"];
             System.Web.Script.Serialization.JavaScriptSerializer jss = new System.Web.Script.Serialization.JavaScriptSerializer();
 
-            var data = eventApp.GetEventPrizeOrRules(keyValue,type);
+            var data = eventApp.GetEventDataByType(keyValue,type);
             HttpContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             return Content(callbackFunc + "(" + jss.Serialize(new
             {

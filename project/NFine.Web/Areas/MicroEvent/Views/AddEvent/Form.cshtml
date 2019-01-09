@@ -17,6 +17,16 @@
         vertical-align: middle;
         margin-left: 5px;
     }
+    .floatblock{
+        display: inline-block;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;    
+        border-radius: 4px;
+        border: solid 0px;
+        vertical-align: middle;
+        margin-left: 5px;
+    }
     .uploadwidth {
         width: 400px;    
         margin-left: 0px;
@@ -515,6 +525,36 @@
                             </tr>
                             <tr>
                                 <th class="formTitle">首页漂浮物特效：</th>
+
+                                <td class="formValue" colspan="4">
+                                    <input id="05" type="button" class="floatblock" onclick="setFloating('05');" style="background-image: url('../../../../Content/img/floatimage/05.png');background-size:100% 30px;" />
+                                    <input id="06" type="button" class="floatblock" onclick="setFloating('06');" style="background-image: url('../../../../Content/img/floatimage/06.png');background-size:100% 30px;" />
+                                    <input id="07" type="button" class="floatblock" onclick="setFloating('07');" style="background-image: url('../../../../Content/img/floatimage/07.png');background-size:100% 30px;" />
+                                    <input id="08" type="button" class="floatblock" onclick="setFloating('08');" style="background-image: url('../../../../Content/img/floatimage/08.png');background-size:100% 30px;" />
+                                    <input id="09" type="button" class="floatblock" onclick="setFloating('09');" style="background-image: url('../../../../Content/img/floatimage/09.png');background-size:100% 30px;" />
+                                    <input id="10" type="button" class="floatblock" onclick="setFloating('10');" style="background-image: url('../../../../Content/img/floatimage/10.png');background-size:100% 30px;" />
+                                    <input id="11" type="button" class="floatblock" onclick="setFloating('11');" style="background-image: url('../../../../Content/img/floatimage/11.png');background-size:100% 30px;" />
+                                    <input id="12" type="button" class="floatblock" onclick="setFloating('12');" style="background-image: url('../../../../Content/img/floatimage/12.png');background-size:100% 30px;" />
+                                    <input id="huangguan" type="button" class="floatblock" onclick="setFloating('huangguan');" style="background-image: url('../../../../Content/img/floatimage/huangguan.png');background-size:100% 30px;" />
+                                    <input id="meigui" type="button" class="floatblock" onclick="setFloating('meigui');" style="background-image: url('../../../../Content/img/floatimage/meigui.png');background-size:100% 30px;" />
+                                    <input id="tang" type="button" class="floatblock" onclick="setFloating('tang');" style="background-image: url('../../../../Content/img/floatimage/tang.png');background-size:100% 30px;" />
+                                    <input id="tangguo" type="button" class="floatblock" onclick="setFloating('tangguo');" style="background-image: url('../../../../Content/img/floatimage/tangguo.png');background-size:100% 30px;" />
+                                    <input id="xiaoguai" type="button" class="floatblock" onclick="setFloating('xiaoguai');" style="background-image: url('../../../../Content/img/floatimage/xiaoguai.png');background-size:100% 30px;" />
+                                    <input id="xin" type="button" class="floatblock" onclick="setFloating('xin');" style="background-image: url('../../../../Content/img/floatimage/xin.png');background-size:100% 30px;" />
+                                    <input id="xingxing" type="button" class="floatblock" onclick="setFloating('xingxing');" style="background-image: url('../../../../Content/img/floatimage/xingxing.png');background-size:100% 30px;" />
+                                    <input id="xuehua" type="button" class="floatblock" onclick="setFloating('xuehua');" style="background-image: url('../../../../Content/img/floatimage/xuehua.png');background-size:100% 30px;" />
+                                    <script>
+                                        function setFloating(floatvalue) {
+                                            $('.floatblock').css('border', 'solid 0px');
+                                            $('#' + floatvalue).css('border', 'solid 0.5px');
+                                            if ($('#F_PageFloatingEffects').val() != floatvalue)
+                                                $('#F_PageFloatingEffects').val(floatvalue);
+                                        }
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle"></th>
                                 <td class="formValue" colspan="1">
                                     <input id="F_PageFloatingEffects" name="F_PageFloatingEffects" type="text" class="form-control" placeholder="0" />
                                 </td>
@@ -992,6 +1032,10 @@
                         $('#cp2').colorpicker('setValue', "#6381FC");
                     else
                         $('#cp2').colorpicker('setValue', data["F_PageColorTheme"]);
+                    if (data["F_PageFloatingEffects"] == "")
+                        setFloating('05');
+                    else
+                        setFloating(data["F_PageFloatingEffects"]);
                 }
             });
         }

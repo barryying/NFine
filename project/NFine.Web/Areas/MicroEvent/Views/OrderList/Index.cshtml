@@ -24,9 +24,9 @@
             timeType: getQueryString("timeType") == null ? $("#time_horizon a.active").attr('data-value') : getQueryString("timeType"),
         }
         $gridList.dataGrid({
-            treeGrid: true,
-            treeGridModel: "adjacency",
-            ExpandColumn: "F_EnCode",
+            //treeGrid: true,
+            //treeGridModel: "adjacency",
+            //ExpandColumn: "F_EnCode",
             url: "/MicroEvent/OrderList/GetGridJson",
             postData: { queryJson: JSON.stringify(queryJson) },
             height: $(window).height() - 128,

@@ -14,9 +14,9 @@
             eventId: eventID
         }
         $gridList.dataGrid({
-            treeGrid: true,
-            treeGridModel: "adjacency",
-            ExpandColumn: "F_EnCode",
+            //treeGrid: true,
+            //treeGridModel: "adjacency",
+            //ExpandColumn: "F_EnCode",
             url: "/MicroEvent/Candidate/GetGridJson",
             postData: { queryJson: JSON.stringify(queryJson) },
             height: $(window).height() - 128,

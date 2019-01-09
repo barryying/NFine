@@ -11,6 +11,92 @@ border-top:0px; font-size:12px;}
 ul li{ display:block; width:25%; float:left;text-indent:2em}
 ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;margin-right: 5px;border-radius: 10px;}
 .th{ background:#F1FADE; font-weight:bold; border-top:1px }
+
+//漂浮物
+    @keyframes mysnow {
+        0% {
+            bottom: 100%;
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(-30deg);
+            bottom: -10%;
+        }
+    }
+    
+    @-webkit-keyframes mysnow {
+        0% {
+            bottom: 100%;
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(-30deg);
+            bottom: -10%;
+        }
+    }
+    
+    @-moz-keyframes mysnow {
+        0% {
+            bottom: 100%;
+            -moz-transform: rotate(0deg);
+        }
+        100% {
+            -moz-transform: rotate(-30deg);
+            bottom: -10%;
+        }
+    }
+    
+    @-ms-keyframes mysnow {
+        0% {
+            bottom: 100%;
+            -ms-transform: rotate(0deg);
+        }
+        100% {
+            -ms-transform: rotate(-30deg);
+            bottom: -10%;
+        }
+    }
+    
+    @-o-keyframes mysnow {
+        0% {
+            bottom: 100%;
+            -o-transform: rotate(00deg);
+        }
+        100% {
+            -o-transform: rotate(-30deg);
+            bottom: -10%;
+        }
+    }
+    
+    .roll5 {
+        position: absolute;
+        animation: mysnow 20s linear;
+        -webkit-animation: mysnow 20s  linear;
+        -moz-animation: mysnow 20s linear;
+        -ms-animation: mysnow 20s linear;
+        -o-animation: mysnow 20s linear;
+    }
+    .roll4 {
+        position: absolute;
+        animation: mysnow 12s linear;
+        -webkit-animation: mysnow 12s linear;
+        -moz-animation: mysnow 12s linear;
+        -ms-animation: mysnow 12s linear;
+        -o-animation: mysnow 12s linear;
+    }
+    
+    .roll3 {
+        position: absolute;
+        animation: mysnow 8s ease-out;
+        -webkit-animation: mysnow 8s ease-out;
+        -moz-animation: mysnow 8s ease-out;
+        -ms-animation: mysnow 8s ease-out;
+        -o-animation: mysnow 8s ease-out;
+    }
+    .roll {
+        position: fixed;
+        z-index: 9999999;
+    }
 </style>
 <body>
 <div id="prize"></div>
@@ -46,14 +132,15 @@ ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;m
 			async: false,//设置成同步
 			jsonpCallback: 'order' + keyvalue.substr(0,4),
 			success: function(data){
-				//alert(data.message);
+				alert(data.data.Content);
 			}
 		});
+
 	}
 	//Vote('f488b366-287d-40b2-bc64-c42254e634bb','127.0.0.1','aaa','bbb');
 	function Vote(keyvalue,ip,WXid,WXnick){		
 		$.ajax({
-			url: 'http://120.78.154.91/MicroEvent/Vote/Vote',
+			url: 'http://localhost:1851/MicroEvent/Vote/Vote',
 			type: 'get',
 			dataType: 'jsonp',
 			data: {keyvalue: keyvalue,ip: ip,WXid: WXid,WXnick: WXnick},
@@ -62,14 +149,13 @@ ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;m
 			jsonpCallback: 'vote' + keyvalue.substr(0,4),
 			success: function(data){
 				alert(data.data.Content);
-				location.reload();
 			}
 		});
 	}
 	
 $(function(){
 	$.ajax({
-		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetEventPrizeOrRules',
+		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetEventDataByType',
 		type: 'get',
 		dataType: 'jsonp',
 		data: {keyvalue: 'aa51beeb-e55c-4a85-b1bc-1395eaa65c28', type: 'prize' },
@@ -81,7 +167,7 @@ $(function(){
 	});
 	
 	$.ajax({
-		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetEventPrizeOrRules',
+		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetEventDataByType',
 		type: 'get',
 		dataType: 'jsonp',
 		data: {keyvalue: 'aa51beeb-e55c-4a85-b1bc-1395eaa65c28', type: 'rules' },
@@ -151,6 +237,44 @@ $(function(){
 			}
 		}
 	});
+	
+
+	var floatvalue = "05";
+	$.ajax({
+		url: 'http://120.78.154.91/MicroEvent/AddEvent/GetEventDataByType',
+		type: 'get',
+		dataType: 'jsonp',
+		data: {keyvalue: 'aa51beeb-e55c-4a85-b1bc-1395eaa65c28', type: 'float' },
+		jsonp: 'callback',
+		jsonpCallback: 'getFloatValue',
+		success: function(data){
+			floatvalue = data.data;
+		}
+	});
+    /*漂浮物*/
+    function snow(left, top, src) {
+        var img = document.createElement("img");
+        img.className = "roll roll" + Math.floor(Math.random() * 3 + 3) + "";
+        img.src = src;
+        img.style.width = Math.random() * (1.2 - 0.6) + 0.6 + "rem";
+        img.style.height = "auto";
+
+        img.style.left = left + "px";
+        img.style.bottom = "100%";
+        document.getElementsByTagName("body")[0].appendChild(img);
+        setTimeout(function () {
+            document.getElementsByTagName("body")[0].removeChild(img);
+        }, 20000);
+    }
+    setInterval(function () {
+        var left = Math.random() * window.innerWidth;
+        var top = 0;
+        // var src = "images/gift" + Math.floor(Math.random() * 6 + 1) + ".png"; 
+        var src = "http://120.78.154.91/Content/img/floatimage/" + floatvalue + ".png";
+        snow(left, top, src);
+    }, 1000);
+
+    /*漂浮物end*/
 });
 </script>
 
