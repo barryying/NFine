@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<form id="form1">
+    <div style="padding-top: 30px; margin-right: 30px;">
+        <table class="form">
+            <tr>
+                <th class="formTitle">礼物名称：</th>
+                <td class="formValue">
+                    <input id="F_Name" name="F_Name" type="text" class="form-control required" placeholder="请输入礼物名称" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">礼物价格：</th>
+                <td class="formValue">
+                    <input id="F_Price" name="F_Price" type="text" class="form-control required" placeholder="请输入礼物价格" />
+                </td>
+                <td class="formValue" colspan="1">
+                    元
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">对应票数：</th>
+                <td class="formValue" colspan="1">
+                    <input id="F_VoteNumber" name="F_VoteNumber" type="text" class="form-control" placeholder="0" />
+                </td>
+                <td class="formValue" colspan="1">
+                    票
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">礼物图片：</th>
+                <td class="formValue" colspan="3">
+                    <div class="container kv-main" style="padding-left: 0px;">
+                        <div class="form-group">
+                            <input id="F_PictureID" type="file" multiple class="file-loading" data-min-file-count="1">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<script>
+    var keyValue = $.request("keyValue");
+    var eventID = $.request("eventId");
+    var isClone = $.request("isClone");
+    debugger;
+    $(function () {
+        var preListCandidate = new Array();
+        var preConfigListCandidate = new Array();
+        if (keyValue != "") {
+            $.ajax({
+                url: "/MicroEvent/AddEvent/GetImageUrl",
+                data: { keyValue: keyValue, "uploadType": "5" },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.state != "error") {
+                        var html = "";
+                        $.each(data, function (i, n) {
+                            html = "<img src='" + n + "' class='file-preview-image' alt='GiftPicture' title='GiftPicture'>"
+                            preListCandidate.push(html);
+
+                            var tjson = {
+                                caption: n.split("/")[5], // 展示的文件名
+                                //width: '210px',
+                                url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
+                                key: i, // 删除是Ajax向后台传递的参数
+                                extra: {}
+                            };
+                            preConfigListCandidate.push(tjson);
+                        })
+                    }
+                }
+            });
+        }
+
+        $("#F_PictureID").fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
+            uploadExtraData: { "keyValue": keyValue, "uploadType": "5", "pictureLink": "" },//这个是外带数据
+            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+            overwriteInitial: false,
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            //dropZoneEnabled: false,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 20, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            initialPreview: preListCandidate,
+            initialPreviewConfig: preConfigListCandidate,
+            initialPreviewAsData: true,
+            overwriteInitial: true,
+            slugCallback: function (filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        }).on('filepreupload', function (event, data, previewId, index) {     //上传中
+
+        }).on("fileuploaded", function (event, data, previewId, index) {
+            if (data.response == "success")
+                $.modalMsg("上传成功！");
+            else if (data.response == "full")
+                $.modalMsg("已上传了20张图片！请先删除旧的图片再上传！");
+        }).on("fileuploaderror", function (event, data, previewId, index) {
+            $.modalMsg("上传失败！");
+        }).on('filepredelete', function (event, key) {
+            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, key) {
+            //console.log('Key = ' + key);
+        });
+
+        if (!!keyValue) {
+            $.ajax({
+                url: "/MicroEvent/Gift/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    })
+
+    function submitForm() {
+        var postData = $("#form1").formSerialize();
+        //postData["permissionIds"] = String($("#permissionTree").getCheckedNodes());
+        $.submitForm({
+            url: "/MicroEvent/Gift/SubmitForm?keyValue=" + keyValue + "&eventId=" + eventID + "&isClone=" +  + isClone,
+            param: postData,
+            success: function () {
+                top.GiftSettings.$("#gridList").resetSelection();
+                top.GiftSettings.$("#gridList").trigger("reloadGrid");
+            }
+        });
+    }
+</script>

@@ -26,12 +26,55 @@
         border: solid 0px;
         vertical-align: middle;
         margin-left: 5px;
+        background-color: transparent;
+        background-size:100% 30px;
     }
     .uploadwidth {
         width: 400px;    
         margin-left: 0px;
         padding-left: 0px;
     }
+
+
+    .multiselect-container{ /*下拉框的样式*/
+           width:195px;
+       }
+       .multiselect-container>li>a>label{
+           line-height: 28px;
+           font-size: 12px;
+       }
+       .multiselect-container>li>a>label>input[type='checkbox'] {
+            margin-top: 7px;
+       }
+       .multiselect-item.multiselect-all.active{
+           border-bottom:1px solid #ccc !important;
+       }
+       /* .multiselect-container.dropdown-menu li{
+           width:49%;
+           display: inline-block;
+       }
+       .multiselect-container.dropdown-menu li:first-child{
+           width:100%;
+       } */
+       .multiselect.dropdown-toggle.btn.btn-default:link,.multiselect.dropdown-toggle.btn.btn-default:visited,.multiselect.dropdown-toggle.btn.btn-default:focus,.multiselect.dropdown-toggle.btn.btn-default:hover,.multiselect.dropdown-toggle.btn.btn-default:active, .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{
+         background: #fff;
+         outline: none;
+         border:1px solid #ccc;
+         box-shadow: none;
+       }
+       .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover{
+           background: #474752;
+       }
+       .multiselect-selected-text{
+           font-size:13px;
+           font-family: '微软雅黑','宋体';
+           width:100%;
+           float: left;
+           text-align: left;
+       }
+       .btn.btn-default{
+           padding-right:15px;
+       }
 </style>
 <form id="form1">
     <div class="widget-body">
@@ -527,22 +570,22 @@
                                 <th class="formTitle">首页漂浮物特效：</th>
 
                                 <td class="formValue" colspan="4">
-                                    <input id="05" type="button" class="floatblock" onclick="setFloating('05');" style="background-image: url('../../../../Content/img/floatimage/05.png');background-size:100% 30px;" />
-                                    <input id="06" type="button" class="floatblock" onclick="setFloating('06');" style="background-image: url('../../../../Content/img/floatimage/06.png');background-size:100% 30px;" />
-                                    <input id="07" type="button" class="floatblock" onclick="setFloating('07');" style="background-image: url('../../../../Content/img/floatimage/07.png');background-size:100% 30px;" />
-                                    <input id="08" type="button" class="floatblock" onclick="setFloating('08');" style="background-image: url('../../../../Content/img/floatimage/08.png');background-size:100% 30px;" />
-                                    <input id="09" type="button" class="floatblock" onclick="setFloating('09');" style="background-image: url('../../../../Content/img/floatimage/09.png');background-size:100% 30px;" />
-                                    <input id="10" type="button" class="floatblock" onclick="setFloating('10');" style="background-image: url('../../../../Content/img/floatimage/10.png');background-size:100% 30px;" />
-                                    <input id="11" type="button" class="floatblock" onclick="setFloating('11');" style="background-image: url('../../../../Content/img/floatimage/11.png');background-size:100% 30px;" />
-                                    <input id="12" type="button" class="floatblock" onclick="setFloating('12');" style="background-image: url('../../../../Content/img/floatimage/12.png');background-size:100% 30px;" />
-                                    <input id="huangguan" type="button" class="floatblock" onclick="setFloating('huangguan');" style="background-image: url('../../../../Content/img/floatimage/huangguan.png');background-size:100% 30px;" />
-                                    <input id="meigui" type="button" class="floatblock" onclick="setFloating('meigui');" style="background-image: url('../../../../Content/img/floatimage/meigui.png');background-size:100% 30px;" />
-                                    <input id="tang" type="button" class="floatblock" onclick="setFloating('tang');" style="background-image: url('../../../../Content/img/floatimage/tang.png');background-size:100% 30px;" />
-                                    <input id="tangguo" type="button" class="floatblock" onclick="setFloating('tangguo');" style="background-image: url('../../../../Content/img/floatimage/tangguo.png');background-size:100% 30px;" />
-                                    <input id="xiaoguai" type="button" class="floatblock" onclick="setFloating('xiaoguai');" style="background-image: url('../../../../Content/img/floatimage/xiaoguai.png');background-size:100% 30px;" />
-                                    <input id="xin" type="button" class="floatblock" onclick="setFloating('xin');" style="background-image: url('../../../../Content/img/floatimage/xin.png');background-size:100% 30px;" />
-                                    <input id="xingxing" type="button" class="floatblock" onclick="setFloating('xingxing');" style="background-image: url('../../../../Content/img/floatimage/xingxing.png');background-size:100% 30px;" />
-                                    <input id="xuehua" type="button" class="floatblock" onclick="setFloating('xuehua');" style="background-image: url('../../../../Content/img/floatimage/xuehua.png');background-size:100% 30px;" />
+                                    <input id="05" type="button" class="floatblock" onclick="setFloating('05');" style="background-image: url('../../../../Content/img/floatimage/05.png');" />
+                                    <input id="06" type="button" class="floatblock" onclick="setFloating('06');" style="background-image: url('../../../../Content/img/floatimage/06.png');" />
+                                    <input id="07" type="button" class="floatblock" onclick="setFloating('07');" style="background-image: url('../../../../Content/img/floatimage/07.png');" />
+                                    <input id="08" type="button" class="floatblock" onclick="setFloating('08');" style="background-image: url('../../../../Content/img/floatimage/08.png');" />
+                                    <input id="09" type="button" class="floatblock" onclick="setFloating('09');" style="background-image: url('../../../../Content/img/floatimage/09.png');" />
+                                    <input id="10" type="button" class="floatblock" onclick="setFloating('10');" style="background-image: url('../../../../Content/img/floatimage/10.png');" />
+                                    <input id="11" type="button" class="floatblock" onclick="setFloating('11');" style="background-image: url('../../../../Content/img/floatimage/11.png');" />
+                                    <input id="12" type="button" class="floatblock" onclick="setFloating('12');" style="background-image: url('../../../../Content/img/floatimage/12.png');" />
+                                    <input id="huangguan" type="button" class="floatblock" onclick="setFloating('huangguan');" style="background-image: url('../../../../Content/img/floatimage/huangguan.png');" />
+                                    <input id="meigui" type="button" class="floatblock" onclick="setFloating('meigui');" style="background-image: url('../../../../Content/img/floatimage/meigui.png');" />
+                                    <input id="tang" type="button" class="floatblock" onclick="setFloating('tang');" style="background-image: url('../../../../Content/img/floatimage/tang.png');" />
+                                    <input id="tangguo" type="button" class="floatblock" onclick="setFloating('tangguo');" style="background-image: url('../../../../Content/img/floatimage/tangguo.png');" />
+                                    <input id="xiaoguai" type="button" class="floatblock" onclick="setFloating('xiaoguai');" style="background-image: url('../../../../Content/img/floatimage/xiaoguai.png');" />
+                                    <input id="xin" type="button" class="floatblock" onclick="setFloating('xin');" style="background-image: url('../../../../Content/img/floatimage/xin.png');" />
+                                    <input id="xingxing" type="button" class="floatblock" onclick="setFloating('xingxing');" style="background-image: url('../../../../Content/img/floatimage/xingxing.png');" />
+                                    <input id="xuehua" type="button" class="floatblock" onclick="setFloating('xuehua');" style="background-image: url('../../../../Content/img/floatimage/xuehua.png');" />
                                     <script>
                                         function setFloating(floatvalue) {
                                             if (floatvalue != "null") {
@@ -664,11 +707,45 @@
                             <tr>
                                 <th class="formTitle">礼物设置：</th>
                                 <td class="formValue" colspan="3">
-                                    <input id="F_GiftID" name="F_GiftID" type="text" class="form-control" placeholder="1" />
+                                    <input id="F_GiftID" name="F_GiftID" type="text" class="form-control" placeholder="" />
                                 </td>
-                                <td class="formGap" colspan="1"><a id="NF-Add" authorize="yes" class="btn btn-primary dropdown-text" onclick=""><i class="fa fa-plus"></i>添加礼物</a></td>
+                                <td class="formGap" colspan="1">
+                                    <a id="NF-Add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_giftsettings();"><i class="fa fa-plus"></i>添加礼物</a>
+
+                                    <script>
+                                        function btn_giftsettings() {
+                                            $.modalOpen({
+                                                id: "GiftSettings",
+                                                title: "礼物设置",
+                                                url: "/MicroEvent/Gift/Index?eventId=" + keyValue,
+                                                width: "1100px",
+                                                height: "920px",
+                                                btn: null
+                                            });
+                                        }
+                                    </script>
+                                </td>
                             </tr>
-                        </table>
+                            <tr>
+                                <td class="formGap" colspan="2">
+                                    <script>
+                                        $("select").multiselect({
+                                            buttonWidth: 195,  //选择框的大小
+                                            includeSelectAllOption: true,//是否现实全选
+                                        });
+                                        //$("select").multiselect({
+                                        //    url: "/MicroEvent/Gift/GetTreeSelectJson",
+                                        //    param: { keyValue: $.request("keyValue") }
+                                        //});
+                                    </script>
+                                    <select id="giftTree" name="giftTree" class="form-control required" multiple="multiple" size="5">
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </td>
+                            </tr>
+                         </table>
                     </div>
                 </div>
             </div>
@@ -1044,7 +1121,25 @@
                         setFloating(data["F_PageFloatingEffects"]);
                 }
             });
+            $.ajax({
+                url: "/MicroEvent/Gift/GetList",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    //debugger;
+                    //console.log(data);
+                    var ids = "";
+                    $.each(data, function (i, val) {
+                        ids += val.F_Id + ",";
+                    });
+                    $("#F_GiftID").val(ids.substr(0,ids.length - 1));
+                    //console.log(ids);
+                }
+            });
         }
+        
+
     })
 
     function initControl() {

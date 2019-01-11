@@ -25,6 +25,9 @@ namespace NFine.Application.BusinessManage
             if (!queryParam["keyword"].IsEmpty())
             {
                 string keyword = queryParam["keyword"].ToString();
+                expression = expression.And(t => t.F_IP.Contains(keyword));
+                expression = expression.And(t => t.F_OPENID.Contains(keyword));
+                expression = expression.And(t => t.F_CreatorTime.ToString().Contains(keyword));
                 expression = expression.And(t => t.F_PaymentStatus.Contains(keyword));
             }
             if (!queryParam["timeType"].IsEmpty())
@@ -34,6 +37,7 @@ namespace NFine.Application.BusinessManage
                 DateTime endTime = DateTime.Now.ToString("yyyy-MM-dd").ToDate().AddDays(1);
                 switch (timeType)
                 {
+                    case "0":
                     case "1":
                         break;
                     case "2":
@@ -45,10 +49,14 @@ namespace NFine.Application.BusinessManage
                     case "4":
                         startTime = DateTime.Now.AddMonths(-3);
                         break;
+                    case "5":
+                        expression = expression.And(t => t.F_PaymentStatus == "3");
+                        break;
                     default:
                         break;
                 }
-                expression = expression.And(t => t.F_CreatorTime >= startTime && t.F_CreatorTime <= endTime);
+                if (timeType != "0" && timeType != "5")
+                    expression = expression.And(t => t.F_CreatorTime >= startTime && t.F_CreatorTime <= endTime);
             }
             var list = service.FindList(expression, pagination);
             var list2 = service.GetGiftList();

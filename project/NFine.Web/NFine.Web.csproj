@@ -126,6 +126,7 @@
     <Compile Include="Areas\MicroEvent\Controllers\CandidateController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\DatastatisticController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\DiamondVoteController.cs" />
+    <Compile Include="Areas\MicroEvent\Controllers\GiftController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\OrderListController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\ViewAllCandidateController.cs" />
     <Compile Include="Areas\MicroEvent\Controllers\VoteController.cs" />
@@ -175,6 +176,7 @@
     <Content Include="Content\img\alipayimg.png" />
     <Content Include="Content\img\button_pm_close.png" />
     <Content Include="Content\img\cy-reward-title-bg.jpg" />
+    <Content Include="Content\img\diamond.png" />
     <Content Include="Content\img\floatimage\05.png" />
     <Content Include="Content\img\floatimage\06.png" />
     <Content Include="Content\img\floatimage\07.png" />
@@ -227,6 +229,8 @@
     <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\hue.png" />
     <Content Include="Content\js\boostrap-colorpicker\img\bootstrap-colorpicker\saturation.png" />
     <Content Include="Content\js\boostrap-colorpicker\js\bootstrap-colorpicker.js" />
+    <Content Include="Content\js\bootstrap-multiselect\bootstrap-multiselect.css" />
+    <Content Include="Content\js\bootstrap-multiselect\bootstrap-multiselect.js" />
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.css" />
     <Content Include="Content\js\charts\Chart.js" />
@@ -679,9 +683,13 @@
     <Content Include="Areas\MicroEvent\Views\Candidate\Form.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\Index.cshtml" />
     <Content Include="Areas\MicroEvent\Views\Candidate\GenLink.cshtml" />
-    <Content Include="Areas\MicroEvent\Views\Candidate\DataRecords.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Candidate\OrderList.cshtml" />
     <Content Include="Areas\MicroEvent\Views\AddEvent\GenLink.cshtml" />
     <Content Include="Areas\StatisticalInfo\Views\Statistic\TodayList.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Candidate\VoteList.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\AddEvent\GiftSettings.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Gift\Index.cshtml" />
+    <Content Include="Areas\MicroEvent\Views\Gift\Form.cshtml" />
     <None Include="Properties\PublishProfiles\NFine.Framework.Release.pubxml" />
   </ItemGroup>
   <PropertyGroup>

@@ -24,6 +24,19 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             return Content(data.ToJson());
         }
 
+        [HttpGet]
+        [HandlerAjaxOnly]
+        public ActionResult GetGridJson(Pagination pagination, string queryJson)
+        {
+            var data = new
+            {
+                rows = voteapp.GetList(pagination, queryJson),
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records
+            };
+            return Content(data.ToJson());
+        }
 
         [HttpGet]
         [AllowAnonymous]

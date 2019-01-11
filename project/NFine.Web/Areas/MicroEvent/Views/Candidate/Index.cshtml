@@ -108,12 +108,23 @@
             $.modalMsg("该选手审核未通过");
         }
     }
-    function btn_datarecords() {
+    function btn_orderlist() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalOpen({
-            id: "DataRecords",
-            title: "数据记录",
-            url: "/MicroEvent/Candidate/DataRecords?keyValue=" + keyValue,
+            id: "OrderList",
+            title: "礼物记录",
+            url: "/MicroEvent/Candidate/OrderList?keyValue=" + keyValue,
+            width: "1100px",
+            height: "620px",
+            btn: null,
+        });
+    }
+    function btn_votelist() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        $.modalOpen({
+            id: "VoteList",
+            title: "投票记录",
+            url: "/MicroEvent/Candidate/VoteList?keyValue=" + keyValue,
             width: "1100px",
             height: "620px",
             btn: null,
@@ -238,7 +249,8 @@
                 <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改选手</a></li>
                 <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除选手</a></li>
                 <li><a id="NF-genlink" authorize="yes" onclick="btn_genlink()"><i class="fa fa-qrcode"></i>查看选手链接</a></li>
-                <li><a id="NF-datarecords" authorize="yes" onclick="btn_datarecords()"><i class="fa fa-database"></i>数据记录</a></li>
+                <li><a id="NF-orderlist" authorize="yes" onclick="btn_orderlist()"><i class="fa fa-gift"></i>礼物记录</a></li>
+                <li><a id="NF-votelist" authorize="yes" onclick="btn_votelist()"><i class="fa fa-ticket"></i>投票记录</a></li>
                 <li class="split"></li>
                 <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>审核通过</a></li>
                 <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>审核不通过</a></li>
@@ -246,10 +258,10 @@
                 <li><a id="NF-setstar" authorize="yes" onclick="btn_setstar()"><i class="fa fa-star"></i>设为今日之星</a></li>
                 <li><a id="NF-cancelstar" authorize="yes" onclick="btn_cancelstar()"><i class="fa fa-star-o"></i>取消今日之星</a></li>
                 <li class="split"></li>
-                <li><input type="text" id="votenumber" name="votenumber" value="1" style="margin-top: 6px; width: 60px;"/></li>
+                <li><input type="text" id="votenumber" name="votenumber" value="1" style="margin-top: 6px; width: 40px;"/></li>
                 <li><a id="NF-vote" onclick="btn_vote()"><i class="fa fa-ticket"></i>投票</a></li>
                 <li class="split"></li>
-                <li><input type="text" id="viewnumber" name="viewnumber" value="1" style="margin-top: 6px; width: 60px;" /></li>
+                <li><input type="text" id="viewnumber" name="viewnumber" value="1" style="margin-top: 6px; width: 40px;" /></li>
                 <li><a id="NF-addviewnumber" onclick="btn_addviewnumber()"><i class="fa fa-eye"></i>加浏览量</a></li>
             </ul>
             <a href="javascript:;" class="close"><i class="fa fa-reply"></i></a>

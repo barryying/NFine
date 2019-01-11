@@ -100,7 +100,7 @@ namespace NFine.Application.BusinessManage
             service.Delete(t => t.F_Id == keyValue);
             //}
         }
-        public void SubmitForm(CandidateEntity candidateEntity, string keyValue, string eventID)
+        public void SubmitForm(CandidateEntity candidateEntity, string keyValue, string eventId)
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
@@ -118,9 +118,9 @@ namespace NFine.Application.BusinessManage
             }
             else
             {
-                if (!eventID.IsEmpty())
+                if (!eventId.IsEmpty())
                 {
-                    candidateEntity.F_EventID = eventID;
+                    candidateEntity.F_EventID = eventId;
                 }
                 candidateEntity.F_VoteNumber = 0;
                 candidateEntity.F_GiftNumber = 0;

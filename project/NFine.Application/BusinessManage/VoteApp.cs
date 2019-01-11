@@ -1,5 +1,7 @@
-﻿using NFine.Code;
+﻿using NFine.Application.SystemSecurity;
+using NFine.Code;
 using NFine.Domain.Entity.BusinessManage;
+using NFine.Domain.Entity.SystemSecurity;
 using NFine.Domain.IRepository.BusinessManage;
 using NFine.Domain.ViewModel;
 using NFine.Repository.BusinessManage;
@@ -11,11 +13,54 @@ namespace NFine.Application.BusinessManage
     public class VoteApp
     {
         private IVoteRepository service = new VoteRepository();
+        //private string currentuserid = "";
+        public List<VoteEntity> GetList(Pagination pagination, string queryJson)
+        {
+            var expression = ExtLinq.True<VoteEntity>();
+            var queryParam = queryJson.ToJObject();
+            if (!queryParam["keyword"].IsEmpty())
+            {
+                string keyword = queryParam["keyword"].ToString();
+                expression = expression.And(t => t.F_IP.Contains(keyword));
+                expression = expression.Or(t => t.F_WX_id.Contains(keyword));
+            }
+            if (!queryParam["timeType"].IsEmpty())
+            {
+                string timeType = queryParam["timeType"].ToString();
+                switch (timeType)
+                {
+                    case "3":    //全部投票
+                        break;
+                    case "2":    //正常投票
+                    case "1":    //后台投票
+                        expression = expression.And(t => t.F_VoteType == timeType);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //if (!OperatorProvider.Provider.GetCurrent().IsSystem)
+            //{
+            //    currentuserid = OperatorProvider.Provider.GetCurrent().UserId;
+            //    expression = expression.And(t => t.F_CreatorUserId == currentuserid);
+            //}
 
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Application.BusinessManage.VoteApp.GetList投票记录",
+                F_Type = DbLogType.Visit.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "访问了投票记录页面",
+            });
+            return service.FindList(expression, pagination);
+        }
         public List<VoteEntity> GetList()
         {
             return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
         }
+
         public VoteEntity GetForm(string keyValue)
         {
             return service.FindEntity(keyValue);

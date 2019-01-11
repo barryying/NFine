@@ -149,6 +149,7 @@ ul li img{ text-align: center; vertical-align: middle;width: 20px;height: 20px;m
 			jsonpCallback: 'vote' + keyvalue.substr(0,4),
 			success: function(data){
 				alert(data.data.Content);
+				window.location.reload();
 			}
 		});
 	}

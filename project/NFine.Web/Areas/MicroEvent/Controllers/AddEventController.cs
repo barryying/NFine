@@ -27,6 +27,10 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         {
             return View();
         }
+        public ActionResult GiftSettings()
+        {
+            return View();
+        }
         public ActionResult GenLink()
         {
             new LogApp().WriteDbLog(new LogEntity

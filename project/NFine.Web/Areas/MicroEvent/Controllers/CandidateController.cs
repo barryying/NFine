@@ -30,11 +30,16 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             });
             return View();
         }
-        public ActionResult DataRecords()
+
+        public ActionResult OrderList()
         {
             return View();
         }
 
+        public ActionResult VoteList()
+        {
+            return View();
+        }
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -65,9 +70,9 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HandlerAjaxOnly]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult SubmitForm(CandidateEntity candidateEntity, string keyValue, string eventID)
+        public ActionResult SubmitForm(CandidateEntity candidateEntity, string keyValue, string eventId)
         {
-            candidateApp.SubmitForm(candidateEntity, keyValue, eventID);
+            candidateApp.SubmitForm(candidateEntity, keyValue, eventId);
             return Success("操作成功。");
         }
         [HttpPost]

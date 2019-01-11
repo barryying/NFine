@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<script>
+    $(function () {
+        gridList();
+    })
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    function gridList() {
+        var $gridList = $("#gridList");
+        if (getQueryString("timeType") != null) {
+            $("#time_horizon a.active").attr('class', "btn btn-default");
+            $("#time_horizon a[data-value|='1']").attr("class", "btn btn-default active");
+        }
+        var queryJson = {
+            keyword: $("#txt_keyword").val(),
+            timeType: getQueryString("timeType") == null ? $("#time_horizon a.active").attr('data-value') : getQueryString("timeType"),
+        }
+        $gridList.dataGrid({
+            //treeGrid: true,
+            //treeGridModel: "adjacency",
+            //ExpandColumn: "F_EnCode",
+            url: "/MicroEvent/Vote/GetGridJson",
+            postData: { queryJson: JSON.stringify(queryJson) },
+            height: $(window).height() - 128,
+            colModel: [
+                { label: "主键", name: "F_Id", hidden: true, key: true },
+                { label: '组名', name: 'F_Id', hidden: true, width: 200, align: 'left' },
+                { label: '投票活动', name: 'F_CandidateID', width: 260, align: 'left', formatter: eventNameFormatter },
+                { label: '选手', name: 'F_CandidateID', width: 200, align: 'left', formatter: candidateNameFormatter },
+                { label: '票数', name: 'F_VoteNumber', width: 100, align: 'left' },
+                { label: 'OPENID', name: 'F_WX_id', width: 170, align: 'left' },
+                { label: 'ip', name: 'F_IP', width: 100, align: 'left' },
+                //{ label: '编号', name: 'F_EnCode', width: 150, align: 'left' },
+                {
+                    label: '下单时间', name: 'F_CreatorTime', width: 120, align: 'left',
+                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
+                }
+            ],
+            pager: "#gridPager",
+            sortname: 'F_CreatorTime desc',
+            viewrecords: true
+        });
+        function eventNameFormatter(cellvalue, options, rowObject) {
+            var eventName = 0;
+            $.ajax({
+                url: "/MicroEvent/ViewAllCandidate/GetAllByCandidateID",
+                data: { keyValue: rowObject.F_CandidateID },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        eventName = data[i].EventName;
+                    }
+                }
+            });
+            return eventName;
+        }
+        function candidateNameFormatter(cellvalue, options, rowObject) {
+            var candidateName = 0;
+            $.ajax({
+                url: "/MicroEvent/ViewAllCandidate/GetAllByCandidateID",
+                data: { keyValue: rowObject.F_CandidateID },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        candidateName = data[i].CandidateName;
+                    }
+                }
+            });
+            return "<i style=\"color:blue;\"> " + candidateName + " </i>";
+        }
+        function moneyFormatter(cellvalue, options, rowObject) {
+            if (cellvalue == null)
+                cellvalue = "0";
+            return "<i class='fa fa-cny'></i> " + cellvalue;
+        }
+        function paymentStatusFormatter(cellvalue, options, rowObject) {
+            if (cellvalue == null)
+                cellvalue = "未发起付款";
+            switch (cellvalue) {
+                case "1":
+                    cellvalue = "已取消";
+                    break;
+                case "2":
+                    cellvalue = "支付中";
+                    break;
+                case "3":
+                    cellvalue = "已付款";
+                    break;
+                default:
+                    break;
+            }
+            return cellvalue;
+        }
+        $("#time_horizon a.btn-default").click(function () {
+            $("#time_horizon a.btn-default").removeClass("active");
+            $(this).addClass("active");
+            $('#btn_search').trigger("click");
+        });
+        $("#btn_search").click(function () {
+            var timeType = $("#time_horizon a.active").attr('data-value');
+            var queryJson = {
+                keyword: $("#txt_keyword").val(),
+                timeType: $("#time_horizon a.active").attr('data-value'),
+            }
+            $gridList.jqGrid('setGridParam', {
+                postData: { queryJson: JSON.stringify(queryJson) },
+            }).trigger('reloadGrid');
+        });
+    }
+</script>
+
+@*<h2>/MicroEvent/AddEvent/Index</h2>*@
+<div class="topPanel">
+    @*<div class="toolbar">
+            <div class="btn-group">
+                <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+            </div>
+            <div class="btn-group">
+                <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建活动</a>
+            </div>
+            <div class="operate">
+                <ul class="nav nav-pills">
+                    <li class="first">已选中<span>1</span>项</li>
+                    <li><a id="NF_Clone" authorize="yes" onclick="btn_clonebutton()"><i class="fa fa-paste"></i>复制添加</a></li>
+                    <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改活动</a></li>
+                    <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除活动</a></li>
+                    <li><a id="NF-Details" authorize="yes" onclick="btn_details()"><i class="fa fa-search-plus"></i>查看活动</a></li>
+                    <li><a id="NF-Candidate" authorize="yes" onclick="btn_candidatemanage()"><i class="fa fa-gavel"></i>选手管理</a></li>
+                    <li class="split"></li>
+                    <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>禁用</a></li>
+                    <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>启用</a></li>
+                </ul>
+                <a href="javascript:;" class="close"><i class="fa fa-reply"></i></a>
+            </div>
+            <script>$('.toolbar').authorizeButton()</script>
+        </div>*@
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+                <td style="padding-left: 10px;">
+                    <div id="time_horizon" class="btn-group">
+                        <a class="btn btn-default" data-value="3">全部投票</a>
+                        <a class="btn btn-default active" data-value="2">正常投票</a>
+                        <a class="btn btn-default" data-value="1">后台投票</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
