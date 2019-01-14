@@ -8,6 +8,10 @@
     var queryJson = {
         eventId: eventID
     }
+    $(window).load(function () {
+        //debugger
+        //$('.layui-layer-close:last').css('display', 'none');
+    });
     $(function () {
         gridList();
     })
@@ -29,7 +33,13 @@
                         }
                 },
                 { label: '价格', name: 'F_Price', width: 50, align: 'left', formatter: priceFormatter },
-                { label: '对应票数', name: 'F_VoteNumber', width: 50, align: 'left', formatter: voteNumberFormatter }
+                { label: '对应票数', name: 'F_VoteNumber', width: 50, align: 'left', formatter: voteNumberFormatter },
+                {
+                    label: "状态", name: "F_EnabledMark", width: 60, align: "center",
+                    formatter: function (cellvalue) {
+                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                    }
+                }
             ],
             pager: "#gridPager",
             sortname: 'F_CreatorTime desc',
@@ -39,7 +49,7 @@
         function imageFormatter(cellvalue, options, rowObject) {
             var imagePath;
             $.ajax({
-                url: '/MicroEvent/Gift/GetImageUrl',
+                url: '/MicroEvent/AddEvent/GetImageUrl',
                 data: { keyvalue: rowObject.F_Id, uploadType: '5' },
                 dataType: 'json',
                 async: false,
@@ -112,8 +122,8 @@
             url: "/MicroEvent/Gift/DeleteForm",
             param: { keyValue: $("#gridList").jqGridRowValue().F_Id },
             success: function () {
-                $.currentWindow().$("#gridList").resetSelection();
-                $.currentWindow().$("#gridList").trigger("reloadGrid");
+                $("#gridList").resetSelection();
+                $("#gridList").trigger("reloadGrid");
             }
         })
     }
@@ -124,8 +134,9 @@
                 $.submitForm({
                     url: "/MicroEvent/Gift/Disabled",
                     param: { keyValue: keyValue },
+                    close: false,
                     success: function () {
-                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                        $("#gridList").trigger("reloadGrid");
                     }
                 })
             }
@@ -138,8 +149,9 @@
                 $.submitForm({
                     url: "/MicroEvent/Gift/Enabled",
                     param: { keyValue: keyValue },
+                    close: false,
                     success: function () {
-                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                        $("#gridList").trigger("reloadGrid");
                     }
                 })
             }
@@ -175,9 +187,9 @@
                 <li><a id="NF_Clone" authorize="yes" onclick="btn_clonebutton()"><i class="fa fa-paste"></i>复制添加</a></li>
                 <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改礼物</a></li>
                 <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除礼物</a></li>
-                @*<li class="split"></li>
+                <li class="split"></li>
                 <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>禁用</a></li>
-                <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>启用</a></li>*@
+                <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>启用</a></li>
             </ul>
             <a href="javascript:;" class="close"><i class="fa fa-reply"></i></a>
         </div>

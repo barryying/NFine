@@ -51,6 +51,14 @@ namespace NFine.Application.BusinessManage
             return service.FindList(expression, pagination);
         }
 
+        public List<GiftEntity> GetTreeSelectJson(string eventId)
+        {
+            if (eventId != "")
+                return service.IQueryable().Where(t => t.F_EventID == eventId && t.F_EnabledMark == true).OrderBy(t => t.F_CreatorTime).ToList();
+            else
+                return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
+        }
+
         public List<GiftEntity> GetList(string eventId)
         {
             if(eventId != "")
@@ -119,6 +127,7 @@ namespace NFine.Application.BusinessManage
                 {
                     entity.F_EventID = eventId;
                 }
+                entity.F_EnabledMark = true;
                 new LogApp().WriteDbLog(new LogEntity
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.SubmitForm添加礼物",
@@ -137,6 +146,7 @@ namespace NFine.Application.BusinessManage
             entity.F_Id = Common.GuId();
             entity.F_CreatorTime = DateTime.Now;
             entity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
+            entity.F_EnabledMark = true;
             if (!eventId.IsEmpty())
             {
                 entity.F_EventID = eventId;

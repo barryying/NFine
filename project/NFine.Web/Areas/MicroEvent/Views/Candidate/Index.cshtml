@@ -134,9 +134,10 @@
         $.deleteForm({
             url: "/MicroEvent/Candidate/DeleteForm",
             param: { keyValue: $("#gridList").jqGridRowValue().F_Id },
+            close: false,
             success: function () {
-                $.currentWindow().$("#gridList").resetSelection();
-                $.currentWindow().$("#gridList").trigger("reloadGrid");
+                $("#gridList").resetSelection();
+                $("#gridList").trigger("reloadGrid");
             }
         })
     }

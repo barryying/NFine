@@ -86,6 +86,7 @@ $.modalOpen = function (options) {
         url: '',
         shade: 0.3,
         btn: ['确认', '关闭'],
+        closeBtn: 1,
         btnclass: ['btn btn-primary', 'btn btn-danger'],
         callBack: null
     };
@@ -101,6 +102,7 @@ $.modalOpen = function (options) {
         area: [_width, _height],
         content: options.url,
         btn: options.btn,
+        closeBtn: options.closeBtn,
         btnclass: options.btnclass,
         yes: function () {
             options.callBack(options.id)

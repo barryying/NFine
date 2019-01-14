@@ -1,4 +1,5 @@
-﻿using NFine.Application.BusinessManage;
+﻿using NFine.Application;
+using NFine.Application.BusinessManage;
 using NFine.Application.SystemSecurity;
 using NFine.Code;
 using NFine.Domain.Entity.BusinessManage;
@@ -22,18 +23,19 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetTreeSelectJson(string keyValue)
         {
-            var data = giftApp.GetList(keyValue);
-            var treeList = new List<TreeSelectModel>();
-            foreach (GiftEntity item in data)
-            {
-                TreeSelectModel treeModel = new TreeSelectModel();
-                treeModel.id = item.F_Id;
-                treeModel.text = item.F_Name;
-                treeModel.parentId = item.F_ParentId;
-                treeModel.data = item;
-                treeList.Add(treeModel);
-            }
-            return Content(treeList.TreeSelectJson());
+            var data = giftApp.GetTreeSelectJson(keyValue);
+            //var treeList = new List<TreeSelectModel>();
+            //foreach (GiftEntity item in data)
+            //{
+            //    TreeSelectModel treeModel = new TreeSelectModel();
+            //    treeModel.id = item.F_Id;
+            //    treeModel.text = item.F_Name;
+            //    treeModel.parentId = item.F_ParentId;
+            //    treeModel.data = item;
+            //    treeList.Add(treeModel);
+            //}
+            //return Content(treeList.TreeSelectJson());
+            return Content(data.ToJson());
         }
 
         [HttpGet]
@@ -86,47 +88,47 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             return Success("删除成功。");
         }
 
-        //[HttpPost]
-        //[HandlerAjaxOnly]
-        //[HandlerAuthorize]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Disabled(string keyValue)
-        //{
-        //    GiftEntity giftEntity = new GiftEntity();
-        //    giftEntity.F_Id = keyValue;
-        //    giftEntity.F_Status = false;
-        //    giftApp.UpdateForm(giftEntity);
-        //    new LogApp().WriteDbLog(new LogEntity
-        //    {
-        //        F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Disabled禁用活动",
-        //        F_Type = DbLogType.Update.ToString(),
-        //        F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-        //        F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-        //        F_Result = true,
-        //        F_Description = "修改了活动: " + giftEntity.F_Id + "  的 F_Status: 由‘true’改为了‘false’。",
-        //    });
-        //    return Success("活动禁用成功。");
-        //}
-        //[HttpPost]
-        //[HandlerAjaxOnly]
-        //[HandlerAuthorize]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Enabled(string keyValue)
-        //{
-        //    GiftEntity giftEntity = new GiftEntity();
-        //    giftEntity.F_Id = keyValue;
-        //    giftEntity.F_Status = true;
-        //    giftApp.UpdateForm(giftEntity);
-        //    new LogApp().WriteDbLog(new LogEntity
-        //    {
-        //        F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Enabled启用活动",
-        //        F_Type = DbLogType.Update.ToString(),
-        //        F_Account = OperatorProvider.Provider.GetCurrent().UserId,
-        //        F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
-        //        F_Result = true,
-        //        F_Description = "修改了活动: " + giftEntity.F_Id + "  的 F_Status: 由‘false’改为了‘true’。",
-        //    });
-        //    return Success("活动启用成功。");
-        //}
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [HandlerAuthorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Disabled(string keyValue)
+        {
+            GiftEntity giftEntity = new GiftEntity();
+            giftEntity.F_Id = keyValue;
+            giftEntity.F_EnabledMark = false;
+            giftApp.UpdateForm(giftEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Disabled禁用礼物",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了礼物: " + giftEntity.F_Id + "  的 F_EnabledMark: 由‘true’改为了‘false’。",
+            });
+            return Success("礼物禁用成功。");
+        }
+        [HttpPost]
+        [HandlerAjaxOnly]
+        [HandlerAuthorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Enabled(string keyValue)
+        {
+            GiftEntity giftEntity = new GiftEntity();
+            giftEntity.F_Id = keyValue;
+            giftEntity.F_EnabledMark = true;
+            giftApp.UpdateForm(giftEntity);
+            new LogApp().WriteDbLog(new LogEntity
+            {
+                F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.Enabled启用礼物",
+                F_Type = DbLogType.Update.ToString(),
+                F_Account = OperatorProvider.Provider.GetCurrent().UserId,
+                F_NickName = OperatorProvider.Provider.GetCurrent().UserName,
+                F_Result = true,
+                F_Description = "修改了礼物: " + giftEntity.F_Id + "  的 F_EnabledMark: 由‘false’改为了‘true’。",
+            });
+            return Success("礼物启用成功。");
+        }
     }
 }
