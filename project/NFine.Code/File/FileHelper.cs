@@ -461,6 +461,19 @@ namespace NFine.Code
         }
         #endregion
 
+        #region 从文件的绝对路径中获取目录名( 包含扩展名 )
+        /// <summary>
+        /// 从文件的绝对路径中获取文件名( 包含扩展名 )
+        /// </summary>
+        /// <param name="filePath">文件的绝对路径</param>        
+        public static string GetDirectoryName(string filePath)
+        {
+            //获取文件的名称
+            FileInfo fi = new FileInfo(filePath);
+            return fi.DirectoryName;
+        }
+        #endregion
+
         #region 复制文件参考方法,页面中引用
         /// <summary>
         /// 复制文件参考方法,页面中引用
@@ -832,10 +845,24 @@ namespace NFine.Code
         /// <summary>
         /// 删除指定目录及其所有子目录
         /// </summary>
-        /// <param name="directoryPath">指定目录的绝对路径</param>
+        /// <param name="directoryPath">指定目录的虚拟路径</param>
         public static void DeleteDirectory(string directoryPath)
         {
             directoryPath = HttpContext.Current.Server.MapPath(directoryPath);
+            if (IsExistDirectory(directoryPath))
+            {
+                Directory.Delete(directoryPath, true);
+            }
+        }
+        #endregion
+
+        #region 删除指定目录
+        /// <summary>
+        /// 删除指定目录及其所有子目录
+        /// </summary>
+        /// <param name="directoryPath">指定目录的绝对路径</param>
+        public static void DeleteDirectory2(string directoryPath)
+        {
             if (IsExistDirectory(directoryPath))
             {
                 Directory.Delete(directoryPath, true);

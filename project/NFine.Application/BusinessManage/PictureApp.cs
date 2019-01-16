@@ -32,9 +32,9 @@ namespace NFine.Application.BusinessManage
             service.Delete(t => t.F_Id == keyValue);
             //}
         }
-        public void SubmitForm(PictureEntity pictureEntity, string keyValue)
+        public void SubmitForm(PictureEntity pictureEntity, string keyValue, string isCreate)
         {
-            if (!string.IsNullOrEmpty(keyValue))
+            if (!string.IsNullOrEmpty(isCreate))
             {
                 pictureEntity.Modify(keyValue);
                 new LogApp().WriteDbLog(new LogEntity
@@ -51,6 +51,7 @@ namespace NFine.Application.BusinessManage
             else
             {
                 pictureEntity.Create();
+                pictureEntity.F_Id = keyValue;
                 new LogApp().WriteDbLog(new LogEntity
                 {
                     F_ModuleName = "NFine.Application.BusinessManage.PictureApp.SubmitForm添加图片",
@@ -105,7 +106,7 @@ namespace NFine.Application.BusinessManage
                 return null;
         }
         
-        public Dictionary<string, string> GetImageUrl(string id, string uploadType)
+        public Dictionary<string, string> GetImageUrl(string id, string uploadType, string isDelete)
         {
             Dictionary<string, string> urlDic = new Dictionary<string, string>();
             List<PictureEntity> pictureentity = GetList(id, uploadType);
@@ -114,10 +115,20 @@ namespace NFine.Application.BusinessManage
                 int i = 1;
                 foreach(PictureEntity entity in pictureentity)
                 {
-                    if(uploadType != "6")
-                        urlDic.Add(i + "#" + entity.F_EventId, entity.F_VirtualPathSmall);
+                    if (isDelete == "1")
+                    {
+                        if (uploadType != "6")
+                            urlDic.Add(entity.F_Id, entity.F_VirtualPathSmall);
+                        else
+                            urlDic.Add(entity.F_Id, entity.F_VirtualPath);
+                    }
                     else
-                        urlDic.Add(i + "#" + entity.F_EventId, entity.F_VirtualPath);
+                    {
+                        if (uploadType != "6")
+                            urlDic.Add(i + "#" + entity.F_EventId, entity.F_VirtualPathSmall);
+                        else
+                            urlDic.Add(i + "#" + entity.F_EventId, entity.F_VirtualPath);
+                    }
                     i++;
                 }
                 return urlDic;

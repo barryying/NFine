@@ -43,14 +43,16 @@
             ],
             pager: "#gridPager",
             sortname: 'F_CreatorTime desc',
-            viewrecords: true
+            viewrecords: true,
+            rowNum: 20,
+            rowList: [10, 20, 30, 50, 100]
         });
 
         function imageFormatter(cellvalue, options, rowObject) {
             var imagePath;
             $.ajax({
                 url: '/MicroEvent/AddEvent/GetImageUrl',
-                data: { keyvalue: rowObject.F_Id, uploadType: '5' },
+                data: { keyvalue: rowObject.F_Id, uploadType: '5', "isNeedImageID": "0" },
                 dataType: 'json',
                 async: false,
                 success: function (data) {

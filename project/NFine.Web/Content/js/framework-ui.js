@@ -153,7 +153,7 @@ $.modalMsg = function (content, type) {
         if (type == 'warning') {
             icon = "fa-exclamation-circle";
         }
-        top.layer.msg(content, { icon: icon, time: 4000, shift: 5 });
+        top.layer.msg(content, { icon: icon, time: 8000, shift: 5 });
         top.$(".layui-layer-msg").find('i.' + icon).parents('.layui-layer-msg').addClass('layui-layer-msg-' + type);
     } else {
         top.layer.msg(content);

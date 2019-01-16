@@ -60,7 +60,12 @@ namespace NFine.Application.BusinessManage
             }
             var list = service.FindList(expression, pagination);
             var list2 = service.GetGiftList();
-            return list.Where(a => list2.Exists(t => a.F_Id.Contains(t.F_Id))).ToList();
+            if (!OperatorProvider.Provider.GetCurrent().IsSystem)
+            {
+                return list.Where(a => list2.Exists(t => a.F_Id.Contains(t.F_Id))).ToList();
+            }
+            else
+                return list;
         }
 
         public List<GiftListEntity> GetList()

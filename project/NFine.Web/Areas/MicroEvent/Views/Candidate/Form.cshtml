@@ -22,7 +22,8 @@
                 <td class="formValue" colspan="3">
                     <div class="container kv-main" style="padding-left: 0px;">
                         <div class="form-group">
-                            <input id="F_PictureIDs" type="file" multiple class="file-loading" data-min-file-count="1">
+                            <input id="File_PictureIDs" type="file" multiple class="file-loading" data-min-file-count="1">
+                            <input id="F_PictureIDs" name="F_PictureIDs" type="text" class="form-control required" placeholder="" style="display:none;" />
                         </div>
                     </div>
                 </td>
@@ -99,7 +100,7 @@
         if (keyValue != "") {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetImageUrl",
-                data: { keyValue: keyValue, "uploadType": "4" },
+                data: { keyValue: keyValue, "uploadType": "4", "isNeedImageID": "1" },
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -114,7 +115,7 @@
                                 //width: '210px',
                                 url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
                                 key: i, // 删除是Ajax向后台传递的参数
-                                extra: {}
+                                extra: { keyValue: keyValue, isImage: "1" }
                             };
                             preConfigListCandidate.push(tjson);
                         })
@@ -123,7 +124,7 @@
             });
         }
 
-        $("#F_PictureIDs").fileinput({
+        $("#File_PictureIDs").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
             uploadExtraData: { "keyValue": keyValue, "uploadType": "4", "pictureLink": "" },//这个是外带数据
@@ -154,16 +155,34 @@
         }).on('filepreupload', function (event, data, previewId, index) {     //上传中
 
         }).on("fileuploaded", function (event, data, previewId, index) {
-            if (data.response == "success")
-                $.modalMsg("上传成功！");
+            if (data.response.split(':')[0] == "success") {
+                if ($('#F_PictureIDs').val() == "")
+                    $('#F_PictureIDs').val(data.response.split(':')[1]);
+                else
+                    $('#F_PictureIDs').val($('#F_PictureIDs').val() + "," + data.response.split(':')[1]);
+                $.modalMsg("注：上传成功！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
+            }
             else if (data.response == "full")
                 $.modalMsg("已上传了20张图片！请先删除旧的图片再上传！");
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
         }).on('filepredelete', function (event, key) {
             //console.log('Key = ' + key);
-        }).on('filedeleted', function (event, key) {
-            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, id) {
+            var ids = $('#F_PictureIDs').val().split(',');
+            var idstr = "";
+            ids.splice($.inArray(id, ids), 1);
+
+            if (ids.length != 0) {
+                $.each(ids, function (i, n) {
+                    idstr += n + ",";
+                });
+                $('#F_PictureIDs').val(idstr.substr(0, idstr.length - 1));
+            }
+            else
+                $('#F_PictureIDs').val("");
+
+            console.log(id);
         });
 
         if (!!keyValue) {

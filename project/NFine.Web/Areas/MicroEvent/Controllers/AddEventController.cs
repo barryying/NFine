@@ -240,10 +240,9 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HttpPost]
         public ActionResult UploadImage(string keyvalue, string uploadType = "1", string pictureLink = "#")
         {
+            //写入Sys_Picture数据库
             PictureEntity pictureentity = new PictureEntity();
             pictureentity.F_Id = Common.GuId();
-            if (keyvalue == "")
-                keyvalue = pictureentity.F_Id;
             Image img = null;
             int towidth = 0;
             int toheight = 0;
@@ -265,7 +264,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                             if(uploadType == "6")        //上传音频文件
                             {
                                 string FileName = PostedFile.FileName;//文件名自行处理
-                                string Dir = "Resource\\" + MappingDirName(uploadType) + "\\" + keyvalue + "\\";
+                                string Dir = "Resource\\" + MappingDirName(uploadType) + "\\" + pictureentity.F_Id + "\\";
                                 if (!FileHelper.IsExistDirectory(Dir))
                                     FileHelper.CreateDir(Dir);
 
@@ -274,9 +273,6 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                 //保存文件
                                 PostedFile.SaveAs(savePath);
 
-                                //写入Sys_Picture数据库
-                                //PictureEntity pictureentity = new PictureEntity();
-                                //pictureentity.F_Id = Common.GuId();
                                 pictureentity.F_Type = "6";
                                 pictureentity.F_EventId = keyvalue;
                                 pictureentity.F_Link = "";
@@ -286,7 +282,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                 pictureentity.F_CreatorTime = DateTime.Now;
                                 pictureentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
 
-                                pictureapp.SubmitForm(pictureentity, null);
+                                pictureapp.SubmitForm(pictureentity, pictureentity.F_Id, null);
                                 new LogApp().WriteDbLog(new LogEntity
                                 {
                                     F_ModuleName = "NFine.Web.Areas.MicroEvent.Controllers.UploadFile上传背景音乐",
@@ -301,11 +297,11 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                             {
                                 string FileName = PostedFile.FileName;//文件名自行处理
                                                                       //大图文件夹
-                                string Dir = "Resource\\Image\\" + MappingDirName(uploadType) + "\\" + keyvalue + "\\";
+                                string Dir = "Resource\\Image\\" + MappingDirName(uploadType) + "\\" + pictureentity.F_Id + "\\";
                                 if (!FileHelper.IsExistDirectory(Dir))
                                     FileHelper.CreateDir(Dir);
                                 //小图文件夹
-                                string DirSmall = "Resource\\ImageSmall\\" + MappingDirName(uploadType) + "\\" + keyvalue + "\\";
+                                string DirSmall = "Resource\\ImageSmall\\" + MappingDirName(uploadType) + "\\" + pictureentity.F_Id + "\\";
                                 if (!FileHelper.IsExistDirectory(DirSmall))
                                     FileHelper.CreateDir(DirSmall);
 
@@ -314,10 +310,10 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
 
                                 #region 保存文件
 
-                                //确保上传数量小于5
+                                //确保上传数量小于最大张数
                                 if (FileHelper.GetFileNames(Server.MapPath("/") + Dir).Length < maxFilesNumber)
                                 {
-                                    //保存大图文件
+                                    #region 保存大图文件
                                     PostedFile.SaveAs(savePath);
                                     new LogApp().WriteDbLog(new LogEntity
                                     {
@@ -328,9 +324,10 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                         F_Result = true,
                                         F_Description = "上传了大图: " + savePath,
                                     });
-                                    img = Image.FromFile(savePath);
+                                    #endregion
 
-                                    //保存小图文件
+                                    #region 保存小图文件
+                                    img = Image.FromFile(savePath);
                                     int nW = 400;
                                     int nH = 400;
                                     if ((img.Width < nW) && (img.Height < nH))
@@ -390,6 +387,8 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                     }
                                     #endregion
 
+                                    #endregion
+
                                     //写入Sys_Picture数据库
                                     pictureentity.F_Type = uploadType;
                                     if (uploadType == "1" || uploadType == "2" || uploadType == "3")
@@ -406,7 +405,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                     pictureentity.F_CreatorTime = DateTime.Now;
                                     pictureentity.F_CreatorUserId = OperatorProvider.Provider.GetCurrent().UserId;
 
-                                    pictureapp.SubmitForm(pictureentity, null);
+                                    pictureapp.SubmitForm(pictureentity, pictureentity.F_Id, null);
 
                                     new LogApp().WriteDbLog(new LogEntity
                                     {
@@ -418,6 +417,7 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
                                         F_Description = "上传了小图: " + savePathSmall,
                                     });
                                     listpictureids.Add(pictureentity.F_Id);
+                                    result += ":" + string.Join(",", listpictureids.ToArray());
                                 }
                                 else
                                     result = "full"; //满了5张
@@ -453,19 +453,35 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteImage(string key)
+        public ActionResult DeleteImage(string key, string isImage)
         {
             try
             {
+                string appPath = Server.MapPath(System.Web.HttpContext.Current.Request.ApplicationPath.ToString());
+                //string keyvalue = key.Split('#')[1];
                 PictureEntity pictureentity = pictureapp.GetForm(key);
-                if(key != "")
+                if(pictureentity != null)
                 {
                     pictureapp.DeleteForm(key);
                 }
                 string savePath = pictureentity.F_VirtualPath;
-                string savePathSmall = pictureentity.F_VirtualPathSmall;
                 FileHelper.DeleteFile(savePath);
-                FileHelper.DeleteFile(savePathSmall);
+
+                string directory = appPath.Substring(0,appPath.Length - 1) + pictureentity.F_VirtualPath.Replace("/","\\");
+                directory = FileHelper.GetDirectoryName(directory);
+                if (FileHelper.IsEmptyDirectory(directory))
+                    FileHelper.DeleteDirectory2(directory);
+
+                if (isImage == "1")
+                {
+                    string savePathSmall = pictureentity.F_VirtualPathSmall;
+                    FileHelper.DeleteFile(savePathSmall);
+
+                    string directorySmall = appPath.Substring(0, appPath.Length - 1) + pictureentity.F_VirtualPathSmall.Replace("/","\\");
+                    directorySmall = FileHelper.GetDirectoryName(directorySmall);
+                    if (FileHelper.IsEmptyDirectory(directorySmall))
+                        FileHelper.DeleteDirectory2(directorySmall);
+                }
                 return Json("success");
             }
             catch(Exception ex)
@@ -474,25 +490,6 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
             }
         }
         
-        [HttpPost]
-        public ActionResult DeleteFile(string key)
-        {
-            try
-            {
-                PictureEntity pictureentity = pictureapp.GetForm(key);
-                if (key != "")
-                {
-                    pictureapp.DeleteForm(key);
-                }
-                string savePath = pictureentity.F_VirtualPath;
-                FileHelper.DeleteFile(savePath);
-                return Json("success");
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.Message);
-            }
-        }
         private string MappingDirName(string uploadType)
         {
             string DirName = "CarouselPicture";
@@ -542,9 +539,9 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         [HttpGet]
         [HandlerAjaxOnly]
         // /MicroEvent/AddEvent/GetImageUrl?keyvalue=aa51beeb-e55c-4a85-b1bc-1395eaa65c28&uploadType=1
-        public ActionResult GetImageUrl(string keyvalue, string uploadType)
+        public ActionResult GetImageUrl(string keyvalue, string uploadType, string isNeedImageID)
         {
-            var data = pictureapp.GetImageUrl(keyvalue,uploadType);
+            var data = pictureapp.GetImageUrl(keyvalue, uploadType, isNeedImageID);
             return Content(data.ToJson());
         }
     }

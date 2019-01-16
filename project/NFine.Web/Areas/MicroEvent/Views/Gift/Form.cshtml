@@ -34,7 +34,8 @@
                 <td class="formValue" colspan="3">
                     <div class="container kv-main" style="padding-left: 0px;">
                         <div class="form-group">
-                            <input id="F_PictureID" type="file" multiple class="file-loading" data-min-file-count="1">
+                            <input id="File_PictureID" type="file" multiple class="file-loading" data-min-file-count="1">
+                            <input id="F_PictureID" name="F_PictureID" type="text" class="form-control required" placeholder="" style="display:none;" />
                         </div>
                     </div>
                 </td>
@@ -54,7 +55,7 @@
         if (keyValue != "") {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetImageUrl",
-                data: { keyValue: keyValue, "uploadType": "5" },
+                data: { keyValue: keyValue, "uploadType": "5", "isNeedImageID": "1" },
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -69,7 +70,7 @@
                                 //width: '210px',
                                 url: '/MicroEvent/AddEvent/DeleteImage', // 删除url
                                 key: i, // 删除是Ajax向后台传递的参数
-                                extra: {}
+                                extra: { keyValue: keyValue, isImage: "1" }
                             };
                             preConfigListCandidate.push(tjson);
                         })
@@ -78,7 +79,7 @@
             });
         }
 
-        $("#F_PictureID").fileinput({
+        $("#File_PictureID").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
             uploadExtraData: { "keyValue": keyValue, "uploadType": "5", "pictureLink": "" },//这个是外带数据
@@ -94,7 +95,7 @@
             //maxImageHeight: 1000,//图片的最大高度
             //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
             //minFileCount: 0,
-            maxFileCount: 20, //表示允许同时上传的最大文件个数
+            maxFileCount: 1, //表示允许同时上传的最大文件个数
             enctype: 'multipart/form-data',
             validateInitialCount: true,
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
@@ -109,16 +110,22 @@
         }).on('filepreupload', function (event, data, previewId, index) {     //上传中
 
         }).on("fileuploaded", function (event, data, previewId, index) {
-            if (data.response == "success")
-                $.modalMsg("上传成功！");
+            if (data.response.split(':')[0] == "success") {
+                if ($('#F_PictureID').val() == "")
+                    $('#F_PictureID').val(data.response.split(':')[1]);
+                else
+                    $('#F_PictureID').val($('#F_PictureID').val() + "," + data.response.split(':')[1]);
+                $.modalMsg("注：上传成功！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
+            }
             else if (data.response == "full")
                 $.modalMsg("已上传了20张图片！请先删除旧的图片再上传！");
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
         }).on('filepredelete', function (event, key) {
             //console.log('Key = ' + key);
-        }).on('filedeleted', function (event, key) {
-            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, id) {
+            $('#F_PictureID').val("");
+            $.modalMsg("注：您删除了图片！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
         });
 
         if (!!keyValue) {

@@ -18,11 +18,11 @@ namespace NFine.Application.BusinessManage
         {
             var expression = ExtLinq.True<GiftEntity>();
             var queryParam = queryJson.ToJObject();
-            if (!queryParam["eventId"].IsEmpty())
-            {
-                string eventId = queryParam["eventId"].ToString();
-                expression = expression.And(t => t.F_EventID.Equals(eventId));
-            }
+            //if (!queryParam["eventId"].IsEmpty())
+            //{
+            //    string eventId = queryParam["eventId"].ToString();
+            //    expression = expression.And(t => t.F_EventID.Equals(eventId));
+            //}
             if (!queryParam["keyword"].IsEmpty())
             {
                 string keyword = queryParam["keyword"].ToString();

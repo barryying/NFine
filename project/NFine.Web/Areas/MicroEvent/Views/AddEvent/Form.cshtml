@@ -3,6 +3,10 @@
     Layout = "~/Views/Shared/_Form.cshtml";
 }
 <style>
+    .sec1{ color: blue; }
+    .sec2{ color: red; }
+    select .opts{ color: yellow; }
+
     #PageColorCustom, #PageColorTheme {
         width: 295px;
         text-indent: 20px;
@@ -39,42 +43,42 @@
     .multiselect-container{ /*下拉框的样式*/
            width:195px;
        }
-       .multiselect-container>li>a>label{
-           line-height: 28px;
-           font-size: 12px;
-       }
-       .multiselect-container>li>a>label>input[type='checkbox'] {
-            margin-top: 7px;
-       }
-       .multiselect-item.multiselect-all.active{
-           border-bottom:1px solid #ccc !important;
-       }
-       /* .multiselect-container.dropdown-menu li{
-           width:49%;
-           display: inline-block;
-       }
-       .multiselect-container.dropdown-menu li:first-child{
-           width:100%;
-       } */
-       .multiselect.dropdown-toggle.btn.btn-default:link,.multiselect.dropdown-toggle.btn.btn-default:visited,.multiselect.dropdown-toggle.btn.btn-default:focus,.multiselect.dropdown-toggle.btn.btn-default:hover,.multiselect.dropdown-toggle.btn.btn-default:active, .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{
-         background: #fff;
-         outline: none;
-         border:1px solid #ccc;
-         box-shadow: none;
-       }
-       .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover{
-           background: #474752;
-       }
-       .multiselect-selected-text{
-           font-size:13px;
-           font-family: '微软雅黑','宋体';
-           width:100%;
-           float: left;
-           text-align: left;
-       }
-       .btn.btn-default{
-           padding-right:15px;
-       }
+    .multiselect-container>li>a>label{
+        line-height: 28px;
+        font-size: 12px;
+    }
+    .multiselect-container>li>a>label>input[type='checkbox'] {
+        margin-top: 7px;
+    }
+    .multiselect-item.multiselect-all.active{
+        border-bottom:1px solid #ccc !important;
+    }
+    /* .multiselect-container.dropdown-menu li{
+        width:49%;
+        display: inline-block;
+    }
+    .multiselect-container.dropdown-menu li:first-child{
+        width:100%;
+    } */
+    .multiselect.dropdown-toggle.btn.btn-default:link,.multiselect.dropdown-toggle.btn.btn-default:visited,.multiselect.dropdown-toggle.btn.btn-default:focus,.multiselect.dropdown-toggle.btn.btn-default:hover,.multiselect.dropdown-toggle.btn.btn-default:active, .btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{
+        background: #fff;
+        outline: none;
+        border:1px solid #ccc;
+        box-shadow: none;
+    }
+    .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover{
+        background: #474752;
+    }
+    .multiselect-selected-text{
+        font-size:13px;
+        font-family: '微软雅黑','宋体';
+        width:100%;
+        float: left;
+        text-align: left;
+    }
+    .btn.btn-default{
+        padding-right:15px;
+    }
 </style>
 <form id="form1">
     <div class="widget-body">
@@ -136,7 +140,7 @@
                             <tr>
                                 <th class="formTitle">投票结束后可送礼物：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_VoteEndDuration" name="F_VoteEndDuration" type="text" class="form-control" placeholder="0"/>
+                                    <input id="F_VoteEndDuration" name="F_VoteEndDuration" type="text" class="form-control digits" placeholder="0"/>
                                 </td>
                                 <th class="formGap">分钟 <span style="color: red;">（投票时间结束后还可以送几分的礼物并加票！不填或为0不启用此功能。）</span></th>
                             </tr>
@@ -153,8 +157,8 @@
                                 <th class="formTitle">排行榜是否显示礼物点数：</th>
                                 <td class="formValue">
                                     <select id="F_RankingListIsShow" name="F_RankingListIsShow" class="form-control required">
-                                        <option value="true">是</option>
-                                        <option value="false" selected>否</option>
+                                        <option value="true" class="sec1">是</option>
+                                        <option value="false" class="sec2" selected>否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -162,8 +166,8 @@
                                 <th class="formTitle">选手页是否显示礼物点数：</th>
                                 <td class="formValue">
                                     <select id="F_CandidateListIsShow" name="F_CandidateListIsShow" class="form-control required">
-                                        <option value="true">是</option>
-                                        <option value="false" selected>否</option>
+                                        <option value="true" class="sec1">是</option>
+                                        <option value="false" class="sec2" selected>否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -171,8 +175,8 @@
                                 <th class="formTitle">活动结束后是否显示页面：</th>
                                 <td class="formValue">
                                     <select id="F_EndIsShow" name="F_EndIsShow" class="form-control required">
-                                        <option value="true">是</option>
-                                        <option value="false" selected>否</option>
+                                        <option value="true" class="sec1">是</option>
+                                        <option value="false" class="sec2" selected>否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -197,7 +201,7 @@
                         <table class="form">
                             <tr>
                                 <th class="formTitle">是否需要关注：</th>
-                                <td class="formValue">
+                                <td class="formValue" colspan="2">
                                     <select id="F_ApplyIsNeedFollow" name="F_ApplyIsNeedFollow" class="form-control required">
                                         <option value="1" selected>不需要关注</option>
                                         <option value="2">投票需关注</option>
@@ -210,8 +214,8 @@
                                 <th class="formTitle">报名审核：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyAuditType" name="F_ApplyAuditType" class="form-control required">
-                                        <option value="true"selected>人工审核</option>
-                                        <option value="false">自动审核</option>
+                                        <option value="true"  class="sec1" selected>人工审核</option>
+                                        <option value="false" class="sec2">自动审核</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择人工审核后，必须在后台人工审核后前台才显示！）</span></th>
@@ -219,42 +223,42 @@
                             <tr>
                                 <th class="formTitle">最小人数：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyMinNumber" name="F_ApplyMinNumber" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_ApplyMinNumber" name="F_ApplyMinNumber" type="text" class="form-control digits" placeholder="0" />
                                 </td>
                                 <th class="formGap">人 <span style="color: red;">（达到最小报名人数后，才能进行投票！建议达到参赛人数后，把上面设置为0，提高性能！）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">每人每日每户：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyNumberPerAll" name="F_ApplyNumberPerAll" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_ApplyNumberPerAll" name="F_ApplyNumberPerAll" type="text" class="form-control digits" placeholder="0" />
                                 </td>
                                 <th class="formGap">票 <span style="color: red;">（每人每天最多给每个用户投多少票。）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">每人每日：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyNumberPerDayAndPerson" name="F_ApplyNumberPerDayAndPerson" type="text" class="form-control" placeholder="3" />
+                                    <input id="F_ApplyNumberPerDayAndPerson" name="F_ApplyNumberPerDayAndPerson" type="text" class="form-control digits" placeholder="3" />
                                 </td>
                                 <th class="formGap">票 <span style="color: red;">（每人每天最多投多少票，当天给所有人投票的总数。填0为不限制，送礼物投票不受影响！）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">每人最多：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyNumberPerPerson" name="F_ApplyNumberPerPerson" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_ApplyNumberPerPerson" name="F_ApplyNumberPerPerson" type="text" class="form-control digits" placeholder="0" />
                                 </td>
                                 <th class="formGap">票 <span style="color: red;">（每人最多投票总数。填0为不限制！）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">投票时间间隔：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyVoteTimeDuration" name="F_ApplyVoteTimeDuration" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_ApplyVoteTimeDuration" name="F_ApplyVoteTimeDuration" type="text" class="form-control digits" placeholder="0" />
                                 </td>
                                 <th class="formGap">分钟 <span style="color: red;">（一个微信给同一个选手投票时间最少间隔。填0为不限制！）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">每人最多送礼物：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyGiftMaxNumberPerPerson" name="F_ApplyGiftMaxNumberPerPerson" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_ApplyGiftMaxNumberPerPerson" name="F_ApplyGiftMaxNumberPerPerson" type="text" class="form-control number" placeholder="0" />
                                 </td>
                                 <th class="formGap">元 <span style="color: red;">（每人最多接受送礼物总价值，精确到分，如2.01元。填0为不限制！）</span></th>
                             </tr>
@@ -262,7 +266,7 @@
                                 <th class="formTitle">投票消息提醒：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsRemindMsg" name="F_ApplyVoteIsRemindMsg" class="form-control required">
-                                        <option value="true">提醒</option>
+                                        <option value="true" class="sec1">提醒</option>
                                         <option value="false" selected>不提醒</option>
                                     </select>
                                 </td>
@@ -272,8 +276,8 @@
                                 <th class="formTitle">匿名送礼：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsAnonymous" name="F_ApplyVoteIsAnonymous" class="form-control required">
-                                        <option value="true">匿名</option>
-                                        <option value="false" selected>不匿名</option>
+                                        <option value="true" class="sec1">匿名</option>
+                                        <option value="false" class="sec2" selected>不匿名</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“不匿名”时，送礼物不显示个人头像昵称！）</span></th>
@@ -283,7 +287,7 @@
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsToSelf" name="F_ApplyVoteIsToSelf" class="form-control required">
                                         <option value="true" selected>允许</option>
-                                        <option value="false">不允许</option>
+                                        <option value="false" class="sec2">不允许</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“允许”时，能给自己投票；否则不允许给自己投票！）</span></th>
@@ -292,8 +296,8 @@
                                 <th class="formTitle">投票时是否需要验证：</th>
                                 <td class="formValue">
                                     <select id="F_ApplyVoteIsValidation" name="F_ApplyVoteIsValidation" class="form-control required">
-                                        <option value="true">是</option>
-                                        <option value="false" selected>否</option>
+                                        <option value="true" class="sec1">是</option>
+                                        <option value="false" class="sec2" selected>否</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“否”时，需要设置下面2个参数。开启后增加刷票难度！）</span></th>
@@ -302,10 +306,10 @@
                                 <th class="formTitle" style="padding-top: 5px;">
                                     验证码参数：
                                 </th>
-                                <td class="formValue">
+                                <td class="formValue" colspan="3">
                                     <input id="F_ApplyVoteValidID" name="F_ApplyVoteValidID" type="text" class="form-control" placeholder="验证码ID"/>
                                 </td>
-                                <td class="formValue">
+                                <td class="formValue" colspan="3">
                                     <input id="F_ApplyVoteValidKey" name="F_ApplyVoteValidKey" type="text" class="form-control"  placeholder="验证码Key"/>
                                 </td>
                             </tr>
@@ -315,15 +319,15 @@
                                 </th>
                                 <th class="formGap">每</th>
                                 <td class="formValue">
-                                    <input id="F_ApplyAutoLockDuration" name="F_ApplyAutoLockDuration" type="text" class="form-control" placeholder=""/>
+                                    <input id="F_ApplyAutoLockDuration" name="F_ApplyAutoLockDuration" type="text" class="form-control digits" placeholder=""/>
                                 </td>
                                 <th class="formGap">分钟超过</th>
                                 <td class="formValue">
-                                    <input id="F_ApplyAutoLockVoteNum" name="F_ApplyAutoLockVoteNum" type="text" class="form-control" placeholder=""/>
+                                    <input id="F_ApplyAutoLockVoteNum" name="F_ApplyAutoLockVoteNum" type="text" class="form-control digits" placeholder=""/>
                                 </td>
                                 <th class="formGap">票，锁定</th>
                                 <td class="formValue">
-                                    <input id="F_ApplyAutoLockTime" name="F_ApplyAutoLockTime" type="text" class="form-control" placeholder=""/>
+                                    <input id="F_ApplyAutoLockTime" name="F_ApplyAutoLockTime" type="text" class="form-control digits" placeholder=""/>
                                 </td>
                                 <th class="formGap">分钟</th>
                             </tr>
@@ -331,7 +335,7 @@
                                 <th class="formTitle" style="padding-top: 5px;">
                                     地区限制：
                                 </th>
-                                <td class="formValue">
+                                <td class="formValue" colspan="2">
                                     <input id="F_ApplyRegionLimit" name="F_ApplyRegionLimit" type="text" class="form-control" placeholder="地区限制"/>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（输入可允许投票的省或市，请以英文的逗号隔开，留空为不限制！）</span></th>
@@ -340,8 +344,8 @@
                                 <th class="formTitle" style="padding-top: 5px;">
                                     腾讯地图API接口的KEY：
                                 </th>
-                                <td class="formValue">
-                                    <input id="F_ApplyRegionLimitAPIKey" name="F_ApplyRegionLimitAPIKey" type="text" class="form-control" placeholder="腾讯地图API的KEY"/>
+                                <td class="formValue" colspan="2">
+                                    <input id="F_ApplyRegionLimitAPIKey" name="F_ApplyRegionLimitAPIKey" type="text" class="form-control" placeholder="腾讯地图API接口的KEY"/>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（设置可允许投票的地区限制时，请至“腾讯地图”获取Key，用qq登陆，并绑定手机号，即可获取！）</span></th>
                             </tr>
@@ -361,7 +365,8 @@
                                 <td class="formValue">
                                     <div class="container kv-main" style="padding-left: 0px;">
                                         <div class="form-group">
-                                            <input id="F_VoteCarouselIDs" type="file" multiple class="file-loading" data-min-file-count="1">
+                                            <input id="File_VoteCarouselIDs" type="file" multiple class="file-loading" data-min-file-count="1">
+                                            <input id="F_VoteCarouselIDs" name="F_VoteCarouselIDs" type="text" class="form-control" placeholder="" style="display: none;"/>
                                         </div>
                                     </div>
                                 </td>
@@ -377,7 +382,8 @@
                                 <td class="formValue">
                                     <div class="uploadwidth container kv-main">
                                         <div class="form-group">
-                                            <input id="F_VoteSuccPictureID" type="file" class="file-loading" data-min-file-count="1">
+                                            <input id="File_VoteSuccPictureID" type="file" class="file-loading" data-min-file-count="1">
+                                            <input id="F_VoteSuccPictureID" name="F_VoteSuccPictureID" type="text" class="form-control" placeholder="" style="display:none" />
                                         </div>
                                     </div>
                                 </td>                                
@@ -386,8 +392,8 @@
                                 <th class="formTitle">是否跳转到买礼物界面：</th>
                                 <td class="formValue">
                                     <select id="F_VoteSuccPictureIsToGift" name="F_VoteSuccPictureIsToGift" class="form-control required">
-                                        <option value="true" selected>是</option>
-                                        <option value="false">否</option>
+                                        <option value="true" class="sec1" selected>是</option>
+                                        <option value="false" class="sec2">否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -434,14 +440,14 @@
                             <tr>
                                 <th class="formTitle">虚拟浏览量：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_PageVirtualViewnumber" name="F_PageVirtualViewnumber" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_PageVirtualViewnumber" name="F_PageVirtualViewnumber" type="text" class="form-control digits" placeholder="0" />
                                 </td>
                                 <th class="formGap">流量 <span style="color: red;">（首页显示 = 真实浏览量 + 虚拟浏览量）</span></th>
                             </tr>
                             <tr>
                                 <th class="formTitle">排行榜数量：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_PageRankingListMaxnumber" name="F_PageRankingListMaxnumber" type="text" class="form-control" placeholder="100" />
+                                    <input id="F_PageRankingListMaxnumber" name="F_PageRankingListMaxnumber" type="text" class="form-control digits"" placeholder="100" />
                                 </td>
                                 <th class="formGap">个 <span style="color: red;">（设置排行榜显示选手最大数量。）</span></th>
                             </tr>
@@ -449,8 +455,8 @@
                                 <th class="formTitle">是否显示礼物详情：</th>
                                 <td class="formValue">
                                     <select id="F_PageIsShowGiftDetail" name="F_PageIsShowGiftDetail" class="form-control required">
-                                        <option value="true">是</option>
-                                        <option value="false" selected>否</option>
+                                        <option value="true" class="sec1">是</option>
+                                        <option value="false" class="sec2" selected>否</option>
                                     </select>
                                 </td>
                                 <th class="formGap"><span style="color: red;">（选择“否”时，用户主页不显示礼物列表。）</span></th>
@@ -476,7 +482,8 @@
                                 <td class="formValue" colspan="3">
                                     <div class="uploadwidth container kv-main">
                                         <div class="form-group">
-                                            <input id="F_PageBackgroundSong" type="file" class="file-loading" data-min-file-count="1">
+                                            <input id="File_PageBackgroundSong" type="file" class="file-loading" data-min-file-count="1">
+                                            <input id="F_PageBackgroundSong" name="F_PageBackgroundSong" type="text" class="form-control" placeholder="" style="display:none" />
                                         </div>
                                     </div>
                                 </td>
@@ -548,11 +555,11 @@
                                 </th>
                                 <th class="formGap">至少购买</th>
                                 <td class="formValue">
-                                    <input id="F_PageBorderEffectsNum" name="F_PageBorderEffectsNum" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_PageBorderEffectsNum" name="F_PageBorderEffectsNum" type="text" class="form-control number" placeholder="0" />
                                 </td>
                                 <th class="formGap">元的礼物，可加特效</th>
                                 <td class="formValue">
-                                    <input id="F_PageBorderEffectsDuration" name="F_PageBorderEffectsDuration" type="text" class="form-control" placeholder="0" />
+                                    <input id="F_PageBorderEffectsDuration" name="F_PageBorderEffectsDuration" type="text" class="form-control digits" placeholder="0" />
                                 </td>
                                 <th class="formGap">小时</th>
                             </tr>
@@ -561,7 +568,8 @@
                                 <td class="formValue" colspan="3">
                                     <div class="uploadwidth container kv-main">
                                         <div class="form-group">
-                                            <input id="F_PageBorderEffectsPictureID" type="file" class="file-loading" data-min-file-count="1">
+                                            <input id="File_PageBorderEffectsPictureID" type="file" class="file-loading" data-min-file-count="1">
+                                            <input id="F_PageBorderEffectsPictureID" name="F_PageBorderEffectsPictureID" type="text" class="form-control" placeholder="" style="display:none;" />
                                         </div>
                                     </div>
                                 </td>
@@ -623,14 +631,14 @@
                             <tr>
                                 <th class="formTitle">最少上传图片：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyPictureMinNum" name="F_ApplyPictureMinNum" type="text" class="form-control" placeholder="不能少于1张" />
+                                    <input id="F_ApplyPictureMinNum" name="F_ApplyPictureMinNum" type="text" class="form-control digits" placeholder="不能少于1张" />
                                 </td>
                                 @*<th class="formGap">张 <span style="color: red;">（不能少于1张！不能大于5张！）</span></th>*@
                             </tr>
                             <tr>
                                 <th class="formTitle">最多上传图片：</th>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_ApplyPicturemaxNum" name="F_ApplyPicturemaxNum" type="text" class="form-control" placeholder="不能大于5张" />
+                                    <input id="F_ApplyPicturemaxNum" name="F_ApplyPicturemaxNum" type="text" class="form-control digits" placeholder="不能大于5张" />
                                 </td>
                                 @*<th class="formGap">张 <span style="color: red;">（不能大于5张！不能少于1张！）</span></th>*@
                             </tr>
@@ -682,8 +690,8 @@
                                 <th class="formTitle">实时弹出送礼物记录：</th>
                                 <td class="formValue" colspan="1">
                                     <select id="F_GiftIsShowList" name="F_GiftIsShowList" class="form-control required">
-                                        <option value="true">是</option>
-                                        <option value="false" selected>否</option>
+                                        <option value="true" class="sec1">是</option>
+                                        <option value="false" class="sec2" selected>否</option>
                                     </select>
                                 </td>
                                 <td class="formValue" colspan="3"><span style="color: red;">（活动页面是否实时弹出送礼物记录。）</span></td>
@@ -694,7 +702,7 @@
                                 </th>
                                 <td class="formValue" colspan="1">每一元礼物价值，等于</td>
                                 <td class="formValue" colspan="1">
-                                    <input id="F_GiftPerOne" name="F_GiftPerOne" type="text" class="form-control" placeholder="（礼物比例，如填：1）" />
+                                    <input id="F_GiftPerOne" name="F_GiftPerOne" type="text" class="form-control digits" placeholder="（礼物比例，如填：1）" />
                                 </td>
                                 <td class="formValue" colspan="1">
                                     <input id="F_GiftUnit" name="F_GiftUnit" type="text" class="form-control" placeholder="（礼物单位，如填：点）" />
@@ -756,8 +764,8 @@
                                 <th class="formTitle">活动状态：</th>
                                 <td class="formValue">
                                     <select id="F_Status" name="F_Status" class="form-control required">
-                                        <option value="true" selected>是</option>
-                                        <option value="false">否</option>
+                                        <option value="true" class="sec1" selected>是</option>
+                                        <option value="false" class="sec2">否</option>
                                     </select>
                                 </td>
                             </tr>
@@ -923,7 +931,7 @@
         if (keyValue != "") {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetImageUrl",
-                data: { keyValue: keyValue, "uploadType": "1" },
+                data: { keyValue: keyValue, "uploadType": "1", "isNeedImageID": "1" },
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -938,7 +946,7 @@
                                 //width: '210px',
                                 url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
                                 key: i, // 删除是Ajax向后台传递的参数
-                                extra: { keyValue: keyValue }
+                                extra: { keyValue: keyValue, isImage: "1" }
                             };
                             preConfigListCarousel.push(tjson);
                         })
@@ -951,7 +959,7 @@
         if (keyValue != "") {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetImageUrl",
-                data: { keyValue: keyValue, "uploadType": "2" },
+                data: { keyValue: keyValue, "uploadType": "2", "isNeedImageID": "1" },
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -966,7 +974,7 @@
                                 //width: '210px',
                                 url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
                                 key: i, // 删除是Ajax向后台传递的参数
-                                extra: { keyValue: keyValue }
+                                extra: { keyValue: keyValue, isImage: "1" }
                             };
                             preConfigListAdver.push(tjson);
                         })
@@ -979,7 +987,7 @@
         if (keyValue != "") {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetImageUrl",
-                data: { keyValue: keyValue, "uploadType": "6" },
+                data: { keyValue: keyValue, "uploadType": "6", "isNeedImageID": "1" },
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -992,9 +1000,9 @@
                             var tjson = {
                                 caption: n.split("/")[4], // 展示的文件名
                                 //width: '210px',
-                                url: "/MicroEvent/AddEvent/DeleteFile", // 删除url
+                                url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
                                 key: i, // 删除是Ajax向后台传递的参数
-                                extra: { keyValue: keyValue }
+                                extra: { keyValue: keyValue, isImage: "0" }
                             };
                             preConfigListSong.push(tjson);
                         })
@@ -1007,7 +1015,7 @@
         if (keyValue != "") {
             $.ajax({
                 url: "/MicroEvent/AddEvent/GetImageUrl",
-                data: { keyValue: keyValue, "uploadType": "3" },
+                data: { keyValue: keyValue, "uploadType": "3", "isNeedImageID": "1" },
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -1022,7 +1030,7 @@
                                 //width: '210px',
                                 url: "/MicroEvent/AddEvent/DeleteImage", // 删除url
                                 key: i, // 删除是Ajax向后台传递的参数
-                                extra: { keyValue: keyValue }
+                                extra: { keyValue: keyValue, isImage: "1" }
                             };
                             preConfigListBorder.push(tjson);
                         })
@@ -1031,7 +1039,7 @@
             });
         }
 
-        $("#F_VoteCarouselIDs").fileinput({
+        $("#File_VoteCarouselIDs").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
             uploadExtraData: { "keyValue": keyValue, "uploadType": "1","pictureLink": $("#F_Link").val() },//这个是外带数据
@@ -1066,21 +1074,56 @@
                 //return false;
             }
         }).on("fileuploaded", function (event, data, previewId, index) {
-            if (data.response == "success")
-                $.modalMsg("上传成功！");
+            if (data.response.split(':')[0] == "success") {
+                if ($('#F_VoteCarouselIDs').val() == "")
+                    $('#F_VoteCarouselIDs').val(data.response.split(':')[1]);
+                else
+                    $('#F_VoteCarouselIDs').val($('#F_VoteCarouselIDs').val() + "," + data.response.split(':')[1]);
+                //$.modalMsg("上传成功！");
+                $.modalMsg("注：上传成功！请不要直接关闭此窗口，必须先填写好轮播图跳转链接并将表单数据提交到后台才能保存。");
+                $('#F_Link').addClass("required");
+            }
             else if (data.response == "full")
                 $.modalMsg("已上传了5张图片！请先删除旧的图片再上传！");
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
-        }).on('filepredelete', function(event, key) {
+        }).on('filecleared', function (event, previewId, extra) {
+            //在移除事件里取出所需数据，并执行相应的删除指令
+            $.modalMsg("来了，老弟");
+        }).on('filepredelete', function (event, key) {
             //console.log('Key = ' + key);
-        }).on('filedeleted', function(event, key) {
-            //console.log('Key = ' + key);
-            //top.layer.close(document.getElementsByClassName('layui-layer-dialog')[0].getAttribute('times'));
+        }).on('filedeleted', function (event, id) {
+            var ids = $('#F_VoteCarouselIDs').val().split(',');
+            var links = $('#F_Link').val().split(',');
+            var idstr = "";
+            var linkstr = "";
+            //ids.splice($.inArray(id, ids), 1);
+            $.each(ids, function (i, n) {
+                if (n == id) {
+                    ids.splice($.inArray(id, ids), 1);
+                    links.splice(i, 1);
+                }
+            });
+            
+            if (ids.length > 0) {
+                $.each(ids, function (i, n) {
+                    idstr += n + ",";
+                });
+                $.each(links, function (i, n) {
+                    linkstr += n + ",";
+                });
+                $('#F_VoteCarouselIDs').val(idstr.substr(0, idstr.length - 1));
+                $('#F_Link').val(linkstr.substr(0, linkstr.length - 1));
+            }
+            else
+                $('#F_VoteCarouselIDs').val("");
+
+            //console.log(id);
+            $.modalMsg("注：您删除了图片！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
         });
 
 
-        $("#F_VoteSuccPictureID").fileinput({
+        $("#File_VoteSuccPictureID").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
             uploadExtraData: { "keyValue": keyValue, "uploadType": "2", "pictureLink": "" },//这个是外带数据
@@ -1109,17 +1152,24 @@
             }
         }).on('filepreupload', function (event, data, previewId, index) {     //上传中
         }).on("fileuploaded", function (event, data, previewId, index) {
-            $.modalMsg("上传成功！");
+            if (data.response.split(':')[0] == "success") {
+                if ($('#F_VoteSuccPictureID').val() == "")
+                    $('#F_VoteSuccPictureID').val(data.response.split(':')[1]);
+                else
+                    $('#F_VoteSuccPictureID').val($('#F_VoteSuccPictureID').val() + "," + data.response.split(':')[1]);
+                $.modalMsg("注：上传成功！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
+            }
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
         }).on('filepredelete', function (event, key) {
             //console.log('Key = ' + key);
-        }).on('filedeleted', function (event, key) {
-            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, id) {
+            $('#F_VoteSuccPictureID').val("");
+            $.modalMsg("注：您删除了图片！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
         });
 
 
-        $("#F_PageBackgroundSong").fileinput({
+        $("#File_PageBackgroundSong").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
             uploadExtraData: { "keyValue": keyValue, "uploadType": "6", "pictureLink": "" },//这个是外带数据
@@ -1148,16 +1198,23 @@
             }
         }).on('filepreupload', function (event, data, previewId, index) {     //上传中
         }).on("fileuploaded", function (event, data, previewId, index) {
-            $.modalMsg("上传成功！");
+            if (data.response.split(':')[0] == "success") {
+                if ($('#F_PageBackgroundSong').val() == "")
+                    $('#F_PageBackgroundSong').val(data.response.split(':')[1]);
+                else
+                    $('#F_PageBackgroundSong').val($('#F_PageBackgroundSong').val() + "," + data.response.split(':')[1]);
+                $.modalMsg("注：上传成功！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
+            }
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
         }).on('filepredelete', function (event, key) {
             //console.log('Key = ' + key);
-        }).on('filedeleted', function (event, key) {
-            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, id) {
+            $('#F_PageBackgroundSong').val("");
+            $.modalMsg("注：您删除了图片！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
         });
 
-        $("#F_PageBorderEffectsPictureID").fileinput({
+        $("#File_PageBorderEffectsPictureID").fileinput({
             language: 'zh', //设置语言
             uploadUrl: "/MicroEvent/AddEvent/UploadImage", //上传的地址
             uploadExtraData: { "keyValue": keyValue, "uploadType": "3", "pictureLink": "" },//这个是外带数据
@@ -1186,13 +1243,20 @@
             }
         }).on('filepreupload', function (event, data, previewId, index) {     //上传中
         }).on("fileuploaded", function (event, data, previewId, index) {
-            $.modalMsg("上传成功！");
+            if (data.response.split(':')[0] == "success") {
+                if ($('#F_PageBorderEffectsPictureID').val() == "")
+                    $('#F_PageBorderEffectsPictureID').val(data.response.split(':')[1]);
+                else
+                    $('#F_PageBorderEffectsPictureID').val($('#F_PageBorderEffectsPictureID').val() + "," + data.response.split(':')[1]);
+                $.modalMsg("注：上传成功！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
+            }
         }).on("fileuploaderror", function (event, data, previewId, index) {
             $.modalMsg("上传失败！");
         }).on('filepredelete', function (event, key) {
             //console.log('Key = ' + key);
-        }).on('filedeleted', function (event, key) {
-            //console.log('Key = ' + key);
+        }).on('filedeleted', function (event, id) {
+            $('#F_PageBorderEffectsPictureID').val("");
+            $.modalMsg("注：您删除了图片！请不要直接关闭此窗口，必须将表单数据提交到后台才能保存。");
         });
 
         initControl();
@@ -1254,6 +1318,29 @@
     }
 
     function initControl() {
+        $("select").on('change', function () {
+            if ($(this).val() == "false") {
+                $(this).addClass("sec2").removeClass("sec1");
+            } else if ($(this).val() == "true") {
+                $(this).addClass("sec1").removeClass("sec2");
+            }
+        })
+
+        //var unSelected = "#333";
+        //var selected = "red";
+        //$(function () {
+        //    $("select").css("color", unSelected);
+        //    $("option").css("color", selected);
+        //    $("select").change(function () {
+        //        var selItem = $(this).val();
+        //        if (selItem == $(this).find('option:first').val()) {
+        //            $(this).css("color", unSelected);
+        //        } else {
+        //            $(this).css("color", selected);
+        //        }
+        //    });
+        //})
+
         //$("#F_OrganizeId").bindSelect({
         //    url: "/MicroEvent/AddEvent/GetTreeSelectJson",
         //});

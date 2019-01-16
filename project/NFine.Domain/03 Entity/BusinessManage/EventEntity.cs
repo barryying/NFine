@@ -39,6 +39,7 @@ namespace NFine.Domain.Entity.BusinessManage
         public string F_ApplyRegionLimitAPIKey { get; set; }
         public string F_VoteCarouselIDs { get; set; }
         public string F_VoteSuccPictureID { get; set; }
+        public string F_Link { get; set; }
         public bool? F_VoteSuccPictureIsToGift { get; set; }
         public string F_VoteRules { get; set; }
         public string F_VotePrizeIntroDuction { get; set; }

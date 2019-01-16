@@ -35,7 +35,7 @@
             var imagePath;
             $.ajax({
                 url: '/MicroEvent/AddEvent/GetImageUrl',
-                data: { keyvalue: cellvalue, uploadType: '6' },
+                data: { keyvalue: cellvalue, uploadType: '6', "isNeedImageID": "0" },
                 dataType: 'json',
                 async: false,
                 success: function (data) {
