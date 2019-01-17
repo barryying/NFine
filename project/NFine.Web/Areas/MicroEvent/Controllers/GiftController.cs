@@ -18,23 +18,17 @@ namespace NFine.Web.Areas.MicroEvent.Controllers
         // GET: /MicroEvent/Gift/
 
         private GiftApp giftApp = new GiftApp();
-        
+
+        /// <summary>
+        /// 根据活动表里的礼物id字符串获取礼物列表 字符串为空时返回所有已启用的礼物列表
+        /// </summary>
+        /// <param name="idstr">礼物id字符串</param>
+        /// <returns></returns>
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetTreeSelectJson(string keyValue)
+        public ActionResult GetGiftJson(string idstr)
         {
-            var data = giftApp.GetTreeSelectJson(keyValue);
-            //var treeList = new List<TreeSelectModel>();
-            //foreach (GiftEntity item in data)
-            //{
-            //    TreeSelectModel treeModel = new TreeSelectModel();
-            //    treeModel.id = item.F_Id;
-            //    treeModel.text = item.F_Name;
-            //    treeModel.parentId = item.F_ParentId;
-            //    treeModel.data = item;
-            //    treeList.Add(treeModel);
-            //}
-            //return Content(treeList.TreeSelectJson());
+            var data = giftApp.GetGiftJson(idstr);
             return Content(data.ToJson());
         }
 

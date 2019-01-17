@@ -9,6 +9,9 @@
     .fa span{
         font-size: 14px;
     }
+    img{
+        padding: 5px;
+    }
 </style>
 <script>
     $(function () {
@@ -54,7 +57,7 @@
                 {
                     label: "状态", name: "F_Status", width: 100, align: "center",
                     formatter: function (cellvalue) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i></br>已启用" : "<i class=\"fa fa-toggle-off\"></i></br>已禁用";
+                        return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已启用</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">已禁用</font>';
                     }
                 },
                 { label: '备注', name: 'F_Remark', width: 200, align: 'left' }
@@ -63,7 +66,10 @@
             sortname: 'F_CreatorTime desc',
             viewrecords: true,
             rowNum: 20,
-            rowList: [10, 20, 30, 50, 100]
+            rowList: [10, 20, 30, 50, 100],
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                btn_edit(rowid);
+            }
         });
 
         function imageFormatter(cellvalue, options, rowObject) {
@@ -158,8 +164,10 @@
             }
         });
     }
-    function btn_edit() {
+    function btn_edit(id) {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (id != undefined)
+            keyValue = id;
         $.modalOpen({
             id: "Form",
             title: "修改活动",
@@ -195,7 +203,7 @@
     //}
     function btn_genlink() {
         var F_Status = $("#gridList").jqGridRowValue().F_Status;
-        if (F_Status == "<i class=\"fa fa-toggle-on\"></i>") {
+        if (F_Status == '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已启用</font>') {
             var keyValue = $("#gridList").jqGridRowValue().F_Id;
             $.modalOpen({
                 id: "GenLink",
@@ -211,6 +219,11 @@
         }
     }
     function btn_disabled() {
+        var F_Status = $("#gridList").jqGridRowValue().F_Status;
+        if (F_Status == '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">已禁用</font>') {
+            $.modalMsg("该活动已禁用");
+            return;
+        }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalConfirm("注：您确定要【禁用】该活动吗？", function (r) {
             if (r) {
@@ -225,6 +238,11 @@
         });
     }
     function btn_enabled() {
+        var F_Status = $("#gridList").jqGridRowValue().F_Status;
+        if (F_Status == '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已启用</font>') {
+            $.modalMsg("该活动已启用");
+            return;
+        }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalConfirm("注：您确定要【启用】该活动吗？", function (r) {
             if (r) {

@@ -51,12 +51,20 @@ namespace NFine.Application.BusinessManage
             return service.FindList(expression, pagination);
         }
 
-        public List<GiftEntity> GetTreeSelectJson(string eventId)
+        public List<GiftEntity> GetGiftJson(string idstr)
         {
-            if (eventId != "")
-                return service.IQueryable().Where(t => t.F_EventID == eventId && t.F_EnabledMark == true).OrderBy(t => t.F_CreatorTime).ToList();
+            var list = new List<GiftEntity> { };
+            if (idstr != "")
+            {
+                var idsarr = idstr.Split(',');
+                foreach (var id in idsarr)
+                {
+                    list.Add(service.FindEntity(id));
+                }
+            }
             else
-                return service.IQueryable().OrderBy(t => t.F_CreatorTime).ToList();
+                list = service.IQueryable().Where(t => t.F_EnabledMark == true).OrderBy(t => t.F_CreatorTime).ToList();
+            return list;
         }
 
         public List<GiftEntity> GetList(string eventId)

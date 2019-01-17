@@ -33,15 +33,15 @@
                 },
                 { label: '备注', name: 'F_Remark', width: 100, align: 'left' },
                 {
-                    label: "今日之星", name: "IsTodayStar", width: 60, align: "center", sortable: true,
+                    label: "状态", name: "F_AuditIsOK", width: 60, align: "center", sortable: true,
                     formatter: function (cellvalue) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                        return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已审核通过</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">待审核</font>';
                     }
                 },
                 {
-                    label: "状态", name: "F_AuditIsOK", width: 60, align: "center", sortable: true,
+                    label: "今日之星", name: "IsTodayStar", width: 60, align: "center", sortable: true,
                     formatter: function (cellvalue) {
-                        return cellvalue == 1 ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>";
+                        return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">今日之星</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">非今日之星</font>';
                     }
                 }
             ],
@@ -49,7 +49,10 @@
             sortname: 'F_CreatorTime desc',
             viewrecords: true,
             rowNum: 20,
-            rowList: [10, 20, 30, 50, 100]
+            rowList: [10, 20, 30, 50, 100],
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                btn_edit(rowid);
+            }
         });
         $("#time_horizon a.btn-default").click(function () {
             $("#time_horizon a.btn-default").removeClass("active");
@@ -80,8 +83,10 @@
             }
         });
     }
-    function btn_edit() {
+    function btn_edit(id) {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (id != undefined)
+            keyValue = id;
         $.modalOpen({
             id: "Form",
             title: "修改选手",
@@ -144,8 +149,13 @@
         })
     }
     function btn_disabled() {
+        var F_AuditIsOK = $("#gridList").jqGridRowValue().F_AuditIsOK;
+        if (F_AuditIsOK == '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">待审核</font>') {
+            $.modalMsg("该选手已经为待审核");
+            return;
+        }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
-        $.modalConfirm("注：您确定要修改为【审核不通过】吗？", function (r) {
+        $.modalConfirm("注：您确定要修改为【待审核】吗？", function (r) {
             if (r) {
                 $.submitForm({
                     url: "/MicroEvent/Candidate/Disabled",
@@ -159,6 +169,11 @@
         });
     }
     function btn_enabled() {
+        var F_AuditIsOK = $("#gridList").jqGridRowValue().F_AuditIsOK;
+        if (F_AuditIsOK == '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已审核通过</font>') {
+            $.modalMsg("该选手已审核通过");
+            return;
+        }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalConfirm("注：您确定要修改为【审核通过】吗？", function (r) {
             if (r) {
@@ -174,6 +189,11 @@
         });
     }
     function btn_setstar() {
+        var IsTodayStar = $("#gridList").jqGridRowValue().IsTodayStar;
+        if (IsTodayStar == '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">今日之星</font>') {
+            $.modalMsg("该选手已经为今日之星");
+            return;
+        }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalConfirm("注：您确定要设置为【今日之星】吗？", function (r) {
             if (r) {
@@ -189,6 +209,11 @@
         });
     }
     function btn_cancelstar() {
+        var IsTodayStar = $("#gridList").jqGridRowValue().IsTodayStar;
+        if (IsTodayStar == '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">非今日之星</font>') {
+            $.modalMsg("该选手已经取消今日之星");
+            return;
+        }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
         $.modalConfirm("注：您确定要取消【今日之星】吗？", function (r) {
             if (r) {
@@ -256,7 +281,7 @@
                 <li><a id="NF-votelist" authorize="yes" onclick="btn_votelist()"><i class="fa fa-ticket"></i>投票记录</a></li>
                 <li class="split"></li>
                 <li><a id="NF-enabled" authorize="yes" onclick="btn_enabled()"><i class="fa fa-play-circle"></i>审核通过</a></li>
-                <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>审核不通过</a></li>
+                <li><a id="NF-disabled" authorize="yes" onclick="btn_disabled()"><i class="fa fa-stop-circle"></i>待审核</a></li>
                 <li class="split"></li>
                 <li><a id="NF-setstar" authorize="yes" onclick="btn_setstar()"><i class="fa fa-star"></i>设为今日之星</a></li>
                 <li><a id="NF-cancelstar" authorize="yes" onclick="btn_cancelstar()"><i class="fa fa-star-o"></i>取消今日之星</a></li>
