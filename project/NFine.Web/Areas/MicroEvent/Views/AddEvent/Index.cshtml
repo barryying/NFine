@@ -3,19 +3,39 @@
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 <style>
-    .fa {
-
+    /*.ui-jqgrid tr.jqgrow td { text-overflow : ellipsis; }*//*超过长度加省略号*/
+    .ui-jqgrid tr.jqgrow td { white-space: normal !important; width:auto; height:auto;line-height: 20px; }
+    .gridPanel .well {
+        margin-bottom: 0px;
+        width: auto;
     }
-    .fa span{
+    .gridPanel .well-sm {
+        background-color: #1ABC9C;
+    }
+    .gridPanel .gift {
+        background-color: #F55869;
+    }
+    .gridPanel .fa {
+        color: #FFFFFF;
+        /*color: 1ABC9C;*/
+    }
+    /*.gridPanel .fa-cny {
+        color: #F55869;
+    }*/
+    .gridPanel .fa span{
         font-size: 14px;
+        font-weight: bolder;
     }
-    img{
+    .gridPanel img{
         padding: 5px;
     }
 </style>
 <script>
     $(function () {
         gridList();
+        $(window).resize(function(){  
+           $("#gridList").setGridWidth($(window).width()*0.90);
+       });
     })
     function gridList() {
         var $gridList = $("#gridList");
@@ -27,8 +47,8 @@
             height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },
-                { label: "图片", name: "F_VoteCarouselIDs", width: 100, align: "center", formatter: imageFormatter },
-                { label: '名称', name: 'F_Name', width: 320, align: 'left'
+                { label: "图片", name: "F_VoteCarouselIDs", align: "center", formatter: imageFormatter },
+                { label: '名称', name: 'F_Name',  align: 'left'
                         //formatter: function (cellvalue) {
                         //    return cellvalue.length > 16 ? cellvalue.substr(0, 16) : cellvalue;
                         //}
@@ -41,11 +61,11 @@
                 //    label: '投票结束时间', name: 'F_VoteEndTime', width: 120, align: 'left',
                 //    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
                 //},
-                { label: '投票时间', name: 'VoteTime', width: 150, align: 'center', formatter: voteTimeFormatter },
-                { label: '选手数量', name: 'F_ApplyMinNumber', width: 85, align: 'center', formatter: candidateNumberFormatter },
-                { label: '投票量', name: 'F_ApplyMinNumber', width: 85, align: 'center', formatter: voteNumberFormatter },
-                { label: '礼物', name: 'F_ApplyMinNumber', width: 85, align: 'center', formatter: giftFormatter },
-                { label: '浏览量', name: 'F_ViewNumber', width: 85, align: 'center', formatter: viewNumberFormatter },
+                { label: '投票时间', name: 'VoteTime', align: 'center', formatter: voteTimeFormatter },
+                { label: '选手数量', name: 'F_ApplyMinNumber',  align: 'center', formatter: candidateNumberFormatter },
+                { label: '投票量', name: 'F_ApplyMinNumber', align: 'center', formatter: voteNumberFormatter },
+                { label: '礼物', name: 'F_ApplyMinNumber', align: 'center', formatter: giftFormatter },
+                { label: '浏览量', name: 'F_ViewNumber', align: 'center', formatter: viewNumberFormatter },
                 //{ label: '分享量', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
                 //{ label: '链接', name: 'F_ApplyMinNumber', width: 50, align: 'left' },
                 //{
@@ -55,12 +75,12 @@
                 //    }
                 //},
                 {
-                    label: "状态", name: "F_Status", width: 100, align: "center",
+                    label: "状态", name: "F_Status", align: "center",
                     formatter: function (cellvalue) {
                         return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已启用</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">已禁用</font>';
                     }
                 },
-                { label: '备注', name: 'F_Remark', width: 200, align: 'left' }
+                { label: '备注', name: 'F_Remark', align: 'left' }
             ],
             pager: "#gridPager",
             sortname: 'F_CreatorTime desc',
@@ -104,7 +124,7 @@
                     candidateNumber = data.length;                    
                 }
             });
-            return "<i class=\"fa fa-group\"><span> " + candidateNumber + " </span></i>";
+            return "<div class='well well-sm'><i class=\"fa fa-group\"><span> " + candidateNumber + " </span></i></div>";
         }
         function voteNumberFormatter(cellvalue, options, rowObject) {
             var voteNumber = 0;
@@ -119,15 +139,17 @@
                     }
                 }
             });
-            return "<i class=\"fa fa-ticket\"><span> " + voteNumber + " </span></i>";
+            return "<div class='well well-sm'><i class=\"fa fa-ticket\"><span> " + voteNumber + " </span></i></div>";
         }
         function viewNumberFormatter(cellvalue, options, rowObject) {
-            return "<i class=\"fa fa-eye\"><span> " + cellvalue + " </i>";
+            if (cellvalue == null)
+                cellvalue = "0";
+            return "<div class='well well-sm'><i class=\"fa fa-eye\"><span> " + cellvalue + " </i></div>";
         }
         function giftFormatter(cellvalue, options, rowObject) {
             if (cellvalue == null)
                 cellvalue = "0";
-            return "<i class='fa fa-cny'><span> " + cellvalue + " </span></i>";
+            return "<div class='well well-sm gift'><i class='fa fa-cny'><span> " + cellvalue + " </span></i></div>";
         }
         function buildImg(value, row, index) {
             return "<img src='" + rootPath + "/qcp/AuditingImg/showImg.action?filePath=" + value + "'  width='20' height='20'/>";
@@ -283,6 +305,10 @@
     }
     function btn_addviewnumber() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先点击要添加浏览量的活动的行");
+            return;
+        }
         var viewnumber = $("#viewnumber").val();
         $.modalConfirm("注：您确定要给该活动加" + viewnumber + "浏览量吗？", function (r) {
             if (r) {

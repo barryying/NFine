@@ -3,6 +3,11 @@
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 
+<style>
+    .gridPanel .fa span {
+        font-size: 14px;
+    }
+</style>
 <script>
     var eventID = $.request("eventID");
     $(function () {
@@ -24,13 +29,10 @@
                 { label: "主键", name: "F_Id", hidden: true, key: true },
                 { label: '姓名', name: 'F_Name', width: 50, align: 'left', sortable: true },
                 { label: '手机号码', name: 'F_Phone', width: 100, align: 'left', sortable: true },
-                { label: '票数', name: 'F_VoteNumber', width: 100, align: 'left', sortable: true },
-                { label: '礼物数', name: 'F_GiftNumber', width: 100, align: 'left', sortable: true },
-                { label: '浏览量', name: 'F_ViewNumber', width: 100, align: 'left', sortable: true },
-                {
-                    label: '参与时间', name: 'F_CreatorTime', width: 120, align: 'left',sortable:true,
-                    formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d H:m:s' }
-                },
+                { label: '票数', name: 'F_VoteNumber', width: 100, align: 'left', sortable: true, formatter: voteNumberFormatter },
+                { label: '礼物数', name: 'F_GiftNumber', width: 100, align: 'left', sortable: true, formatter: giftFormatter },
+                { label: '浏览量', name: 'F_ViewNumber', width: 100, align: 'left', sortable: true, formatter: viewNumberFormatter },
+                { label: '参与时间', name: 'F_CreatorTime', width: 120, align: 'left',sortable:true },
                 { label: '备注', name: 'F_Remark', width: 100, align: 'left' },
                 {
                     label: "状态", name: "F_AuditIsOK", width: 60, align: "center", sortable: true,
@@ -70,6 +72,21 @@
                 postData: { queryJson: JSON.stringify(queryJson) },
             }).trigger('reloadGrid');
         });
+    }
+    function voteNumberFormatter(cellvalue, options, rowObject) {
+        if (cellvalue == null)
+            cellvalue = "0";
+        return "<i class=\"fa fa-ticket\"><span> " + cellvalue + " </span></i>";
+    }
+    function giftFormatter(cellvalue, options, rowObject) {
+        if (cellvalue == null)
+            cellvalue = "0";
+        return "<i class='fa fa-cny'><span> " + cellvalue + " </span></i>";
+    }
+    function viewNumberFormatter(cellvalue, options, rowObject) {
+        if (cellvalue == null)
+            cellvalue = "0";
+        return "<i class=\"fa fa-eye\"><span> " + cellvalue + " </i>";
     }
     function btn_add() {
         $.modalOpen({
@@ -230,6 +247,10 @@
     }
     function btn_vote() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先点击要投票的选手的行");
+            return;
+        }
         var votenumber = $("#votenumber").val();
         $.modalConfirm("注：您确定要给该选手投" + votenumber + "票吗？", function (r) {
             if (r) {
@@ -246,6 +267,10 @@
     }
     function btn_addviewnumber() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先点击要添加浏览量的选手的行");
+            return;
+        }
         var viewnumber = $("#viewnumber").val();
         $.modalConfirm("注：您确定要给该选手加" + viewnumber + "浏览量吗？", function (r) {
             if (r) {
