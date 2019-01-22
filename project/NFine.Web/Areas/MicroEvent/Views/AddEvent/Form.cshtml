@@ -120,21 +120,21 @@
                             <tr>
                                 <th class="formTitle">报名时间：</th>
                                 <td class="formValue">
-                                    <input id="F_ApplyStartTime" name="F_ApplyStartTime" type="text" class="form-control input-wdatepicker required" onfocus="WdatePicker()" />
+                                    <input id="F_ApplyStartTime" name="F_ApplyStartTime" type="text" class="form-control input-wdatepicker required" onfocus='WdatePicker({ maxDate: F_ApplyEndTime.value })' />
                                 </td>
                                 <td class="formGap"> 到 </td>
                                 <td class="formValue">
-                                    <input id="F_ApplyEndTime" name="F_ApplyEndTime" type="text" class="form-control input-wdatepicker required" onfocus="WdatePicker()" />
+                                    <input id="F_ApplyEndTime" name="F_ApplyEndTime" type="text" class="form-control input-wdatepicker required" onfocus='WdatePicker({ minDate: F_ApplyStartTime.value, maxDate: F_VoteStartTime.value })' />
                                 </td>
                             </tr>
                             <tr>
                                 <th class="formTitle">投票时间：</th>
                                 <td class="formValue">
-                                    <input id="F_VoteStartTime" name="F_VoteStartTime" type="text" class="form-control input-wdatepicker required" onfocus="WdatePicker()" />
+                                    <input id="F_VoteStartTime" name="F_VoteStartTime" type="text" class="form-control input-wdatepicker required" onfocus='WdatePicker({ minDate: F_ApplyEndTime.value, maxDate: F_VoteEndTime.value })' />
                                 </td>
                                 <th class="formGap"> 到 </th>
                                 <td class="formValue">
-                                    <input id="F_VoteEndTime" name="F_VoteEndTime" type="text" class="form-control input-wdatepicker required" onfocus="WdatePicker()" />
+                                    <input id="F_VoteEndTime" name="F_VoteEndTime" type="text" class="form-control input-wdatepicker required" onfocus='WdatePicker({ minDate: F_VoteStartTime.value })' />
                                 </td>
                             </tr>
                             <tr>
@@ -529,8 +529,10 @@
                                         });
                                     </script>
                                 </td>
-                                <td class="formValue" colspan="2">
-                                    常用颜色：
+                                <td class="formValue" colspan="3">
+                                    <span style="color: red;">
+                                        可选择常用颜色：
+                                    </span>
                                     <input id="color1" type="button" class="colorblock" onclick="setColor('#6381FC');" style="background-color: #6381FC" />
                                     <input id="color2" type="button" class="colorblock" onclick="setColor('#29ABDD');" style="background-color: #29ABDD" />
                                     <input id="color3" type="button" class="colorblock" onclick="setColor('#FF7F26');" style="background-color: #FF7F26" />
@@ -540,6 +542,7 @@
                                     <input id="color4" type="button" class="colorblock" onclick="setColor('#FEB6C0');" style="background-color: #FEB6C0" />
                                     <input id="color5" type="button" class="colorblock" onclick="setColor('#483DBB');" style="background-color: #483DBB" />
                                     <input id="color6" type="button" class="colorblock" onclick="setColor('#A2CD5A');" style="background-color: #A2CD5A" />
+                                    
                                     <script>
                                         function setColor(colorvalue) {
                                             $('#cp2').colorpicker('setValue', colorvalue);
@@ -547,7 +550,7 @@
                                                 $('#F_PageColorTheme').val($('#cp2').colorpicker('getValue'));
                                         }
                                     </script>
-                                </td>
+</td>
                             </tr>
                             <tr>
                                 <th class="formTitle" style="padding-top: 5px;">

@@ -12,6 +12,23 @@
     var eventID = $.request("eventID");
     $(function () {
         gridList();
+        $(window).resize(function () {
+            $("#gridList").setGridWidth($(window).width() * 0.90);
+        });
+        $("#votenumber").keyup(function () {
+            var c = $(this);
+            if (/[^\d]/.test(c.val())) {//替换非数字字符  
+                var temp_amount = c.val().replace(/[^\d]/g, '');
+                $(this).val(temp_amount);
+            }
+        })
+        $("#viewnumber").keyup(function () {
+            var c = $(this);
+            if (/[^\d]/.test(c.val())) {//替换非数字字符  
+                var temp_amount = c.val().replace(/[^\d]/g, '');
+                $(this).val(temp_amount);
+            }
+        })
     })
     function gridList() {
         var $gridList = $("#gridList");
@@ -27,25 +44,25 @@
             height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },
-                { label: '姓名', name: 'F_Name', width: 50, align: 'left', sortable: true },
-                { label: '手机号码', name: 'F_Phone', width: 100, align: 'left', sortable: true },
-                { label: '票数', name: 'F_VoteNumber', width: 100, align: 'left', sortable: true, formatter: voteNumberFormatter },
-                { label: '礼物数', name: 'F_GiftNumber', width: 100, align: 'left', sortable: true, formatter: giftFormatter },
-                { label: '浏览量', name: 'F_ViewNumber', width: 100, align: 'left', sortable: true, formatter: viewNumberFormatter },
-                { label: '参与时间', name: 'F_CreatorTime', width: 120, align: 'left',sortable:true },
-                { label: '备注', name: 'F_Remark', width: 100, align: 'left' },
+                { label: '姓名', name: 'F_Name', align: 'left', sortable: true },
+                { label: '手机号码', name: 'F_Phone', align: 'left', sortable: true },
+                { label: '票数', name: 'F_VoteNumber', align: 'left', sortable: true, formatter: voteNumberFormatter },
+                { label: '礼物数', name: 'F_GiftNumber', align: 'left', sortable: true, formatter: giftFormatter },
+                { label: '浏览量', name: 'F_ViewNumber',  align: 'left', sortable: true, formatter: viewNumberFormatter },
+                { label: '参与时间', name: 'F_CreatorTime', align: 'left',sortable:true },
                 {
-                    label: "状态", name: "F_AuditIsOK", width: 60, align: "center", sortable: true,
+                    label: "状态", name: "F_AuditIsOK", align: "center", sortable: true,
                     formatter: function (cellvalue) {
                         return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已审核通过</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">待审核</font>';
                     }
                 },
                 {
-                    label: "今日之星", name: "IsTodayStar", width: 60, align: "center", sortable: true,
+                    label: "今日之星", name: "IsTodayStar", align: "center", sortable: true,
                     formatter: function (cellvalue) {
                         return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">今日之星</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">非今日之星</font>';
                     }
-                }
+                },
+                { label: '备注', name: 'F_Remark', align: 'left' }
             ],
             pager: "#gridPager",
             sortname: 'F_CreatorTime desc',
@@ -102,6 +119,10 @@
     }
     function btn_edit(id) {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         if (id != undefined)
             keyValue = id;
         $.modalOpen({
@@ -119,6 +140,10 @@
         var F_Status = $("#gridList").jqGridRowValue().F_AuditIsOK;
         if (F_Status == "<i class=\"fa fa-toggle-on\"></i>") {
             var keyValue = $("#gridList").jqGridRowValue().F_Id;
+            if (keyValue == undefined) {
+                $.modalMsg("请先选择一行数据");
+                return;
+            }
             $.modalOpen({
                 id: "GenLink",
                 title: "查看选手链接",
@@ -134,6 +159,10 @@
     }
     function btn_orderlist() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.modalOpen({
             id: "OrderList",
             title: "礼物记录",
@@ -145,6 +174,10 @@
     }
     function btn_votelist() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.modalOpen({
             id: "VoteList",
             title: "投票记录",
@@ -155,9 +188,14 @@
         });
     }
     function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.deleteForm({
             url: "/MicroEvent/Candidate/DeleteForm",
-            param: { keyValue: $("#gridList").jqGridRowValue().F_Id },
+            param: { keyValue: keyValue },
             close: false,
             success: function () {
                 $("#gridList").resetSelection();

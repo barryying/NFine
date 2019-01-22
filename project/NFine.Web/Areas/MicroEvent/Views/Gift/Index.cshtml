@@ -26,16 +26,17 @@
             height: $(window).height() - 128,
             colModel: [
                 { label: "主键", name: "F_Id", hidden: true, key: true },
-                { label: "图片", name: "F_PictureID", width: 100, align: "center", formatter: imageFormatter },
-                { label: '名称', name: 'F_Name', width: 200, align: 'left',
+                { label: "图片", name: "F_PictureID", width: 100, align: "center", sortable: true, formatter: imageFormatter },
+                {
+                    label: '名称', name: 'F_Name', width: 200, align: 'left', sortable: true,
                         formatter: function (cellvalue) {
                             return cellvalue.length > 16 ? cellvalue.substr(0, 16) : cellvalue;
                         }
                 },
-                { label: '价格', name: 'F_Price', width: 50, align: 'left', formatter: priceFormatter },
-                { label: '对应票数', name: 'F_VoteNumber', width: 50, align: 'left', formatter: voteNumberFormatter },
+                { label: '价格', name: 'F_Price', width: 50, align: 'left', sortable: true, formatter: priceFormatter },
+                { label: '对应票数', name: 'F_VoteNumber', width: 50, align: 'left', sortable: true, formatter: voteNumberFormatter },
                 {
-                    label: "状态", name: "F_EnabledMark", width: 60, align: "center",
+                    label: "状态", name: "F_EnabledMark", width: 60, align: "center", sortable: true,
                     formatter: function (cellvalue) {
                         return cellvalue == 1 ? '<i class="fa fa-toggle-on"></i><br><font color="#1ABC9C">已启用</font>' : '<i class="fa fa-toggle-off"></i><br><font color="#f4786e">已禁用</font>';
                     }
@@ -111,6 +112,10 @@
     }
     function btn_edit(id) {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         if (id != undefined)
             keyValue = id;
         $.modalOpen({
@@ -125,9 +130,14 @@
         });
     }
     function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.deleteForm({
             url: "/MicroEvent/Gift/DeleteForm",
-            param: { keyValue: $("#gridList").jqGridRowValue().F_Id },
+            param: { keyValue: keyValue },
             success: function () {
                 $("#gridList").resetSelection();
                 $("#gridList").trigger("reloadGrid");
@@ -141,6 +151,10 @@
             return;
         }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.modalConfirm("注：您确定要【禁用】该礼物吗？", function (r) {
             if (r) {
                 $.submitForm({
@@ -161,6 +175,10 @@
             return;
         }
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.modalConfirm("注：您确定要【启用】该礼物吗？", function (r) {
             if (r) {
                 $.submitForm({
@@ -176,6 +194,10 @@
     }
     function btn_clonebutton() {
         var keyValue = $("#gridList").jqGridRowValue().F_Id;
+        if (keyValue == undefined) {
+            $.modalMsg("请先选择一行数据");
+            return;
+        }
         $.modalOpen({
             id: "Clone",
             title: "复制添加",
@@ -196,7 +218,7 @@
             <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
         </div>
         <div class="btn-group">
-            <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建礼物</a>
+            <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新增礼物</a>
         </div>
         <div class="operate">
             <ul class="nav nav-pills">
