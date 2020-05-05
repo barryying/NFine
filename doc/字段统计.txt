@@ -33,6 +33,7 @@ Sys_Event  活动列表
 	F_ApplyRegionLimit         地区限制
 	F_ApplyRegionLimitAPIKey   腾讯地图API接口的Key
 	F_VoteCarouselIDs          轮播图ID
+	F_Link                     轮播图图片链接
 	F_VoteSuccPictureID        投票成功弹出广告图片ID 外键
 	F_VoteSuccPictureIsToGift  点击弹出广告是否跳转到买礼物界面  默认为否
 	F_VoteRules                活动规则
@@ -81,7 +82,6 @@ Sys_Picture   图片表
 	F_GiftID            礼物图片ID  外键
 	F_ParentId          父级
 	F_Type              图片类型
-	F_Link              图片链接
 	F_VirtualPath       图片存储路径
 	F_VirtualPathSmall  小图存储路径
 	F_UploadDate        图片上传日期

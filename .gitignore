@@ -22,3 +22,5 @@
 /project/NFine.Application/bin/Release
 /project/NFine.Web/obj/Release
 project/NFine.Web/Resource/
+project/NFine.Web/bin/
+project/NFine.Web/obj/
